@@ -40,8 +40,7 @@ class UserServiceClient:
     def check_db_health(self):
         """DB 상태 확인 (백엔드를 통해)"""
         try:
-            # 실제로는 백엔드에 DB 상태 확인 엔드포인트가 필요함
-            # 여기서는 간단히 사용자 목록 조회로 대체
+            # 실제로는 백엔드에 DB 상태 확인
             request = service_pb2.ListUsersRequest(page=1, page_size=1)
             response = self.stub.ListUsers(request, timeout=2)
             return True
@@ -51,7 +50,7 @@ class UserServiceClient:
     
     def get_user(self, user_id, timeout=5):
         """단일 사용자 정보 조회"""
-        logger.info(f"사용자 조회 요청 (ID: {user_id}, 타임아웃: {timeout}초)")
+        logger.info(f"사용자 조회 요청 (ID: {user_id}, 타임아웃: {timeout if timeout else '없음'})")
         try:
             request = service_pb2.UserRequest(user_id=user_id)
             response = self.stub.GetUser(request, timeout=timeout)
@@ -69,7 +68,7 @@ class UserServiceClient:
     
     def get_user_with_delay(self, user_id, delay=0, timeout=5):
         """지연을 추가한 사용자 조회 (데드라인 테스트용)"""
-        logger.info(f"지연 있는 사용자 조회 요청 (ID: {user_id}, 지연: {delay}초, 타임아웃: {timeout}초)")
+        logger.info(f"지연 있는 사용자 조회 요청 (ID: {user_id}, 지연: {delay}초, 타임아웃: {timeout if timeout else '없음'})")
         try:
             # 메타데이터에 지연 정보 추가
             metadata = (('delay', str(delay)),)
@@ -135,6 +134,19 @@ class UserServiceClient:
         except Exception as e:
             logger.error(f"에러율 설정 중 오류 발생: {str(e)}")
             # 이 경우 에러를 전파하지 않고 무시함
+            return False
+    
+    def set_backpressure_enabled(self, enabled):
+        """백엔드의 백프레셔 상태 변경"""
+        logger.info(f"백프레셔 상태 변경 요청: {'활성화' if enabled else '비활성화'}")
+        try:
+            # 메타데이터를 통해 백프레셔 상태 전달
+            metadata = (('backpressure_enabled', str(enabled).lower()),)
+            request = service_pb2.ListUsersRequest(page=1, page_size=1)
+            self.stub.ListUsers(request, metadata=metadata)
+            return True
+        except Exception as e:
+            logger.error(f"백프레셔 상태 변경 중 오류 발생: {str(e)}")
             return False
         
     def reset_backpressure(self):

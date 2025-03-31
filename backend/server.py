@@ -1,283 +1,382 @@
 import grpc
 import time
 import random
-import logging
 import threading
-import concurrent.futures
 from concurrent import futures
-import queue
-
-# gRPC 생성된 모듈들 import
 import sys
-sys.path.append('.')  # proto 컴파일된 파일 위치
+import os
+
+# 상위 디렉토리 경로 추가
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# gRPC 생성된 모듈
 import service_pb2
 import service_pb2_grpc
 
-# DB 클라이언트 import
+# 공통 모듈
+from common.logging_config import setup_logger, log_event
+from common.utils import add_event
 from db_client import DBClient
 
-# 로깅 설정
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] [BACKEND] [Thread-%(thread)d] %(message)s',
-)
-logger = logging.getLogger(__name__)
+# 로거 설정
+logger = setup_logger("BACKEND")
 
-# 전역 설정
-ERROR_RATE = 0
-MAX_CONCURRENT_REQUESTS = 10
+# 글로벌 설정
+MAX_CONCURRENT_REQUESTS = 10  # 백프레셔 제한값
 
-# 백프레셔 구현을 위한 요청 큐 및 세마포어
-request_queue = queue.Queue()
+# 백프레셔 구현을 위한 세마포어
 request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
 
-# 테스트용 사용자 데이터
-SAMPLE_USERS = [
-    {"user_id": 1, "name": "홍길동", "email": "hong@example.com"},
-    {"user_id": 2, "name": "김철수", "email": "kim@example.com"},
-    {"user_id": 3, "name": "이영희", "email": "lee@example.com"},
-    {"user_id": 4, "name": "박지성", "email": "park@example.com"},
-    {"user_id": 5, "name": "최민수", "email": "choi@example.com"},
-]
-
-# 세마포어 자동 복구 기능
-def auto_recover_semaphore():
-    """세마포어를 주기적으로 확인하고 복구하는 스레드 함수"""
-    global request_semaphore
-    
-    while True:
-        # 현재 세마포어 값 확인 (비표준 방법이지만 테스트 목적으로 사용)
-        current_value = request_semaphore._value
-        
-        if current_value < MAX_CONCURRENT_REQUESTS / 2:  # 세마포어 값이 절반 이하로 떨어지면
-            logger.warning(f"세마포어 값이 낮음: {current_value}. 자동 복구 시작...")
-            
-            # 새 세마포어로 교체
-            request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
-            logger.info(f"세마포어 복구 완료. 값 재설정: {MAX_CONCURRENT_REQUESTS}")
-        
-        time.sleep(10)  # 10초마다 확인
-
-# 자동 복구 스레드 시작
-recovery_thread = threading.Thread(target=auto_recover_semaphore, daemon=True)
-recovery_thread.start()
+# 세마포어 상태 조회 함수
+def get_semaphore_status():
+    """현재 세마포어 상태 반환"""
+    # 현재 가용 슬롯 수 추정 - 비표준 방식이나 상태 표시용
+    try:
+        # 이 방식은 세마포어 내부 상태에 의존하므로 변경될 수 있음
+        available = request_semaphore._value
+        return {
+            "max_requests": MAX_CONCURRENT_REQUESTS,
+            "available_slots": available,
+            "active_requests": MAX_CONCURRENT_REQUESTS - available
+        }
+    except:
+        # 세마포어 내부 상태 접근 실패시 기본값
+        return {
+            "max_requests": MAX_CONCURRENT_REQUESTS,
+            "available_slots": "알 수 없음",
+            "active_requests": "알 수 없음"
+        }
 
 class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
     """gRPC 서비스 구현"""
     
     def __init__(self):
-        self.db = DBClient()
-        
-        # 백프레셔 워커 스레드 시작
-        self.start_worker_thread()
-    
-    def start_worker_thread(self):
-        """백프레셔 처리를 위한 워커 스레드 시작"""
-        def worker():
-            while True:
-                try:
-                    # 큐에서 작업 가져오기
-                    task, callback = request_queue.get()
-                    logger.info(f"워커 스레드가 작업 처리 시작: {task}")
-                    
-                    # 요청 처리
-                    try:
-                        result = task()
-                        callback(result, None)
-                    except Exception as e:
-                        logger.error(f"작업 처리 중 오류 발생: {str(e)}")
-                        callback(None, e)
-                    
-                    # 작업 완료 표시
-                    request_queue.task_done()
-                    # 세마포어 반환
-                    request_semaphore.release()
-                    logger.info("세마포어 반환, 다음 요청 처리 가능")
-                except Exception as e:
-                    logger.error(f"워커 스레드 오류: {str(e)}")
-        
-        # 워커 스레드 시작
-        for i in range(MAX_CONCURRENT_REQUESTS):
-            t = threading.Thread(target=worker, daemon=True)
-            t.start()
-            logger.info(f"워커 스레드 {i+1} 시작됨")
+        try:
+            self.db = DBClient()
+            self.error_rate = 0  # 에러 발생률
+            self.backpressure_enabled = True  # 백프레셔 활성화 상태
+            log_event(logger, "INFO", "UserServiceServicer 초기화 완료")
+        except Exception as e:
+            log_event(logger, "ERROR", f"UserServiceServicer 초기화 실패: {str(e)}")
+            raise
     
     def should_generate_error(self):
         """현재 에러율에 따라 에러를 발생시켜야 하는지 결정"""
-        global ERROR_RATE
-        return random.randint(1, 100) <= ERROR_RATE
+        return random.randint(1, 100) <= self.error_rate
     
     def GetUser(self, request, context):
         """단일 사용자 정보 조회"""
         user_id = request.user_id
-        logger.info(f"사용자 조회 요청 받음 (ID: {user_id})")
+        log_event(logger, "INFO", f"사용자 조회 요청 (ID: {user_id})")
         
         # 메타데이터에서 지연 정보 확인
         delay = 0
         for key, value in context.invocation_metadata():
             if key == 'delay':
-                delay = int(value)
-                logger.info(f"요청에 지연 {delay}초 추가")
+                try:
+                    delay = int(value)
+                    log_event(logger, "INFO", f"{delay}초 지연 추가 (ID: {user_id})", "슬로우쿼리")
+                except ValueError:
+                    log_event(logger, "WARNING", f"잘못된 지연 값: {value}")
         
-        # 에러 발생 여부 확인
-        if self.should_generate_error():
-            logger.error(f"의도적 에러 발생 (사용자 ID: {user_id})")
-            context.set_code(grpc.StatusCode.INTERNAL)
-            context.set_details(f"의도적으로 발생시킨 에러 (사용자 ID: {user_id})")
-            return service_pb2.UserResponse()
+        # 백프레셔 처리
+        acquired = False
+        if self.backpressure_enabled:
+            acquired = request_semaphore.acquire(blocking=False)
+            if not acquired:
+                log_event(logger, "WARNING", f"최대 동시 요청 수 초과, 요청 거부 (ID: {user_id})", "백프레셔")
+                context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
+                context.set_details("서버가 과부하 상태입니다. 나중에 다시 시도해주세요.")
+                
+                # 이벤트 기록
+                add_event("backpressure", f"백프레셔: 사용자 조회 요청 거부 (ID: {user_id})")
+                
+                return service_pb2.UserResponse()
+            log_event(logger, "INFO", f"세마포어 획득 성공, 요청 처리 시작 (ID: {user_id})", "백프레셔")
         
-        # 지연 시뮬레이션
-        if delay > 0:
-            logger.info(f"요청 처리 지연 중... ({delay}초)")
-            time.sleep(delay)
-            logger.info("지연 완료, 요청 처리 계속")
-        
-        # 요청 처리
         try:
-            # 실제로는 DB에서 조회하지만, 여기서는 샘플 데이터 사용
-            user = next((u for u in SAMPLE_USERS if u["user_id"] == user_id), None)
+            # 에러 발생 여부 확인
+            if self.should_generate_error():
+                log_event(logger, "ERROR", f"의도적 에러 발생 (사용자 ID: {user_id})")
+                context.set_code(grpc.StatusCode.INTERNAL)
+                context.set_details(f"의도적으로 발생시킨 에러 (사용자 ID: {user_id})")
+                
+                # 이벤트 기록
+                add_event("error", f"의도적 에러: 사용자 조회 (ID: {user_id})")
+                
+                return service_pb2.UserResponse()
             
+            # 슬로우 쿼리 시뮬레이션
+            start_time = time.time()
+            user = None
+            
+            if delay > 0:
+                log_event(logger, "INFO", f"{delay}초 지연 시작 (ID: {user_id})", "슬로우쿼리")
+                user = self.db.get_user(user_id, delay)
+                elapsed = time.time() - start_time
+                log_event(logger, "INFO", f"{delay}초 지연 완료 (ID: {user_id}, 실제 소요시간: {elapsed:.2f}초)", "슬로우쿼리")
+            else:
+                user = self.db.get_user(user_id)
+            
+            # 결과 반환
             if user:
-                logger.info(f"사용자 조회 성공 (ID: {user_id})")
+                log_event(logger, "INFO", f"사용자 조회 성공 (ID: {user_id})")
                 return service_pb2.UserResponse(
                     user_id=user["user_id"],
                     name=user["name"],
                     email=user["email"]
                 )
             else:
-                logger.warning(f"사용자를 찾을 수 없음 (ID: {user_id})")
+                log_event(logger, "WARNING", f"사용자를 찾을 수 없음 (ID: {user_id})")
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details(f"ID가 {user_id}인 사용자를 찾을 수 없습니다")
                 return service_pb2.UserResponse()
+                
         except Exception as e:
-            logger.error(f"사용자 조회 중 오류 발생: {str(e)}")
+            log_event(logger, "ERROR", f"사용자 조회 중 오류 발생: {str(e)} (ID: {user_id})")
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"서버 오류: {str(e)}")
             return service_pb2.UserResponse()
+        finally:
+            # 백프레셔 세마포어 반환
+            if self.backpressure_enabled and acquired:
+                request_semaphore.release()
+                log_event(logger, "INFO", f"세마포어 반환 완료 (ID: {user_id})", "백프레셔")
     
     def ListUsers(self, request, context):
         """사용자 목록 조회"""
         page = request.page
         page_size = request.page_size
-        logger.info(f"사용자 목록 조회 요청 받음 (페이지: {page}, 페이지 크기: {page_size})")
+        log_event(logger, "INFO", f"사용자 목록 조회 요청 (페이지: {page}, 페이지 크기: {page_size})")
         
-        # 메타데이터에서 에러율 설정 확인
+        # 메타데이터에서 설정 확인
+        delay = 0
         for key, value in context.invocation_metadata():
             if key == 'error_rate':
-                global ERROR_RATE
-                ERROR_RATE = int(value)
-                logger.info(f"에러율 {ERROR_RATE}%로 설정됨")
+                try:
+                    old_rate = self.error_rate
+                    self.error_rate = int(value)
+                    log_event(logger, "INFO", f"에러율 {self.error_rate}%로 설정됨", "설정")
+                    
+                    # 에러율 변경 이벤트 기록
+                    add_event("settings", f"에러율 변경: {old_rate}% → {self.error_rate}%")
+                    
+                except ValueError:
+                    log_event(logger, "WARNING", f"잘못된 에러율 값: {value}")
             elif key == 'reset_backpressure' and value.lower() == 'true':
-                global request_semaphore
                 # 세마포어 재설정
+                global request_semaphore
                 request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
-                logger.info(f"백프레셔 메커니즘 수동 초기화 완료")
+                log_event(logger, "INFO", f"백프레셔 메커니즘 수동 초기화 완료", "백프레셔")
+                
+                # 백프레셔 초기화 이벤트 기록
+                add_event("backpressure", "백프레셔 메커니즘 초기화")
+                
                 return service_pb2.ListUsersResponse()
+            elif key == 'backpressure_enabled':
+                old_status = self.backpressure_enabled
+                self.backpressure_enabled = value.lower() == 'true'
+                status_str = "활성화" if self.backpressure_enabled else "비활성화"
+                log_event(logger, "INFO", f"백프레셔 상태 변경: {status_str}", "설정")
+                
+                # 백프레셔 상태 변경 이벤트 기록
+                if old_status != self.backpressure_enabled:
+                    add_event("settings", f"백프레셔 {status_str}")
+                
+            elif key == 'delay':
+                try:
+                    delay = int(value)
+                    log_event(logger, "INFO", f"{delay}초 지연 추가 (목록 조회)", "슬로우쿼리")
+                except ValueError:
+                    log_event(logger, "WARNING", f"잘못된 지연 값: {value}")
         
-        # 백프레셔 구현을 위한 세마포어 획득 시도
-        acquired = request_semaphore.acquire(blocking=False)
-        if not acquired:
-            logger.warning("최대 동시 요청 수 초과, 요청 거부")
-            context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
-            context.set_details("서버가 과부하 상태입니다. 나중에 다시 시도해주세요.")
-            return service_pb2.ListUsersResponse()
+        # 백프레셔 처리
+        acquired = False
+        if self.backpressure_enabled:
+            acquired = request_semaphore.acquire(blocking=False)
+            if not acquired:
+                log_event(logger, "WARNING", "최대 동시 요청 수 초과, 요청 거부 (목록 조회)", "백프레셔")
+                context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
+                context.set_details("서버가 과부하 상태입니다. 나중에 다시 시도해주세요.")
+                
+                # 이벤트 기록
+                add_event("backpressure", "백프레셔: 사용자 목록 조회 거부")
+                
+                return service_pb2.ListUsersResponse()
+            log_event(logger, "INFO", "세마포어 획득 성공, 요청 처리 시작 (목록 조회)", "백프레셔")
         
-        # 세마포어 획득 성공, 요청 처리
         try:
             # 에러 발생 여부 확인
             if self.should_generate_error():
-                logger.error("의도적 에러 발생 (사용자 목록 조회)")
+                log_event(logger, "ERROR", "의도적 에러 발생 (사용자 목록 조회)")
                 context.set_code(grpc.StatusCode.INTERNAL)
                 context.set_details("의도적으로 발생시킨 에러 (사용자 목록 조회)")
+                
+                # 이벤트 기록
+                add_event("error", "의도적 에러: 사용자 목록 조회")
+                
                 return service_pb2.ListUsersResponse()
             
-            # 페이지네이션 계산
-            start_idx = (page - 1) * page_size
-            end_idx = start_idx + page_size
+            # 슬로우 쿼리 시뮬레이션
+            start_time = time.time()
+            result = None
+            
+            if delay > 0:
+                log_event(logger, "INFO", f"{delay}초 지연 시작 (목록 조회)", "슬로우쿼리")
+                result = self.db.list_users(page, page_size, delay)
+                elapsed = time.time() - start_time
+                log_event(logger, "INFO", f"{delay}초 지연 완료 (목록 조회, 실제 소요시간: {elapsed:.2f}초)", "슬로우쿼리")
+            else:
+                result = self.db.list_users(page, page_size)
             
             # 결과 생성
             response = service_pb2.ListUsersResponse()
-            response.total_count = len(SAMPLE_USERS)
             
-            # 페이지에 해당하는 사용자만 추가
-            for user in SAMPLE_USERS[start_idx:end_idx]:
-                user_response = service_pb2.UserResponse(
-                    user_id=user["user_id"],
-                    name=user["name"],
-                    email=user["email"]
-                )
-                response.users.append(user_response)
+            if result:
+                response.total_count = result["total_count"]
+                
+                # 사용자 목록 추가
+                for user in result["users"]:
+                    user_response = service_pb2.UserResponse(
+                        user_id=user["user_id"],
+                        name=user["name"],
+                        email=user["email"]
+                    )
+                    response.users.append(user_response)
             
-            logger.info(f"사용자 목록 조회 성공 ({len(response.users)}명)")
+            log_event(logger, "INFO", f"사용자 목록 조회 성공 ({len(response.users)}명)")
             return response
         except Exception as e:
-            logger.error(f"사용자 목록 조회 중 오류 발생: {str(e)}")
+            log_event(logger, "ERROR", f"사용자 목록 조회 중 오류 발생: {str(e)}")
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"서버 오류: {str(e)}")
             return service_pb2.ListUsersResponse()
         finally:
-            # 에러 발생 시 세마포어 반환
-            if self.should_generate_error():
+            # 백프레셔 세마포어 반환
+            if self.backpressure_enabled and acquired:
                 request_semaphore.release()
+                log_event(logger, "INFO", "세마포어 반환 완료 (목록 조회)", "백프레셔")
     
     def CreateUser(self, request, context):
         """사용자 생성"""
-        name = request.name
-        email = request.email
-        logger.info(f"사용자 생성 요청 받음 (이름: {name}, 이메일: {email})")
+        log_event(logger, "INFO", f"사용자 생성 요청 (이름: {request.name}, 이메일: {request.email})")
         
-        # 에러 발생 여부 확인
-        if self.should_generate_error():
-            logger.error("의도적 에러 발생 (사용자 생성)")
-            context.set_code(grpc.StatusCode.INTERNAL)
-            context.set_details("의도적으로 발생시킨 에러 (사용자 생성)")
-            return service_pb2.UserResponse()
+        # 백프레셔 처리 (쓰기 작업도 제한)
+        acquired = False
+        if self.backpressure_enabled:
+            acquired = request_semaphore.acquire(blocking=False)
+            if not acquired:
+                log_event(logger, "WARNING", "최대 동시 요청 수 초과, 요청 거부 (사용자 생성)", "백프레셔")
+                context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
+                context.set_details("서버가 과부하 상태입니다. 나중에 다시 시도해주세요.")
+                
+                # 이벤트 기록
+                add_event("backpressure", "백프레셔: 사용자 생성 요청 거부")
+                
+                return service_pb2.UserResponse()
+            log_event(logger, "INFO", "세마포어 획득 성공, 요청 처리 시작 (사용자 생성)", "백프레셔")
         
-        # 요청 처리
         try:
-            # 실제로는 DB에 저장하지만, 여기서는 간단히 처리
-            new_user_id = len(SAMPLE_USERS) + 1
+            # 에러 발생 여부 확인
+            if self.should_generate_error():
+                log_event(logger, "ERROR", "의도적 에러 발생 (사용자 생성)")
+                context.set_code(grpc.StatusCode.INTERNAL)
+                context.set_details("의도적으로 발생시킨 에러 (사용자 생성)")
+                
+                # 이벤트 기록
+                add_event("error", "의도적 에러: 사용자 생성")
+                
+                return service_pb2.UserResponse()
             
-            # 결과 반환
-            logger.info(f"사용자 생성 성공 (ID: {new_user_id})")
-            return service_pb2.UserResponse(
-                user_id=new_user_id,
-                name=name,
-                email=email
-            )
+            # 사용자 생성
+            user = self.db.create_user(request.name, request.email)
+            
+            if user:
+                log_event(logger, "INFO", f"사용자 생성 성공 (ID: {user['user_id']})")
+                return service_pb2.UserResponse(
+                    user_id=user["user_id"],
+                    name=user["name"],
+                    email=user["email"]
+                )
+            else:
+                log_event(logger, "ERROR", "사용자 생성 실패")
+                context.set_code(grpc.StatusCode.INTERNAL)
+                context.set_details("사용자 생성 중 오류가 발생했습니다")
+                return service_pb2.UserResponse()
+                
         except Exception as e:
-            logger.error(f"사용자 생성 중 오류 발생: {str(e)}")
+            log_event(logger, "ERROR", f"사용자 생성 중 오류 발생: {str(e)}")
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(f"서버 오류: {str(e)}")
             return service_pb2.UserResponse()
+        finally:
+            # 백프레셔 세마포어 반환
+            if self.backpressure_enabled and acquired:
+                request_semaphore.release()
+                log_event(logger, "INFO", "세마포어 반환 완료 (사용자 생성)", "백프레셔")
 
 def serve():
     """gRPC 서버 실행"""
-    # 서버 생성
-    server = grpc.server(
-        futures.ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS),
-        options=[
-            ('grpc.max_send_message_length', 50 * 1024 * 1024),
-            ('grpc.max_receive_message_length', 50 * 1024 * 1024),
-        ]
-    )
-    
-    # 서비스 등록
-    service_pb2_grpc.add_UserServiceServicer_to_server(
-        UserServiceServicer(), server
-    )
-    
-    # 서버 시작
-    server.add_insecure_port('0.0.0.0:50051')
-    server.start()
-    logger.info("백엔드 서버 시작됨. 포트: 50051")
-    
     try:
-        server.wait_for_termination()
-    except KeyboardInterrupt:
-        logger.info("서버 종료 중...")
-        server.stop(0)
-        logger.info("서버 종료됨")
+        # 서버 생성
+        server = grpc.server(
+            futures.ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS * 2),
+            options=[
+                ('grpc.max_send_message_length', 10 * 1024 * 1024),
+                ('grpc.max_receive_message_length', 10 * 1024 * 1024),
+                ('grpc.keepalive_time_ms', 20000),  # 20초마다 keepalive 핑
+                ('grpc.keepalive_timeout_ms', 10000),  # 10초 타임아웃
+                ('grpc.keepalive_permit_without_calls', 1),  # 호출이 없어도 핑 허용
+                ('grpc.http2.max_pings_without_data', 0),  # 데이터 없이 핑 제한 없음
+                ('grpc.http2.min_time_between_pings_ms', 10000),  # 핑 간 최소 간격
+                ('grpc.http2.min_ping_interval_without_data_ms', 5000)  # 데이터 없을 때 핑 간격
+            ]
+        )
+        
+        # 서비스 등록
+        service_pb2_grpc.add_UserServiceServicer_to_server(
+            UserServiceServicer(), server
+        )
+        
+        # 서버 시작
+        server.add_insecure_port('[::]:50051')
+        server.start()
+        log_event(logger, "INFO", "백엔드 서버 시작됨. 포트: 50051", "서버")
+        
+        # 시작 이벤트 기록
+        add_event("system", "백엔드 서버 시작됨")
+        
+        # 서버 종료 처리를 위한 이벤트
+        stop_event = threading.Event()
+        
+        def handle_sigterm(*args):
+            """SIGTERM 시그널 처리기"""
+            log_event(logger, "INFO", "종료 시그널 받음, 서버 종료 중...", "서버")
+            stop_event.set()
+        
+        # 신호 처리기 등록
+        try:
+            import signal
+            signal.signal(signal.SIGTERM, handle_sigterm)
+            signal.signal(signal.SIGINT, handle_sigterm)
+        except (ImportError, AttributeError):
+            pass  # 신호 모듈을 사용할 수 없는 환경
+        
+        try:
+            stop_event.wait()  # 종료 이벤트 대기
+        except KeyboardInterrupt:
+            log_event(logger, "INFO", "키보드 인터럽트 받음, 서버 종료 중...", "서버")
+        
+        log_event(logger, "INFO", "서버 종료 중...", "서버")
+        server.stop(5)  # 5초 이내에 정상 종료
+        log_event(logger, "INFO", "서버 종료됨", "서버")
+        
+        # 종료 이벤트 기록
+        add_event("system", "백엔드 서버 종료됨")
+        
+    except Exception as e:
+        log_event(logger, "ERROR", f"서버 시작 중 오류 발생: {str(e)}")
+        sys.exit(1)
 
 if __name__ == '__main__':
     serve()
