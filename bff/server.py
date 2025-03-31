@@ -7,6 +7,7 @@ import pybreaker
 import concurrent.futures
 import json
 import sys
+import functools
 sys.path.append('.')  # 현재 디렉토리에서 모듈 찾기
 
 # grpc_client.py 파일 임포트 방식 수정
@@ -66,6 +67,7 @@ cb = pybreaker.CircuitBreaker(
 
 # 처리 시간 측정 및 메트릭 업데이트 데코레이터
 def track_request_metrics(func):
+    @functools.wraps(func)  # 함수 이름과 속성 보존
     def wrapper(*args, **kwargs):
         metrics["total_requests"] += 1
         start_time = time.time()
@@ -366,6 +368,33 @@ def reset_circuit_breaker():
         })
     except Exception as e:
         logger.error(f"서킷브레이커 초기화 실패: {str(e)}")
+        return jsonify({
+            "status": "error",
+            "message": f"초기화 실패: {str(e)}"
+        }), 500
+    
+# 백프레셔 초기화 API
+@app.route('/backend/reset-backpressure', methods=['POST'])
+def reset_backpressure():
+    """백엔드 백프레셔 초기화"""
+    logger.info("백프레셔 초기화 요청")
+    try:
+        # 백엔드의 백프레셔 초기화
+        success = client.reset_backpressure()
+        if success:
+            logger.info("백프레셔가 초기화되었습니다")
+            return jsonify({
+                "status": "success",
+                "message": "백프레셔가 초기화되었습니다"
+            })
+        else:
+            logger.error("백프레셔 초기화 실패")
+            return jsonify({
+                "status": "error",
+                "message": "백프레셔 초기화 실패"
+            }), 500
+    except Exception as e:
+        logger.error(f"백프레셔 초기화 중 오류 발생: {str(e)}")
         return jsonify({
             "status": "error",
             "message": f"초기화 실패: {str(e)}"

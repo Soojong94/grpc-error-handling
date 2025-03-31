@@ -177,7 +177,7 @@ with tab2:
 
     # 초기화 버튼 섹션
     st.subheader("시스템 초기화")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.write("서킷브레이커 초기화")
@@ -192,8 +192,7 @@ with tab2:
             except Exception as e:
                 st.error(f"오류 발생: {str(e)}")
 
-
-                with col2:
+    with col2:
         st.write("백엔드 에러율 초기화")
         if st.button("백엔드 초기화", key="reset_backend"):
             try:
@@ -201,6 +200,19 @@ with tab2:
                 if response.status_code == 200:
                     st.success("초기화 성공")
                     log_to_ui("백엔드 에러율 초기화 완료")
+                else:
+                    st.error(f"초기화 실패: {response.text}")
+            except Exception as e:
+                st.error(f"오류 발생: {str(e)}")
+
+    with col3:
+        st.write("백프레셔 초기화")
+        if st.button("백프레셔 초기화", key="reset_backpressure"):
+            try:
+                response = requests.post(f"{BFF_URL}/backend/reset-backpressure")
+                if response.status_code == 200:
+                    st.success("초기화 성공")
+                    log_to_ui("백프레셔 초기화 완료")
                 else:
                     st.error(f"초기화 실패: {response.text}")
             except Exception as e:

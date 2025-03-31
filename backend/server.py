@@ -40,6 +40,28 @@ SAMPLE_USERS = [
     {"user_id": 5, "name": "최민수", "email": "choi@example.com"},
 ]
 
+# 세마포어 자동 복구 기능
+def auto_recover_semaphore():
+    """세마포어를 주기적으로 확인하고 복구하는 스레드 함수"""
+    global request_semaphore
+    
+    while True:
+        # 현재 세마포어 값 확인 (비표준 방법이지만 테스트 목적으로 사용)
+        current_value = request_semaphore._value
+        
+        if current_value < MAX_CONCURRENT_REQUESTS / 2:  # 세마포어 값이 절반 이하로 떨어지면
+            logger.warning(f"세마포어 값이 낮음: {current_value}. 자동 복구 시작...")
+            
+            # 새 세마포어로 교체
+            request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
+            logger.info(f"세마포어 복구 완료. 값 재설정: {MAX_CONCURRENT_REQUESTS}")
+        
+        time.sleep(10)  # 10초마다 확인
+
+# 자동 복구 스레드 시작
+recovery_thread = threading.Thread(target=auto_recover_semaphore, daemon=True)
+recovery_thread.start()
+
 class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
     """gRPC 서비스 구현"""
     
@@ -145,9 +167,16 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
                 global ERROR_RATE
                 ERROR_RATE = int(value)
                 logger.info(f"에러율 {ERROR_RATE}%로 설정됨")
+            elif key == 'reset_backpressure' and value.lower() == 'true':
+                global request_semaphore
+                # 세마포어 재설정
+                request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
+                logger.info(f"백프레셔 메커니즘 수동 초기화 완료")
+                return service_pb2.ListUsersResponse()
         
         # 백프레셔 구현을 위한 세마포어 획득 시도
-        if not request_semaphore.acquire(blocking=False):
+        acquired = request_semaphore.acquire(blocking=False)
+        if not acquired:
             logger.warning("최대 동시 요청 수 초과, 요청 거부")
             context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
             context.set_details("서버가 과부하 상태입니다. 나중에 다시 시도해주세요.")

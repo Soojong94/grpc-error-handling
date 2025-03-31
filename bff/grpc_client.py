@@ -136,3 +136,16 @@ class UserServiceClient:
             logger.error(f"에러율 설정 중 오류 발생: {str(e)}")
             # 이 경우 에러를 전파하지 않고 무시함
             return False
+        
+    def reset_backpressure(self):
+        """백프레셔 메커니즘 초기화"""
+        logger.info("백프레셔 초기화 요청")
+        try:
+            # 메타데이터를 통해 백프레셔 초기화 신호 전달
+            metadata = (('reset_backpressure', 'true'),)
+            request = service_pb2.ListUsersRequest(page=1, page_size=1)
+            self.stub.ListUsers(request, metadata=metadata)
+            return True
+        except Exception as e:
+            logger.error(f"백프레셔 초기화 중 오류 발생: {str(e)}")
+            return False
