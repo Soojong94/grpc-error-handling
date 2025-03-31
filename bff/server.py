@@ -647,11 +647,26 @@ def circuit_breaker_status():
     """서킷 브레이커 상태 조회"""
     state = "OPEN" if cb.current_state == "open" else "CLOSED" if cb.current_state == "closed" else "HALF-OPEN"
     
+    # 문제가 되는 부분을 수정
+    remaining_time = 0
+    if state == "OPEN":
+        # pybreaker 버전에 따라 속성 이름이 다를 수 있음
+        # 대안적인 방식으로 접근
+        try:
+            if hasattr(cb, '_last_attempt'):
+                remaining_time = max(0, (cb._last_attempt + cb.reset_timeout) - time.time())
+            elif hasattr(cb, 'opened_at'):
+                remaining_time = max(0, (cb.opened_at + cb.reset_timeout) - time.time())
+            else:
+                remaining_time = 0
+        except:
+            remaining_time = 0
+    
     return jsonify({
         "state": state,
         "failure_count": cb.fail_counter,
         "reset_timeout": cb.reset_timeout,
-        "remaining_recovery_time": max(0, (cb._last_attempt + cb.reset_timeout) - time.time()) if state == "OPEN" else 0
+        "remaining_recovery_time": remaining_time
     })
 
 # 서킷 브레이커 초기화 API
@@ -764,7 +779,17 @@ def get_all_logs():
 def get_all_events():
     """이벤트 조회 API"""
     limit = int(request.args.get('limit', 50))
-    return jsonify(get_events(limit))
+    events_data = get_events(limit)
+    
+    # 커스텀 JSON 인코더 사용
+    from flask import Response
+    import json
+    from common.utils import event_serializer
+    
+    return Response(
+        json.dumps(events_data, default=event_serializer),
+        mimetype='application/json'
+    )
 
 # 메트릭 조회 API
 @app.route('/metrics')

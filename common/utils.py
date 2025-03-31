@@ -115,3 +115,12 @@ def update_pattern_status(pattern, status):
 def get_pattern_status():
     """현재 패턴 상태 반환"""
     return pattern_status.copy()
+
+# 추가할 코드 (utils.py 파일에 추가)
+def event_serializer(obj):
+    """이벤트 객체 직렬화 함수"""
+    # Circuit Breaker의 상태 객체 처리
+    if 'CircuitOpenState' in str(type(obj)) or 'CircuitClosedState' in str(type(obj)) or 'CircuitHalfOpenState' in str(type(obj)):
+        return str(obj)
+    # 기타 직렬화 불가능 객체 처리
+    return str(obj)

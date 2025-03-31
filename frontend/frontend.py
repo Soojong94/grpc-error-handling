@@ -9,10 +9,15 @@ import numpy as np
 from datetime import datetime
 import logging
 import queue
+import matplotlib.font_manager as fm
+
+# 한글 폰트 설정
+plt.rcParams['font.family'] = 'Malgun Gothic'  # Windows 기본 한글 폰트
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
 # 로깅 설정
 logging.basicConfig(
-    level=logging.ERROR,  # INFO에서 ERROR로 변경
+    level=logging.INFO,  # ERROR에서 INFO로 변경하여 더 많은 로그 표시
     format='%(asctime)s [%(levelname)s] [FRONTEND] [Thread-%(thread)d] %(message)s',
 )
 logger = logging.getLogger(__name__)
@@ -55,6 +60,8 @@ metrics_data = {
 if 'error_message' not in st.session_state:
     st.session_state.error_message = None
     st.session_state.is_fetching = False
+if 'logs_last_update' not in st.session_state:
+    st.session_state.logs_last_update = time.time() - 10  # 초기 로드를 강제로 트리거
 
 # API 요청 함수 (재시도 로직 포함)
 def make_api_request(method, url, json_data=None, params=None, max_retries=3, retry_delay=1):
@@ -136,9 +143,10 @@ def fetch_logs():
                 global logs_data
                 logs_data = response.json()
                 logs_queue.put(True)  # 데이터가 업데이트되었음을 알림
+                logger.info(f"새 로그 데이터 가져옴: {len(logs_data)}개 항목")
         except Exception as e:
             logger.error(f"로그 조회 중 오류: {str(e)}")
-        time.sleep(10)  # 3초마다 로그 조회
+        time.sleep(2)  # 2초마다 로그 조회 (10초에서 단축)
 
 # 이벤트 조회 함수
 def fetch_events():
@@ -149,9 +157,10 @@ def fetch_events():
                 global events_data
                 events_data = response.json()
                 events_queue.put(True)  # 데이터가 업데이트되었음을 알림
+                logger.info(f"새 이벤트 데이터 가져옴: {len(events_data)}개 항목")
         except Exception as e:
             logger.error(f"이벤트 조회 중 오류: {str(e)}")
-        time.sleep(10)  # 2초마다 이벤트 조회
+        time.sleep(2)  # 2초마다 이벤트 조회 (단축)
 
 # 패턴 상태 조회 함수
 def fetch_pattern_status():
@@ -164,7 +173,7 @@ def fetch_pattern_status():
                 pattern_status_queue.put(True)  # 데이터가 업데이트되었음을 알림
         except Exception as e:
             logger.error(f"패턴 상태 조회 중 오류: {str(e)}")
-        time.sleep(10)  # 2초마다 패턴 상태 조회
+        time.sleep(2)  # 2초마다 패턴 상태 조회 (단축)
 
 # 서킷 브레이커 상태 조회 함수
 def fetch_circuit_breaker_status():
@@ -194,65 +203,83 @@ def fetch_metrics():
 
 # 백그라운드 스레드 시작 부분 수정
 try:
-    # 꼭 필요한 스레드만 활성화 (로그와 패턴 상태만)
+    # 모든 스레드 활성화 (주석 처리 제거)
     log_thread = threading.Thread(target=fetch_logs, daemon=True)
     log_thread.start()
+    
+    events_thread = threading.Thread(target=fetch_events, daemon=True)
+    events_thread.start()
     
     pattern_thread = threading.Thread(target=fetch_pattern_status, daemon=True)
     pattern_thread.start()
     
-    # 다른 스레드는 주석 처리
-    # events_thread = threading.Thread(target=fetch_events, daemon=True)
-    # events_thread.start()
+    circuit_thread = threading.Thread(target=fetch_circuit_breaker_status, daemon=True)
+    circuit_thread.start()
     
-    # circuit_thread = threading.Thread(target=fetch_circuit_breaker_status, daemon=True)
-    # circuit_thread.start()
-    
-    # metrics_thread = threading.Thread(target=fetch_metrics, daemon=True)
-    # metrics_thread.start()
+    metrics_thread = threading.Thread(target=fetch_metrics, daemon=True)
+    metrics_thread.start()
     
     logger.info("백그라운드 스레드 시작 완료")
 except Exception as e:
     logger.error(f"백그라운드 스레드 시작 실패: {str(e)}")
 
-# 큐에서 데이터 가져오기
-try:
-    # 큐에 데이터가 있는지 논블로킹 방식으로 확인
-    if not logs_queue.empty():
-        logs_queue.get(block=False)
-        st.session_state.logs = logs_data
-        
-    if not events_queue.empty():
-        events_queue.get(block=False)
-        st.session_state.events = events_data
-        
-    if not pattern_status_queue.empty():
-        pattern_status_queue.get(block=False)
-        st.session_state.pattern_status = pattern_status_data
-        
-    if not circuit_breaker_status_queue.empty():
-        circuit_breaker_status_queue.get(block=False)
-        st.session_state.circuit_breaker_status = circuit_breaker_status_data
-        
-    if not metrics_queue.empty():
-        metrics_queue.get(block=False)
-        st.session_state.metrics = metrics_data
-except queue.Empty:
-    pass
-except Exception as e:
-    logger.error(f"큐 처리 중 오류: {str(e)}")
+# 큐에서 데이터 가져오기 - 로직 개선
+def update_session_data():
+    try:
+        # 큐에 데이터가 있는지 확인하고 세션 상태 업데이트
+        if not logs_queue.empty():
+            try:
+                logs_queue.get(block=False)
+                st.session_state.logs = logs_data.copy()
+                logger.info(f"세션 로그 데이터 업데이트: {len(st.session_state.logs)}개 항목")
+            except Exception as e:
+                logger.error(f"로그 데이터 업데이트 중 오류: {str(e)}")
+            
+        if not events_queue.empty():
+            try:
+                events_queue.get(block=False)
+                st.session_state.events = events_data.copy()
+            except Exception as e:
+                logger.error(f"이벤트 데이터 업데이트 중 오류: {str(e)}")
+            
+        if not pattern_status_queue.empty():
+            try:
+                pattern_status_queue.get(block=False)
+                st.session_state.pattern_status = pattern_status_data.copy()
+            except Exception as e:
+                logger.error(f"패턴 상태 데이터 업데이트 중 오류: {str(e)}")
+            
+        if not circuit_breaker_status_queue.empty():
+            try:
+                circuit_breaker_status_queue.get(block=False)
+                st.session_state.circuit_breaker_status = circuit_breaker_status_data.copy()
+            except Exception as e:
+                logger.error(f"서킷 브레이커 상태 데이터 업데이트 중 오류: {str(e)}")
+            
+        if not metrics_queue.empty():
+            try:
+                metrics_queue.get(block=False)
+                st.session_state.metrics = metrics_data.copy()
+            except Exception as e:
+                logger.error(f"메트릭 데이터 업데이트 중 오류: {str(e)}")
+    except queue.Empty:
+        pass
+    except Exception as e:
+        logger.error(f"세션 데이터 업데이트 중 오류: {str(e)}")
 
-# 세션 상태 초기화 (없을 경우)
+# 세션 상태 초기화 및 데이터 업데이트
+update_session_data()
+
 if 'logs' not in st.session_state:
-    st.session_state.logs = logs_data
+    st.session_state.logs = logs_data.copy()
 if 'events' not in st.session_state:
-    st.session_state.events = events_data
+    st.session_state.events = events_data.copy()
 if 'pattern_status' not in st.session_state:
-    st.session_state.pattern_status = pattern_status_data
+    st.session_state.pattern_status = pattern_status_data.copy()
 if 'circuit_breaker_status' not in st.session_state:
-    st.session_state.circuit_breaker_status = circuit_breaker_status_data
+    st.session_state.circuit_breaker_status = circuit_breaker_status_data.copy()
 if 'metrics' not in st.session_state:
-    st.session_state.metrics = metrics_data
+    st.session_state.metrics = metrics_data.copy()
 
 
 # 앱 제목
@@ -738,6 +765,11 @@ with tab4:
         log_limit = st.slider("표시할 로그 수", 10, 200, 50)
     with col2:
         if st.button("로그 새로고침", key="refresh_logs"):
+            # 로그 새로고침 요청
+            fetch_response = make_api_request("get", f"{BFF_URL}/logs", params={"limit": 200})
+            if fetch_response and fetch_response.status_code == 200:
+                st.session_state.logs = fetch_response.json()
+                logger.info(f"로그 수동 새로고침 완료: {len(st.session_state.logs)}개 항목")
             st.rerun()
     
     # 로그 필터링
@@ -765,6 +797,14 @@ with tab4:
     
     # 로그 필터링
     filtered_logs = []
+    
+    # 보유한 로그가 없으면 서버에서 가져오기 시도
+    if not st.session_state.logs:
+        fetch_response = make_api_request("get", f"{BFF_URL}/logs", params={"limit": 200})
+        if fetch_response and fetch_response.status_code == 200:
+            st.session_state.logs = fetch_response.json()
+            logger.info(f"로그 초기 로드 완료: {len(st.session_state.logs)}개 항목")
+    
     for log in st.session_state.logs:
         message = str(log.get('message', '')).lower()
         level = log.get('level', '')
@@ -779,7 +819,7 @@ with tab4:
         if (pattern == "데드라인" and show_deadline) or \
            (pattern == "서킷브레이커" and show_circuit) or \
            (pattern == "백프레셔" and show_backpressure) or \
-           (not show_deadline and not show_circuit and not show_backpressure):
+           (pattern == "일반" and not show_deadline and not show_circuit and not show_backpressure):
             pattern_match = True
             
         # 레벨 필터링
@@ -836,13 +876,14 @@ with tab4:
     else:
         st.info("조건에 맞는 로그가 없습니다.")
 
-# 주기적 새로고침 (5초마다)
+# 주기적 새로고침 (3초마다)
 if "refresh_counter" not in st.session_state:
     st.session_state.refresh_counter = 0
     st.session_state.last_refresh = time.time()
 
 current_time = time.time()
-if current_time - st.session_state.last_refresh > 5:
+if current_time - st.session_state.last_refresh > 3:  # 5초에서 3초로 단축
+    update_session_data()  # 세션 데이터 업데이트
     st.session_state.refresh_counter += 1
     st.session_state.last_refresh = current_time
     st.rerun()
