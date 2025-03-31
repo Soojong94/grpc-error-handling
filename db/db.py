@@ -1,8 +1,22 @@
+import sys
+import os
+
+# 프로젝트 루트 디렉토리를 명확하게 sys.path에 추가
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
+
+# common.logging_config의 함수들을 직접 import
+from common.logging_config import setup_logger, log_event, add_event
+
 import psycopg2
 import time
 import random
-import logging
-from common.logging_config import setup_logger, log_event
+
+# setup_logger 직접 호출
+logger = setup_logger("DB")
+log_event(logger, "INFO", "데이터베이스 모듈 시작")
+
+
 
 # 로거 설정
 logger = setup_logger("DB")

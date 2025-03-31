@@ -5,17 +5,19 @@ import threading
 from concurrent import futures
 import sys
 import os
+import json
 
 # 상위 디렉토리 경로 추가
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
 
 # gRPC 생성된 모듈
 import service_pb2
 import service_pb2_grpc
 
 # 공통 모듈
-from common.logging_config import setup_logger, log_event
-from common.utils import add_event
+from common.logging_config import setup_logger, log_event, add_event
+from common.utils import get_pattern_status
 from db_client import DBClient
 
 # 로거 설정
@@ -26,6 +28,12 @@ MAX_CONCURRENT_REQUESTS = 10  # 백프레셔 제한값
 
 # 백프레셔 구현을 위한 세마포어
 request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
+
+# 설정 및 통계 저장용 변수
+backend_settings = {
+    "error_rate": 0,
+    "backpressure_enabled": True,
+}
 
 # 세마포어 상태 조회 함수
 def get_semaphore_status():
@@ -47,14 +55,21 @@ def get_semaphore_status():
             "active_requests": "알 수 없음"
         }
 
+# 백프레셔 상태 리셋 함수
+def reset_backpressure():
+    """백프레셔 메커니즘 초기화"""
+    global request_semaphore
+    request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
+    log_event(logger, "INFO", "백프레셔 메커니즘 초기화됨", "백프레셔")
+    add_event("backpressure", "백프레셔 메커니즘 초기화")
+    return True
+
 class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
     """gRPC 서비스 구현"""
     
     def __init__(self):
         try:
             self.db = DBClient()
-            self.error_rate = 0  # 에러 발생률
-            self.backpressure_enabled = True  # 백프레셔 활성화 상태
             log_event(logger, "INFO", "UserServiceServicer 초기화 완료")
         except Exception as e:
             log_event(logger, "ERROR", f"UserServiceServicer 초기화 실패: {str(e)}")
@@ -62,7 +77,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
     
     def should_generate_error(self):
         """현재 에러율에 따라 에러를 발생시켜야 하는지 결정"""
-        return random.randint(1, 100) <= self.error_rate
+        return random.randint(1, 100) <= backend_settings["error_rate"]
     
     def GetUser(self, request, context):
         """단일 사용자 정보 조회"""
@@ -81,7 +96,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
         
         # 백프레셔 처리
         acquired = False
-        if self.backpressure_enabled:
+        if backend_settings["backpressure_enabled"]:
             acquired = request_semaphore.acquire(blocking=False)
             if not acquired:
                 log_event(logger, "WARNING", f"최대 동시 요청 수 초과, 요청 거부 (ID: {user_id})", "백프레셔")
@@ -139,7 +154,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
             return service_pb2.UserResponse()
         finally:
             # 백프레셔 세마포어 반환
-            if self.backpressure_enabled and acquired:
+            if backend_settings["backpressure_enabled"] and acquired:
                 request_semaphore.release()
                 log_event(logger, "INFO", f"세마포어 반환 완료 (ID: {user_id})", "백프레셔")
     
@@ -154,33 +169,27 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
         for key, value in context.invocation_metadata():
             if key == 'error_rate':
                 try:
-                    old_rate = self.error_rate
-                    self.error_rate = int(value)
-                    log_event(logger, "INFO", f"에러율 {self.error_rate}%로 설정됨", "설정")
+                    old_rate = backend_settings["error_rate"]
+                    backend_settings["error_rate"] = int(value)
+                    log_event(logger, "INFO", f"에러율 {backend_settings['error_rate']}%로 설정됨", "설정")
                     
                     # 에러율 변경 이벤트 기록
-                    add_event("settings", f"에러율 변경: {old_rate}% → {self.error_rate}%")
+                    add_event("settings", f"에러율 변경: {old_rate}% → {backend_settings['error_rate']}%")
                     
                 except ValueError:
                     log_event(logger, "WARNING", f"잘못된 에러율 값: {value}")
             elif key == 'reset_backpressure' and value.lower() == 'true':
                 # 세마포어 재설정
-                global request_semaphore
-                request_semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
-                log_event(logger, "INFO", f"백프레셔 메커니즘 수동 초기화 완료", "백프레셔")
-                
-                # 백프레셔 초기화 이벤트 기록
-                add_event("backpressure", "백프레셔 메커니즘 초기화")
-                
+                reset_backpressure()
                 return service_pb2.ListUsersResponse()
             elif key == 'backpressure_enabled':
-                old_status = self.backpressure_enabled
-                self.backpressure_enabled = value.lower() == 'true'
-                status_str = "활성화" if self.backpressure_enabled else "비활성화"
+                old_status = backend_settings["backpressure_enabled"]
+                backend_settings["backpressure_enabled"] = value.lower() == 'true'
+                status_str = "활성화" if backend_settings["backpressure_enabled"] else "비활성화"
                 log_event(logger, "INFO", f"백프레셔 상태 변경: {status_str}", "설정")
                 
                 # 백프레셔 상태 변경 이벤트 기록
-                if old_status != self.backpressure_enabled:
+                if old_status != backend_settings["backpressure_enabled"]:
                     add_event("settings", f"백프레셔 {status_str}")
                 
             elif key == 'delay':
@@ -192,7 +201,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
         
         # 백프레셔 처리
         acquired = False
-        if self.backpressure_enabled:
+        if backend_settings["backpressure_enabled"]:
             acquired = request_semaphore.acquire(blocking=False)
             if not acquired:
                 log_event(logger, "WARNING", "최대 동시 요청 수 초과, 요청 거부 (목록 조회)", "백프레셔")
@@ -253,7 +262,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
             return service_pb2.ListUsersResponse()
         finally:
             # 백프레셔 세마포어 반환
-            if self.backpressure_enabled and acquired:
+            if backend_settings["backpressure_enabled"] and acquired:
                 request_semaphore.release()
                 log_event(logger, "INFO", "세마포어 반환 완료 (목록 조회)", "백프레셔")
     
@@ -263,7 +272,7 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
         
         # 백프레셔 처리 (쓰기 작업도 제한)
         acquired = False
-        if self.backpressure_enabled:
+        if backend_settings["backpressure_enabled"]:
             acquired = request_semaphore.acquire(blocking=False)
             if not acquired:
                 log_event(logger, "WARNING", "최대 동시 요청 수 초과, 요청 거부 (사용자 생성)", "백프레셔")
@@ -311,9 +320,19 @@ class UserServiceServicer(service_pb2_grpc.UserServiceServicer):
             return service_pb2.UserResponse()
         finally:
             # 백프레셔 세마포어 반환
-            if self.backpressure_enabled and acquired:
+            if backend_settings["backpressure_enabled"] and acquired:
                 request_semaphore.release()
                 log_event(logger, "INFO", "세마포어 반환 완료 (사용자 생성)", "백프레셔")
+
+# 백엔드 상태 및 설정 정보 함수
+def get_backend_status():
+    """백엔드 서버 상태 정보 반환"""
+    return {
+        "error_rate": backend_settings["error_rate"],
+        "backpressure_enabled": backend_settings["backpressure_enabled"],
+        "backpressure_status": get_semaphore_status(),
+        "db_stats": DBClient().get_stats() if hasattr(DBClient, 'get_stats') else {}
+    }
 
 def serve():
     """gRPC 서버 실행"""

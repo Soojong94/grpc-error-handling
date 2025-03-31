@@ -2,10 +2,16 @@ import logging
 import json
 import time
 import threading
+from datetime import datetime
 
 # 로그 저장용 전역 변수
 logs = []
 log_lock = threading.Lock()  # 스레드 안전성을 위한 락
+
+# 이벤트 저장용 전역 변수
+events = []
+events_lock = threading.Lock()
+MAX_EVENTS = 100
 
 # 로그 레벨 상수
 LOG_LEVELS = {
@@ -74,6 +80,11 @@ class LogCollectorHandler(logging.Handler):
                 # 로그 크기 제한 (최대 1000개)
                 if len(logs) > 1000:
                     logs.pop(0)
+                    
+            # 에러 로그일 경우 이벤트에도 추가
+            if record.levelname in ["ERROR", "WARNING"] and "test" not in record.getMessage().lower():
+                add_event("error", f"{pattern}: {record.getMessage()}")
+                
         except Exception as e:
             print(f"로그 처리 오류: {e}")
 
@@ -115,3 +126,25 @@ def log_event(logger, level, message, pattern=None, service=None):
         logger.error(message, extra=extra)
     elif level == "CRITICAL":
         logger.critical(message, extra=extra)
+
+# 이벤트 관련 함수
+def add_event(event_type, description, status=None):
+    """시스템 이벤트 추가"""
+    event = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "type": event_type,
+        "description": description,
+        "status": status
+    }
+    
+    with events_lock:
+        events.append(event)
+        if len(events) > MAX_EVENTS:
+            events.pop(0)
+    
+    return event
+
+def get_events(limit=MAX_EVENTS):
+    """저장된 이벤트 조회"""
+    with events_lock:
+        return events[-limit:]
