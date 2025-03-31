@@ -1,0 +1,4 @@
+flask==2.2.3
+grpcio==1.53.0
+grpcio-tools==1.53.0
+pybreaker==0.7.0
