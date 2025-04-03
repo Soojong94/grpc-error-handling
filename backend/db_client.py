@@ -58,9 +58,8 @@ class DBClient:
             time.sleep(delay)
             log_event(logger, "INFO", f"DB 지연 완료 ({delay}초)", "슬로우쿼리")
         else:
-            # 기본 쿼리 지연
-            base_delay = random.uniform(0.05, 0.2)
-            time.sleep(base_delay)
+            # 테스트 모드가 아니면 기본 지연 없음
+            pass
         
         log_event(logger, "INFO", "DB 쿼리 실행 완료")
         return {"success": True}

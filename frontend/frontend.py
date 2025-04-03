@@ -53,10 +53,15 @@ with tab3:
 with tab4:
     render_logs()
 
-# 주기적 새로고침
-current_time = time.time()
-if current_time - st.session_state.last_update > 10:  # 10초마다 새로고침
-    st.session_state.last_update = current_time
+# 자동 새로고침 비활성화 (불필요한 API 호출 방지)
+# current_time = time.time()
+# if current_time - st.session_state.last_update > 20:  # 10초마다 새로고침
+#     st.session_state.last_update = current_time
+#     st.rerun()
+
+# 대신 수동 새로고침 버튼 추가
+if st.sidebar.button("수동 새로고침"):
+    st.session_state.last_update = time.time()
     st.rerun()
 
 # 푸터

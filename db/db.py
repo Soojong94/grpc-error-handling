@@ -57,7 +57,7 @@ class Database:
         Args:
             query: SQL 쿼리 문자열
             params: 쿼리 파라미터
-            delay: 인위적인 지연 시간(초)
+            delay: 인위적인 지연 시간(초), 테스트 모드에서만 사용
         
         Returns:
             쿼리 결과
@@ -72,15 +72,12 @@ class Database:
         param_str = str(params) if params else "없음"
         log_event(logger, "INFO", f"쿼리 실행: {query}, 파라미터: {param_str}", "데이터베이스")
         
-        # 슬로우 쿼리 시뮬레이션을 위한 지연
+        # 슬로우 쿼리 시뮬레이션을 위한 지연 (테스트 모드에서만)
         if delay:
             log_event(logger, "INFO", f"슬로우 쿼리 지연 시작 ({delay}초)", "백프레셔")
             time.sleep(delay)
             log_event(logger, "INFO", f"슬로우 쿼리 지연 완료 ({delay}초)", "백프레셔")
-        else:
-            # 기본 쿼리 지연 (50~200ms)
-            base_delay = random.uniform(0.05, 0.2)
-            time.sleep(base_delay)
+        # 기본 지연 제거 (일반 모드에서는 지연 없음)
         
         try:
             cursor = self.conn.cursor()

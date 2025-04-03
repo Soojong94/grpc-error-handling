@@ -47,9 +47,12 @@ def before_request():
 
 # 서킷 브레이커 설정
 cb = pybreaker.CircuitBreaker(
-    fail_max=3,  # 3번 실패하면 서킷 오픈
-    reset_timeout=10,  # 10초 후 다시 시도
-    exclude=[lambda e: isinstance(e, grpc.RpcError) and e.code() == grpc.StatusCode.NOT_FOUND]
+    fail_max=2,  # 2번 실패하면 서킷 오픈 (더 빠른 테스트를 위해)
+    reset_timeout=5,  # 5초 후 다시 시도
+    exclude=[
+        # NOT_FOUND는 실패로 간주하지 않음
+        lambda e: isinstance(e, grpc.RpcError) and e.code() == grpc.StatusCode.NOT_FOUND
+    ]
 )
 
 # 서킷 브레이커 이벤트 리스너
@@ -58,15 +61,15 @@ class CircuitBreakerListener(pybreaker.CircuitBreakerListener):
     
     def state_change(self, cb, old_state, new_state):
         """상태 변경 이벤트 핸들러"""
-        state_name = lambda state: "오픈" if state == "open" else "클로즈" if state == "closed" else "하프-오픈"
-        old_name = state_name(old_state)
-        new_name = state_name(new_state)
+        # 상태 이름을 정확하게 파악
+        old_state_name = type(old_state).__name__.replace('Circuit', '').replace('State', '').upper()
+        new_state_name = type(new_state).__name__.replace('Circuit', '').replace('State', '').upper()
         
-        log_event(logger, "WARNING" if new_state == "open" else "INFO", 
-                 f"서킷 브레이커 상태 변경: {old_name} → {new_name}", "서킷브레이커")
+        log_event(logger, "WARNING" if new_state_name == "OPEN" else "INFO", 
+                 f"서킷 브레이커 상태 변경: {old_state_name} → {new_state_name}", "서킷브레이커")
         
         # 이벤트 기록
-        add_event("circuit_breaker", f"서킷 브레이커: {old_name} → {new_name}", new_state)
+        add_event("circuit_breaker", f"서킷 브레이커: {old_state_name} → {new_state_name}", new_state_name)
 
 # 리스너 등록
 cb.add_listener(CircuitBreakerListener())
@@ -254,14 +257,17 @@ def test_slow_query():
     
     log_event(logger, "INFO", f"슬로우 쿼리 테스트 시작 (지연: {query_delay}초, 동시 요청: {concurrent_requests}개, 타임아웃: {timeout}초)", "테스트")
     
-    # 테스트 시작 이벤트 기록
-    add_event("test", f"슬로우 쿼리 테스트 시작 (지연: {query_delay}초, 요청: {concurrent_requests}개)")
+    # 여기에 추가: 테스트 시작 시 서킷 브레이커 상태 확인
+    current_state = type(cb.current_state).__name__.replace('Circuit', '').replace('State', '').upper()
+    log_event(logger, "INFO", f"테스트 시작 시 서킷 브레이커 상태: {current_state}", "서킷브레이커")
     
     # 서킷 브레이커 초기화
     pattern_status = get_pattern_status()
     if pattern_status["circuit_breaker"]:
+        # 초기화 후 상태 확인
         cb.close()
-        log_event(logger, "INFO", "서킷 브레이커 초기화 (닫힌 상태)", "서킷브레이커")
+        current_state = type(cb.current_state).__name__.replace('Circuit', '').replace('State', '').upper()
+        log_event(logger, "INFO", f"초기화 후 서킷 브레이커 상태: {current_state}", "서킷브레이커")
         
         # 이벤트 기록
         add_event("circuit_breaker", "서킷 브레이커 수동 초기화 (CLOSED)")
@@ -832,26 +838,26 @@ def toggle_pattern(pattern):
         log_event(logger, "ERROR", f"패턴 설정 변경 중 오류: {str(e)}")
         return jsonify({"error": f"패턴 설정 변경 중 오류: {str(e)}"}), 500
 
+
 # 서킷 브레이커 상태 조회 API
 @app.route('/circuit-breaker/status')
 def circuit_breaker_status():
     """서킷 브레이커 상태 조회"""
-    state = "OPEN" if cb.current_state == "open" else "CLOSED" if cb.current_state == "closed" else "HALF-OPEN"
+    state_name = type(cb.current_state).__name__
     
-    # 문제가 되는 부분을 수정
+    # 정확한 상태 추출
+    if "OpenState" in state_name:
+        state = "OPEN"
+    elif "ClosedState" in state_name:
+        state = "CLOSED"
+    elif "HalfOpenState" in state_name:
+        state = "HALF-OPEN"
+    else:
+        state = "UNKNOWN"
+    
     remaining_time = 0
-    if state == "OPEN":
-        # pybreaker 버전에 따라 속성 이름이 다를 수 있음
-        # 대안적인 방식으로 접근
-        try:
-            if hasattr(cb, '_last_attempt'):
-                remaining_time = max(0, (cb._last_attempt + cb.reset_timeout) - time.time())
-            elif hasattr(cb, 'opened_at'):
-                remaining_time = max(0, (cb.opened_at + cb.reset_timeout) - time.time())
-            else:
-                remaining_time = 0
-        except:
-            remaining_time = 0
+    if state == "OPEN" and hasattr(cb.current_state, 'opened_at'):
+        remaining_time = max(0, (cb.current_state.opened_at + cb.reset_timeout) - time.time())
     
     return jsonify({
         "state": state,
@@ -860,26 +866,37 @@ def circuit_breaker_status():
         "remaining_recovery_time": remaining_time
     })
 
+
 # 서킷 브레이커 초기화 API
 @app.route('/circuit-breaker/reset', methods=['POST'])
 def reset_circuit_breaker():
     """서킷 브레이커 초기화"""
     log_event(logger, "INFO", "서킷 브레이커 초기화 요청", "서킷브레이커")
     try:
-        # 서킷 브레이커 상태 기록
-        old_state = "OPEN" if cb.current_state == "open" else "CLOSED" if cb.current_state == "closed" else "HALF-OPEN"
+        # 서킷 브레이커 상태 기록 (정확한 타입 이름 추출)
+        old_state = type(cb.current_state).__name__
+        old_state_name = old_state.replace('Circuit', '').replace('State', '').upper()
         
+        # 카운터도 초기화
+        cb.fail_counter = 0
+        
+        # 상태 직접 변경
         cb.close()
-        log_event(logger, "INFO", "서킷 브레이커 초기화 완료 (상태: CLOSED)", "서킷브레이커")
+        
+        # 상태 확인
+        new_state = type(cb.current_state).__name__
+        new_state_name = new_state.replace('Circuit', '').replace('State', '').upper()
+        
+        log_event(logger, "INFO", f"서킷 브레이커 초기화 완료 (상태: {new_state_name})", "서킷브레이커")
         
         # 이벤트 기록
-        add_event("circuit_breaker", f"서킷 브레이커 초기화: {old_state} → CLOSED")
+        add_event("circuit_breaker", f"서킷 브레이커 초기화: {old_state_name} → {new_state_name}")
         
         return jsonify({
             "status": "success",
             "message": "서킷 브레이커가 초기화되었습니다",
-            "previous_state": old_state,
-            "current_state": "CLOSED"
+            "previous_state": old_state_name,
+            "current_state": new_state_name
         })
     except Exception as e:
         log_event(logger, "ERROR", f"서킷 브레이커 초기화 실패: {str(e)}", "서킷브레이커")
@@ -887,7 +904,7 @@ def reset_circuit_breaker():
             "status": "error",
             "message": f"초기화 실패: {str(e)}"
         }), 500
-
+    
 # 백엔드 에러율 설정 API
 @app.route('/backend/error-rate', methods=['POST'])
 def set_error_rate():

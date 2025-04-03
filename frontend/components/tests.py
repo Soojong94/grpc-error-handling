@@ -28,11 +28,14 @@ def render_tests():
         각 에러 처리 패턴이 슬로우 쿼리에 어떻게 대응하는지 확인해보세요.
         """)
         
+        # 경고 메시지 추가
+        st.warning("⚠️ 테스트 실행 시 고의적으로 지연이 발생합니다. 테스트를 실행하지 않을 때는 시스템이 빠르게 응답합니다.")
+        
         col1, col2 = st.columns(2)
         
         with col1:
             query_delay = st.slider("쿼리 지연 시간 (초)", 1, 10, 5)
-            concurrent_requests = st.slider("동시 요청 수", 5, 30, 10)
+            concurrent_requests = st.slider("동시 요청 수", 3, 15, 5)  # 기본값을 5로 낮춤
         
         with col2:
             timeout = st.slider("타임아웃 설정 (초, 데드라인 패턴용)", 1, 5, 3)
@@ -57,7 +60,10 @@ def render_tests():
         
         # 테스트 실행 버튼
         if st.button("슬로우 쿼리 테스트 실행"):
-            with st.spinner("테스트 실행 중..."):
+            with st.spinner("테스트 실행 중... (이 작업은 시간이 걸릴 수 있습니다)"):
+                # 테스트 시작 전 캐시 초기화
+                api.clear_cache()
+                
                 result = api.run_slow_query_test(query_delay, concurrent_requests, timeout)
                 
                 if result and "error" not in result:
@@ -146,20 +152,26 @@ def render_tests():
         이 테스트는 각 패턴 조합에 대해 동일한 조건에서 성능을 측정합니다.
         """)
         
+        # 경고 메시지 추가
+        st.warning("⚠️ 이 테스트는 모든 패턴 조합을 순차적으로 실행하므로 시간이 오래 걸릴 수 있습니다.")
+        
         # 테스트 설정
         col1, col2 = st.columns(2)
         
         with col1:
-            comparison_delay = st.slider("쿼리 지연 시간 (초)", 1, 10, 5, key="comparison_delay")
-            requests_per_test = st.slider("각 패턴당 요청 수", 5, 20, 10, key="requests_per_test")
+            comparison_delay = st.slider("쿼리 지연 시간 (초)", 1, 10, 3, key="comparison_delay")  # 기본값을 3으로 낮춤
+            requests_per_test = st.slider("각 패턴당 요청 수", 3, 15, 5, key="requests_per_test")  # 기본값을 5로 낮춤
         
         with col2:
-            comparison_timeout = st.slider("타임아웃 설정 (초)", 1, 5, 3, key="comparison_timeout")
+            comparison_timeout = st.slider("타임아웃 설정 (초)", 1, 5, 2, key="comparison_timeout")  # 기본값을 2로 낮춤
             st.info("각 패턴 조합이 순차적으로 테스트됩니다. 총 5개의 패턴 조합이 테스트됩니다.")
         
         # 테스트 실행 버튼
         if st.button("패턴 비교 테스트 실행"):
-            with st.spinner("패턴 비교 테스트 실행 중... (다소 시간이 소요될 수 있습니다)"):
+            with st.spinner("패턴 비교 테스트 실행 중... (이 작업은 시간이 오래 걸릴 수 있습니다)"):
+                # 테스트 시작 전 캐시 초기화
+                api.clear_cache()
+                
                 result = api.run_pattern_comparison_test(
                     comparison_delay, 
                     requests_per_test, 

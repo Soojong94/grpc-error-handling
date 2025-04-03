@@ -65,9 +65,9 @@ class UserServiceClient:
     def check_health(self):
         """백엔드 서비스 상태 확인"""
         try:
-            # 간단한 호출로 상태 확인
+            # 간단한 호출로 상태 확인 (타임아웃 감소)
             request = service_pb2.ListUsersRequest(page=1, page_size=1)
-            response = self.stub.ListUsers(request, timeout=2)
+            response = self.stub.ListUsers(request, timeout=1)  # 1초로 감소
             
             with self._status_lock:
                 self.service_status["available"] = True

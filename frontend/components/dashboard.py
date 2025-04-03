@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 import sys
 import os
+import concurrent.futures
 
 # 상위 디렉토리를 경로에 추가하여 모듈 import 가능하게 설정
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -21,8 +22,22 @@ def render_dashboard():
     # API 클라이언트 생성
     api = ApiClient()
     
-    # 시스템 상태 확인
-    health_status = api.get_health()
+    # 시스템 상태 확인 - 병렬 요청 처리
+    with st.spinner("데이터 로딩 중..."):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # 병렬로 API 요청 실행
+            health_future = executor.submit(api.get_health)
+            metrics_future = executor.submit(api.get_metrics)
+            pattern_status_future = executor.submit(api.get_pattern_status)
+            cb_status_future = executor.submit(api.get_circuit_breaker_status)
+            events_future = executor.submit(api.get_events, 5)
+            
+            # 결과 수집
+            health_status = health_future.result()
+            metrics = metrics_future.result()
+            pattern_status = pattern_status_future.result()
+            cb_status = cb_status_future.result()
+            events = events_future.result()
     
     # 헬스 상태 표시
     if "backend" in health_status:
@@ -36,9 +51,6 @@ def render_dashboard():
             {f"<br><span style='color: #D32F2F; font-size: 0.9em;'>{health_status['backend']['last_error']}</span>" if not backend_available and health_status['backend']['last_error'] else ""}
         </div>
         """, unsafe_allow_html=True)
-    
-    # 메트릭 데이터 가져오기
-    metrics = api.get_metrics()
     
     # 기본 메트릭 표시
     col1, col2, col3 = st.columns(3)
@@ -63,9 +75,8 @@ def render_dashboard():
     with col3:
         # 서킷 브레이커 상태
         st.subheader("서킷 브레이커 상태")
-        cb_status = api.get_circuit_breaker_status()
         
-        if cb_status and "error" not in cb_status:
+        if "error" not in cb_status:
             state = cb_status.get("state", "UNKNOWN")
             
             # 상태에 따른 색상 지정
@@ -100,7 +111,6 @@ def render_dashboard():
     # 활성화된 패턴 상태 표시
     st.subheader("에러 처리 패턴 상태")
     
-    pattern_status = api.get_pattern_status()
     if "error" not in pattern_status:
         col1, col2, col3 = st.columns(3)
         
@@ -132,6 +142,8 @@ def render_dashboard():
         result = api.reset_system()
         if result and "error" not in result:
             st.success("시스템이 초기화되었습니다.")
+            # 캐시도 함께 초기화
+            api.clear_cache()
             time.sleep(1)
             st.rerun()
         else:
@@ -168,7 +180,6 @@ def render_dashboard():
     with col2:
         # 이벤트 타임라인
         st.subheader("최근 이벤트")
-        events = api.get_events(limit=5)
         
         if events and "error" not in events and len(events) > 0:
             for event in events:
