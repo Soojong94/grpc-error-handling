@@ -1,0 +1,8 @@
+2025-04-03 14:55:19,039 - backend_no_pattern - INFO - [backend_service_base.py:47] - [backend_no_pattern] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=False
+2025-04-03 14:55:31,240 - backend_no_pattern - INFO - [backend_service_base.py:56] - [backend_no_pattern] 요청 받음: slow
+2025-04-03 14:55:31,240 - backend_no_pattern - INFO - [backend_service_base.py:57] - [backend_no_pattern] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:31,247 - backend_no_pattern - INFO - [backend_service_base.py:108] - [backend_no_pattern] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:55:33,274 - backend_no_pattern - INFO - [backend_service_base.py:115] - [backend_no_pattern] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:55:35,211 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:55:35,212 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:55:35,213 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료

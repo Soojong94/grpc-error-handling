@@ -3,9 +3,7 @@ import grpc
 from concurrent import futures
 import sys
 import os
-
-# 프로젝트 루트 경로 추가
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))))
 
 from generated import db_pb2, db_pb2_grpc
 from common.logging_config import setup_logging
@@ -13,15 +11,15 @@ from common.logging_config import setup_logging
 class DbServicer(db_pb2_grpc.DbServiceServicer):
     def __init__(self):
         self.logger = setup_logging("db_service")
-        self.query_delay = 1  # 슬로우 쿼리 지연 시간 (초)
+        self.slow_query_delay = float(os.environ.get("SLOW_QUERY_DELAY", "2.0"))  # 환경 변수에서 지연 시간 읽기
     
     def Query(self, request, context):
         query_type = request.query_type
         self.logger.info(f"[DB] 쿼리 요청 받음: {query_type}")
         
         if query_type == "slow":
-            self.logger.info(f"[DB] 슬로우 쿼리 실행 중... ({self.query_delay}초 지연)")
-            time.sleep(self.query_delay)
+            self.logger.info(f"[DB] 슬로우 쿼리 실행 중... ({self.slow_query_delay}초 지연)")
+            time.sleep(self.slow_query_delay)
             self.logger.info("[DB] 슬로우 쿼리 완료")
         else:
             self.logger.info("[DB] 일반 쿼리 실행")
@@ -36,8 +34,8 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     db_pb2_grpc.add_DbServiceServicer_to_server(DbServicer(), server)
     
-    port = 50053
-    server.add_insecure_port(f'[::]:{port}')
+    port = int(os.environ.get("PORT", "50057"))  # 환경 변수에서 포트 읽기
+    server.add_insecure_port(f"[::]:{port}")
     server.start()
     logger.info(f"DB 서비스 시작됨: 포트 {port}")
     
@@ -47,5 +45,5 @@ def serve():
         logger.info("DB 서비스 종료 중...")
         server.stop(0)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     serve()

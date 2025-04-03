@@ -1,0 +1,262 @@
+2025-04-03 14:35:37,768 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: no_pattern
+2025-04-03 14:35:37,769 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:35:37,769 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:37,776 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:35:37,819 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:35:41,963 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:41,964 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:41,964 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:41,965 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:42,496 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:47,700 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:47,701 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:47,701 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:47,701 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:48,231 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:49,440 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:49,440 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:49,440 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:49,441 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:49,959 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:50,496 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:50,496 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:50,497 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:50,499 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:51,039 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:51,587 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:51,588 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:51,588 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:51,589 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:52,125 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:53,625 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:53,625 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:53,625 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:53,626 - bff_service - INFO - [bff_service.py:75] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 14:35:53,626 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:54,151 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:54,532 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:54,532 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:54,533 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:54,533 - bff_service - INFO - [bff_service.py:75] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 14:35:54,534 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:35:55,058 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:35:55,476 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:35:55,477 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:35:55,477 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:35:55,477 - bff_service - INFO - [bff_service.py:75] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 14:35:55,478 - bff_service - WARNING - [bff_service.py:77] - [BFF] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 14:36:05,185 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:05,186 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:05,187 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:05,188 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:05,268 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:06,070 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:06,070 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:06,071 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:06,071 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:06,083 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:06,881 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:06,882 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:06,882 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:06,883 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:06,891 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:07,485 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:07,486 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:07,486 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:07,487 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:07,501 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:12,196 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:12,196 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:12,196 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:12,197 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:12,215 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:12,698 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:12,699 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:12,699 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:12,700 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:12,709 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:13,141 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:13,142 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,142 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:13,142 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,157 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:13,560 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:13,560 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,561 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:13,561 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,577 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:13,965 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: deadline
+2025-04-03 14:36:13,966 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,966 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:13,967 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,978 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_deadline 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:36:19,137 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:36:19,138 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:19,138 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:19,139 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:19,707 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:36:20,493 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:36:20,494 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:20,494 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:20,495 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:21,063 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:36:21,504 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:36:21,505 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:21,505 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:21,507 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:22,079 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:36:22,590 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:36:22,591 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:22,592 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:22,593 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:23,154 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:36:23,607 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:36:23,607 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:36:23,608 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:36:23,608 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:36:24,219 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:08,366 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,367 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,367 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,368 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:08,371 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,373 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,374 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,375 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:08,375 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,376 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,376 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,377 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:08,379 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,382 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,386 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,387 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:08,389 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,389 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,389 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,390 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:08,392 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:08,393 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:08,393 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:08,394 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:10,422 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:10,422 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:10,439 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:10,439 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:10,440 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:10,441 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:10,442 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:10,442 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:10,443 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:10,443 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:10,445 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:10,445 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:10,446 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:10,468 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:10,471 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:10,473 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:10,474 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:10,474 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:10,475 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:10,475 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:10,475 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:10,494 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:12,476 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:12,477 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:12,509 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:12,509 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:19,415 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,416 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,416 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,417 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,418 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,419 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,419 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,420 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,425 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,426 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,426 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,428 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,436 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,437 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,437 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,438 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,440 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,441 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,441 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,442 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,450 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:19,450 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:19,451 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:19,451 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:19,985 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:19,987 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,039 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,070 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,072 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,101 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,103 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:20,104 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:20,104 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:20,105 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:20,172 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:20,172 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:20,172 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:20,172 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:20,173 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:20,173 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:20,173 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:20,174 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:20,174 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:20,175 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:20,178 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:20,181 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:20,667 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,766 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,786 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:20,805 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:24,432 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:24,432 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:24,433 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:24,433 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:24,995 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:26,554 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:26,555 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:26,556 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:26,557 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:27,109 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:27,563 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:27,563 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:27,564 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:27,564 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:28,131 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:28,528 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: deadline
+2025-04-03 14:38:28,528 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:28,529 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50054
+2025-04-03 14:38:28,529 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:29,213 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 14:38:31,349 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:31,349 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:31,349 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:31,350 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:33,372 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:38,668 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:38,669 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:38,669 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:38,670 - bff_service - INFO - [bff_service.py:91] - [BFF] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:39,200 - bff_service - ERROR - [bff_service.py:138] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:40,622 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:40,623 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:40,623 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:40,623 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:42,652 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:46,835 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:46,835 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:46,836 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:46,837 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:46,847 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:38:47,512 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: circuit_breaker
+2025-04-03 14:38:47,512 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:38:47,513 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50053
+2025-04-03 14:38:47,513 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:38:47,529 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터

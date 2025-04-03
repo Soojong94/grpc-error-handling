@@ -4,6 +4,8 @@ package backend;
 
 service BackendService {
   rpc Process (BackendRequest) returns (BackendResponse);
+  rpc ResetPattern (ResetRequest) returns (ResetResponse);
+  rpc GetStatus (StatusRequest) returns (StatusResponse);
 }
 
 message BackendRequest {
@@ -17,4 +19,22 @@ message BackendResponse {
   string result = 1;
   bool success = 2;
   string error_message = 3;
+}
+
+message ResetRequest {
+  string pattern = 1;  // "circuit_breaker", "backpressure", "all"
+}
+
+message ResetResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message StatusRequest {}
+
+message StatusResponse {
+  string circuit_breaker_state = 1;
+  int32 circuit_breaker_failures = 2;
+  int32 backpressure_active_requests = 3;
+  bool backpressure_overloaded = 4;
 }

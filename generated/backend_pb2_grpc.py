@@ -19,12 +19,34 @@ class BackendServiceStub(object):
                 request_serializer=backend__pb2.BackendRequest.SerializeToString,
                 response_deserializer=backend__pb2.BackendResponse.FromString,
                 )
+        self.ResetPattern = channel.unary_unary(
+                '/backend.BackendService/ResetPattern',
+                request_serializer=backend__pb2.ResetRequest.SerializeToString,
+                response_deserializer=backend__pb2.ResetResponse.FromString,
+                )
+        self.GetStatus = channel.unary_unary(
+                '/backend.BackendService/GetStatus',
+                request_serializer=backend__pb2.StatusRequest.SerializeToString,
+                response_deserializer=backend__pb2.StatusResponse.FromString,
+                )
 
 
 class BackendServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Process(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResetPattern(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStatus(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +59,16 @@ def add_BackendServiceServicer_to_server(servicer, server):
                     servicer.Process,
                     request_deserializer=backend__pb2.BackendRequest.FromString,
                     response_serializer=backend__pb2.BackendResponse.SerializeToString,
+            ),
+            'ResetPattern': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResetPattern,
+                    request_deserializer=backend__pb2.ResetRequest.FromString,
+                    response_serializer=backend__pb2.ResetResponse.SerializeToString,
+            ),
+            'GetStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetStatus,
+                    request_deserializer=backend__pb2.StatusRequest.FromString,
+                    response_serializer=backend__pb2.StatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +94,39 @@ class BackendService(object):
         return grpc.experimental.unary_unary(request, target, '/backend.BackendService/Process',
             backend__pb2.BackendRequest.SerializeToString,
             backend__pb2.BackendResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ResetPattern(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/backend.BackendService/ResetPattern',
+            backend__pb2.ResetRequest.SerializeToString,
+            backend__pb2.ResetResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/backend.BackendService/GetStatus',
+            backend__pb2.StatusRequest.SerializeToString,
+            backend__pb2.StatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

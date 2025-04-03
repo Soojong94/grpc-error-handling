@@ -1,0 +1,2 @@
+2025-04-03 14:44:52,169 - backend_backpressure - INFO - [backend_service_base.py:47] - [backend_backpressure] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=True
+2025-04-03 14:52:41,234 - backend_backpressure - INFO - [backend_service_base.py:190] - [backend_backpressure] 상태 확인 요청

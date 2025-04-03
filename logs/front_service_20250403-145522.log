@@ -1,0 +1,362 @@
+2025-04-03 14:55:31,201 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:55:31,202 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:31,203 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:55:31,204 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:33,278 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.07초)
+2025-04-03 14:55:33,278 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:55:35,202 - front_service - INFO - [front_service.py:117] - [Front] 패턴 리셋 API 호출 - 패턴: all, 백엔드: no_pattern
+2025-04-03 14:55:39,753 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: circuit_breaker
+2025-04-03 14:55:39,753 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:39,754 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:39,754 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:41,802 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.05초)
+2025-04-03 14:55:41,803 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:55:46,389 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: circuit_breaker
+2025-04-03 14:55:46,390 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:46,390 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:46,391 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:46,951 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.56초)
+2025-04-03 14:55:47,287 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: circuit_breaker
+2025-04-03 14:55:47,288 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:47,288 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:47,289 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:47,865 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.58초)
+2025-04-03 14:55:48,209 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: circuit_breaker
+2025-04-03 14:55:48,209 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:48,210 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:48,210 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:48,282 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.07초)
+2025-04-03 14:55:54,934 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:55:54,934 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:54,934 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:54,935 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:55,009 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.07초)
+2025-04-03 14:55:55,987 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:55:55,987 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:55,988 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:55,988 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:56,126 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.14초)
+2025-04-03 14:55:58,088 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:55:58,088 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,089 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:58,089 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,103 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 0.01초)
+2025-04-03 14:55:58,103 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:55:58,283 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:55:58,284 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,284 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:58,284 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,295 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 0.01초)
+2025-04-03 14:55:58,296 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:55:58,462 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:55:58,463 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,463 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:55:58,464 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,478 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 0.01초)
+2025-04-03 14:55:58,478 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:00,519 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: circuit_breaker
+2025-04-03 14:56:00,520 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:00,520 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:56:00,521 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:01,096 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.58초)
+2025-04-03 14:56:02,375 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: circuit_breaker
+2025-04-03 14:56:02,376 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:02,376 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: circuit_breaker)
+2025-04-03 14:56:02,377 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:02,391 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 0.01초)
+2025-04-03 14:56:02,392 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_circuit_breaker 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:08,112 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:08,113 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:08,113 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:08,113 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:08,721 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.61초)
+2025-04-03 14:56:09,654 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:09,654 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:09,655 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:09,655 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:10,268 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.61초)
+2025-04-03 14:56:10,599 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:10,600 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:10,600 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:10,600 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:10,678 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.08초)
+2025-04-03 14:56:12,640 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,641 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,641 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,642 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,642 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,642 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,644 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,644 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,647 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,648 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,649 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,656 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,657 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,657 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,661 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,659 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,663 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,667 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,668 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,671 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,671 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,671 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,671 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,672 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,768 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.12초)
+2025-04-03 14:56:12,776 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,777 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,779 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,783 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,805 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.16초)
+2025-04-03 14:56:12,819 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,820 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,821 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,821 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,838 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.18초)
+2025-04-03 14:56:12,852 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,853 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,854 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,854 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,870 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.20초)
+2025-04-03 14:56:12,888 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:12,889 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,889 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:12,890 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:12,908 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.24초)
+2025-04-03 14:56:12,940 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.27초)
+2025-04-03 14:56:12,942 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.16초)
+2025-04-03 14:56:13,008 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.19초)
+2025-04-03 14:56:13,025 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.17초)
+2025-04-03 14:56:13,048 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.16초)
+2025-04-03 14:56:22,911 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,912 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,912 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,912 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,915 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,915 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,916 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,916 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,918 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,919 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,919 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,919 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,928 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,929 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,929 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,930 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,933 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,934 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,935 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,935 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,947 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:22,948 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:22,949 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:22,949 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,509 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.60초)
+2025-04-03 14:56:23,516 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:23,516 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,517 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:23,517 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,536 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.62초)
+2025-04-03 14:56:23,550 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:23,550 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,551 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:23,551 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,617 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.10초)
+2025-04-03 14:56:23,627 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:23,628 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,629 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:23,630 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,649 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.72초)
+2025-04-03 14:56:23,649 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.73초)
+2025-04-03 14:56:23,660 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: all
+2025-04-03 14:56:23,661 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,664 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: all)
+2025-04-03 14:56:23,664 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:23,682 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.75초)
+2025-04-03 14:56:23,713 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Backend 서비스 응답 시간 초과 (소요 시간: 0.76초)
+2025-04-03 14:56:23,817 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.27초)
+2025-04-03 14:56:23,844 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.21초)
+2025-04-03 14:56:23,867 - front_service - ERROR - [front_service.py:57] - [Front] BFF 호출 중 오류: StatusCode.UNAVAILABLE - Backend 서비스 오류: 서비스 일시적으로 사용 불가 (소요 시간: 0.20초)
+2025-04-03 14:56:30,559 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,560 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,560 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,561 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,564 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,565 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,565 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,566 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,571 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,571 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,572 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,573 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,583 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,585 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,590 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,591 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,592 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,592 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,593 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,593 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,609 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:30,610 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:30,610 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:30,611 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,621 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:56:32,621 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:32,621 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,622 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,627 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:32,628 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,629 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:32,630 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:32,631 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,631 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,631 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:32,634 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,641 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.05초)
+2025-04-03 14:56:32,642 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,643 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:32,643 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,646 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.08초)
+2025-04-03 14:56:32,649 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,655 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.08초)
+2025-04-03 14:56:32,656 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:32,660 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:32,670 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:32,671 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,674 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,675 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:32,676 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:32,676 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:32,678 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:34,669 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:34,670 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:34,670 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:34,670 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:34,717 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:34,717 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:34,718 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:34,718 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:38,961 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:38,962 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,962 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:38,963 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,966 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:38,967 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,967 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:38,968 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,980 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:38,981 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,982 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:38,984 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:38,984 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,984 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,985 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:38,986 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,995 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:38,996 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:38,996 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:38,996 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:39,012 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:39,013 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:39,013 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:39,014 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:40,999 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:41,000 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,000 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:41,001 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,008 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:41,015 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:41,015 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,016 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,016 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:41,017 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:41,017 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,017 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,034 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.05초)
+2025-04-03 14:56:41,035 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,035 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.05초)
+2025-04-03 14:56:41,036 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:41,036 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,037 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,049 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:41,051 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:41,052 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,053 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:41,053 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,053 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:41,054 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:41,054 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:41,054 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:41,056 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:56:43,039 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.02초)
+2025-04-03 14:56:43,039 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.02초)
+2025-04-03 14:56:43,039 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:43,039 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:43,100 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:43,100 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:43,100 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:43,101 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:46,079 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,080 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,080 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,080 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,085 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,085 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,085 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,086 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,089 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,090 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,090 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,091 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,103 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,103 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,104 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,104 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,107 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,107 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,108 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,108 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,119 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:46,120 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,120 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:46,121 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,115 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:48,115 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:48,116 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,116 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,125 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:48,126 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:48,126 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,127 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,127 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:48,127 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:48,127 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,128 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,130 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:48,133 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,137 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:48,139 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,139 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:48,144 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,155 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:48,158 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:48,160 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:48,161 - front_service - INFO - [front_service.py:101] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: backpressure
+2025-04-03 14:56:48,162 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,168 - front_service - INFO - [front_service.py:102] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,169 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:48,171 - front_service - INFO - [front_service.py:21] - [Front] BFF 서비스 호출 시작 (백엔드: backpressure)
+2025-04-03 14:56:48,172 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,172 - front_service - INFO - [front_service.py:22] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:50,184 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:56:50,185 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:56:50,185 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:50,185 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:50,207 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:56:50,208 - front_service - INFO - [front_service.py:42] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:56:50,208 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:56:50,208 - front_service - INFO - [front_service.py:43] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_backpressure 처리 결과: 쿼리 결과 데이터

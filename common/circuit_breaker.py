@@ -64,3 +64,11 @@ class CircuitBreaker:
                 
             else:
                 self.logger.info(f"[서킷브레이커-{self.name}] 실패 카운트 증가: {self.failure_count}/{self.fail_threshold}")
+                
+    def reset(self):
+        """서킷브레이커 상태 강제 초기화"""
+        with self.lock:
+            self.state = self.STATE_CLOSED
+            self.failure_count = 0
+            self.last_failure_time = 0
+            self.logger.info(f"[서킷브레이커-{self.name}] 상태 수동 초기화: CLOSED")

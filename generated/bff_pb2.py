@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tbff.proto\x12\x03\x62\x66\x66\"o\n\nBffRequest\x12\x14\n\x0crequest_type\x18\x01 \x01(\t\x12\x14\n\x0cuse_deadline\x18\x02 \x01(\x08\x12\x1b\n\x13use_circuit_breaker\x18\x03 \x01(\x08\x12\x18\n\x10use_backpressure\x18\x04 \x01(\x08\"E\n\x0b\x42\x66\x66Response\x12\x0e\n\x06result\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t2:\n\nBffService\x12,\n\x07Process\x12\x0f.bff.BffRequest\x1a\x10.bff.BffResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\tbff.proto\x12\x03\x62\x66\x66\"\x85\x01\n\nBffRequest\x12\x14\n\x0crequest_type\x18\x01 \x01(\t\x12\x14\n\x0cuse_deadline\x18\x02 \x01(\x08\x12\x1b\n\x13use_circuit_breaker\x18\x03 \x01(\x08\x12\x18\n\x10use_backpressure\x18\x04 \x01(\x08\x12\x14\n\x0c\x62\x61\x63kend_type\x18\x05 \x01(\t\"E\n\x0b\x42\x66\x66Response\x12\x0e\n\x06result\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\"5\n\x0cResetRequest\x12\x0f\n\x07pattern\x18\x01 \x01(\t\x12\x14\n\x0c\x62\x61\x63kend_type\x18\x02 \x01(\t\"1\n\rResetResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"%\n\rStatusRequest\x12\x14\n\x0c\x62\x61\x63kend_type\x18\x01 \x01(\t\"\xc0\x01\n\x0eStatusResponse\x12\x1d\n\x15\x63ircuit_breaker_state\x18\x01 \x01(\t\x12 \n\x18\x63ircuit_breaker_failures\x18\x02 \x01(\x05\x12$\n\x1c\x62\x61\x63kpressure_active_requests\x18\x03 \x01(\x05\x12\x1f\n\x17\x62\x61\x63kpressure_overloaded\x18\x04 \x01(\x08\x12\x0f\n\x07success\x18\x05 \x01(\x08\x12\x15\n\rerror_message\x18\x06 \x01(\t2\xa7\x01\n\nBffService\x12,\n\x07Process\x12\x0f.bff.BffRequest\x1a\x10.bff.BffResponse\x12\x35\n\x0cResetPattern\x12\x11.bff.ResetRequest\x1a\x12.bff.ResetResponse\x12\x34\n\tGetStatus\x12\x12.bff.StatusRequest\x1a\x13.bff.StatusResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -21,10 +21,18 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'bff_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _globals['_BFFREQUEST']._serialized_start=18
-  _globals['_BFFREQUEST']._serialized_end=129
-  _globals['_BFFRESPONSE']._serialized_start=131
-  _globals['_BFFRESPONSE']._serialized_end=200
-  _globals['_BFFSERVICE']._serialized_start=202
-  _globals['_BFFSERVICE']._serialized_end=260
+  _globals['_BFFREQUEST']._serialized_start=19
+  _globals['_BFFREQUEST']._serialized_end=152
+  _globals['_BFFRESPONSE']._serialized_start=154
+  _globals['_BFFRESPONSE']._serialized_end=223
+  _globals['_RESETREQUEST']._serialized_start=225
+  _globals['_RESETREQUEST']._serialized_end=278
+  _globals['_RESETRESPONSE']._serialized_start=280
+  _globals['_RESETRESPONSE']._serialized_end=329
+  _globals['_STATUSREQUEST']._serialized_start=331
+  _globals['_STATUSREQUEST']._serialized_end=368
+  _globals['_STATUSRESPONSE']._serialized_start=371
+  _globals['_STATUSRESPONSE']._serialized_end=563
+  _globals['_BFFSERVICE']._serialized_start=566
+  _globals['_BFFSERVICE']._serialized_end=733
 # @@protoc_insertion_point(module_scope)

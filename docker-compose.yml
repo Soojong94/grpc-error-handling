@@ -1,0 +1,143 @@
+version: "3"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    ports:
+      - "50057:50057"
+    environment:
+      - PORT=50057
+      - SLOW_QUERY_DELAY=2.0
+    volumes:
+      - ./logs:/app/logs
+
+  backend-no-pattern:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "50052:50052"
+    environment:
+      - PORT=50052
+      - BACKEND_TYPE=no_pattern
+      - DB_SERVICE_ADDRESS=db:50057
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - db
+
+  backend-circuit-breaker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "50053:50053"
+    environment:
+      - PORT=50053
+      - BACKEND_TYPE=circuit_breaker
+      - DB_SERVICE_ADDRESS=db:50057
+      - CIRCUIT_BREAKER_FAIL_THRESHOLD=3
+      - CIRCUIT_BREAKER_RESET_TIMEOUT=10
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - db
+
+  backend-deadline:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "50054:50054"
+    environment:
+      - PORT=50054
+      - BACKEND_TYPE=deadline
+      - DB_SERVICE_ADDRESS=db:50057
+      - DEADLINE_TIMEOUT=0.5
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - db
+
+  backend-backpressure:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "50055:50055"
+    environment:
+      - PORT=50055
+      - BACKEND_TYPE=backpressure
+      - DB_SERVICE_ADDRESS=db:50057
+      - BACKPRESSURE_WINDOW=5
+      - BACKPRESSURE_MAX_REQUESTS=30
+      - BACKPRESSURE_MAX_CONCURRENCY=8
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - db
+
+  backend-all:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "50056:50056"
+    environment:
+      - PORT=50056
+      - BACKEND_TYPE=all
+      - DB_SERVICE_ADDRESS=db:50057
+      - CIRCUIT_BREAKER_FAIL_THRESHOLD=3
+      - CIRCUIT_BREAKER_RESET_TIMEOUT=10
+      - DEADLINE_TIMEOUT=0.5
+      - BACKPRESSURE_WINDOW=5
+      - BACKPRESSURE_MAX_REQUESTS=30
+      - BACKPRESSURE_MAX_CONCURRENCY=8
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - db
+
+  bff:
+    build:
+      context: .
+      dockerfile: bff/Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      - PORT=50051
+      - BACKEND_NO_PATTERN_ADDRESS=backend-no-pattern:50052
+      - BACKEND_CIRCUIT_BREAKER_ADDRESS=backend-circuit-breaker:50053
+      - BACKEND_DEADLINE_ADDRESS=backend-deadline:50054
+      - BACKEND_BACKPRESSURE_ADDRESS=backend-backpressure:50055
+      - BACKEND_ALL_PATTERNS_ADDRESS=backend-all:50056
+      - CIRCUIT_BREAKER_FAIL_THRESHOLD=3
+      - CIRCUIT_BREAKER_RESET_TIMEOUT=10
+      - DEADLINE_TIMEOUT=0.5
+      - BACKPRESSURE_WINDOW=5
+      - BACKPRESSURE_MAX_REQUESTS=30
+      - BACKPRESSURE_MAX_CONCURRENCY=8
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - backend-no-pattern
+      - backend-circuit-breaker
+      - backend-deadline
+      - backend-backpressure
+      - backend-all
+
+  frontend:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - BFF_SERVICE_ADDRESS=bff:50051
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - bff

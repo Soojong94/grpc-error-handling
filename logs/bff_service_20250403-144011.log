@@ -1,0 +1,70 @@
+2025-04-03 14:42:27,114 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: normal, 백엔드 타입: no_pattern
+2025-04-03 14:42:27,115 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:27,115 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:27,121 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:27,174 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:31,634 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:31,635 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:31,635 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:31,636 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:33,663 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:37,458 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,458 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,459 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,460 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:37,473 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,474 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,476 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,477 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:37,478 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,478 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,480 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,480 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,481 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,482 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,483 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:37,483 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,484 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:37,485 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,486 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,489 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,492 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:37,492 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:37,493 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:37,494 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:39,481 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,494 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:39,495 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,496 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:39,497 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:39,500 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,513 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,521 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:39,523 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,524 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:39,526 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:39,529 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,529 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,530 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,531 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:39,531 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,532 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:39,532 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:39,553 - bff_service - INFO - [bff_service.py:48] - [BFF] 요청 받음: slow, 백엔드 타입: no_pattern
+2025-04-03 14:42:39,554 - bff_service - INFO - [bff_service.py:49] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,556 - bff_service - INFO - [bff_service.py:68] - [BFF] 연결할 백엔드 서비스: localhost:50052
+2025-04-03 14:42:39,557 - bff_service - INFO - [bff_service.py:107] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 14:42:41,515 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,545 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,561 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,577 - bff_service - INFO - [bff_service.py:121] - [BFF] Backend 응답 수신: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:46,406 - bff_service - INFO - [bff_service.py:172] - [BFF] 패턴 리셋 요청: all, 백엔드: no_pattern
+2025-04-03 14:42:46,406 - bff_service - INFO - [bff_service.py:178] - [BFF] 서킷브레이커 리셋 완료
+2025-04-03 14:42:46,407 - bff_service - INFO - [bff_service.py:182] - [BFF] 백프레셔 리셋 완료
+2025-04-03 14:42:46,414 - bff_service - INFO - [bff_service.py:193] - [BFF] 백엔드(no_pattern) 패턴 리셋 요청 완료
+2025-04-03 14:42:46,936 - bff_service - INFO - [bff_service.py:172] - [BFF] 패턴 리셋 요청: backpressure, 백엔드: no_pattern
+2025-04-03 14:42:46,936 - bff_service - INFO - [bff_service.py:182] - [BFF] 백프레셔 리셋 완료
+2025-04-03 14:42:46,939 - bff_service - INFO - [bff_service.py:193] - [BFF] 백엔드(no_pattern) 패턴 리셋 요청 완료
+2025-04-03 14:42:47,433 - bff_service - INFO - [bff_service.py:172] - [BFF] 패턴 리셋 요청: circuit_breaker, 백엔드: no_pattern
+2025-04-03 14:42:47,433 - bff_service - INFO - [bff_service.py:178] - [BFF] 서킷브레이커 리셋 완료
+2025-04-03 14:42:47,438 - bff_service - INFO - [bff_service.py:193] - [BFF] 백엔드(no_pattern) 패턴 리셋 요청 완료

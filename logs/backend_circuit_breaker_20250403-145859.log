@@ -1,0 +1,86 @@
+2025-04-03 14:58:59,567 - backend_circuit_breaker - INFO - [backend_service_base.py:47] - [backend_circuit_breaker] 초기화 - 패턴 설정: 서킷브레이커=True, 데드라인=False, 백프레셔=False
+2025-04-03 14:59:24,530 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,531 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,532 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,534 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,534 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,544 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,548 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,549 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,561 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:59:24,562 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:59:24,563 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,564 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:24,564 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,564 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:24,567 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,568 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,580 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,628 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,629 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,630 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,855 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,856 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,858 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,862 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,862 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,863 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,863 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,864 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,865 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:24,984 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:24,984 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:24,986 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:26,602 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:26,602 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:28,488 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:28,489 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:28,492 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:37,987 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:37,988 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:37,989 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:59:37,989 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:40,009 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:42,001 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,002 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,007 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:59:42,010 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:42,027 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,028 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,030 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:59:42,030 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:42,049 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,049 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,050 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,094 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,094 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,094 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,095 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,095 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,095 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,096 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,097 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,098 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,264 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,264 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,264 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,264 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,266 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,267 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,268 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:42,268 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,269 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,269 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:42,272 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:42,279 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:44,031 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:44,048 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:45,323 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:45,324 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:45,325 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:46,368 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:59:46,369 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:46,369 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:47,211 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:59:47,211 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:47,212 - backend_circuit_breaker - WARNING - [backend_service_base.py:64] - [backend_circuit_breaker] 백프레셔 패턴 발동 - 과부하 상태

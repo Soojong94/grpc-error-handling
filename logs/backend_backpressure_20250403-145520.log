@@ -1,0 +1,121 @@
+2025-04-03 14:55:20,575 - backend_backpressure - INFO - [backend_service_base.py:47] - [backend_backpressure] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=True
+2025-04-03 14:56:30,575 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,577 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,577 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,578 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,588 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,590 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,594 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:30,595 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:30,595 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:30,609 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,609 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,610 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:30,619 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,620 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,620 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:30,624 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:30,624 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:30,625 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:32,619 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,619 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,636 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,637 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,638 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,639 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:32,645 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:32,646 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:32,654 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:32,656 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:32,656 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:32,657 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:32,693 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:32,694 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:32,694 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:32,694 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:32,695 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:32,696 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:34,668 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:34,668 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:34,714 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:34,714 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:38,979 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:38,979 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:38,980 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:38,982 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:38,983 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:38,983 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:38,998 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:38,999 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:39,000 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:39,000 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:39,001 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:39,002 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:39,012 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:39,012 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:39,013 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:39,022 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:39,024 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:39,026 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:40,998 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:40,998 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:41,026 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:41,028 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:41,029 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:41,029 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:41,029 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:41,030 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:41,030 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:41,031 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:41,031 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:41,049 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:41,074 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:41,075 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:41,076 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:41,078 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:41,079 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:41,079 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:43,037 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:43,037 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:43,098 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:43,098 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:46,089 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,090 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,090 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:46,093 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,095 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,098 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:46,106 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,106 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,107 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:46,111 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,111 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,113 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:46,120 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,120 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,121 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:46,127 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:46,128 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:46,128 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:48,112 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,112 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,128 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,128 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,129 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,144 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:48,155 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:48,157 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,158 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:48,159 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:48,159 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,161 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:48,180 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:48,181 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:56:48,182 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,181 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:56:48,184 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:48,186 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:56:50,182 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:50,182 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:50,205 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:50,206 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터

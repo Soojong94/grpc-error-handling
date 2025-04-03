@@ -14,16 +14,15 @@
             color: #333;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        h1 {
+        h1, h2, h3 {
             color: #2c3e50;
-            margin-top: 0;
         }
         .patterns {
             display: flex;
@@ -35,6 +34,18 @@
             display: flex;
             align-items: center;
             gap: 5px;
+        }
+        .panel {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         button {
             background-color: #3498db;
@@ -52,6 +63,18 @@
         button:disabled {
             background-color: #95a5a6;
             cursor: not-allowed;
+        }
+        button.danger {
+            background-color: #e74c3c;
+        }
+        button.danger:hover {
+            background-color: #c0392b;
+        }
+        button.success {
+            background-color: #1a442c;
+        }
+        button.success:hover {
+            background-color: #27ae60;
         }
         #result {
             margin-top: 20px;
@@ -83,9 +106,24 @@
         .warning {
             color: #f39c12;
         }
-        .btn-group {
-            display: flex;
-            gap: 10px;
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .status-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .backend-selection {
             margin-bottom: 20px;
         }
     </style>
@@ -94,128 +132,296 @@
     <div class="container">
         <h1>gRPC 에러 처리 패턴 테스트</h1>
         
-        <div class="patterns">
-            <div class="pattern">
-                <input type="checkbox" id="deadline" name="pattern" value="deadline">
-                <label for="deadline">데드라인 패턴</label>
+        <div class="panel">
+            <h3>백엔드 및 패턴 설정</h3>
+            
+            <div class="backend-selection">
+                <label for="backend-type">백엔드 선택:</label>
+                <select id="backend-type">
+                    <option value="no_pattern">패턴 없음</option>
+                    <option value="circuit_breaker">서킷브레이커</option>
+                    <option value="deadline">데드라인</option>
+                    <option value="backpressure">백프레셔</option>
+                    <option value="all">모든 패턴</option>
+                </select>
             </div>
-            <div class="pattern">
-                <input type="checkbox" id="circuit-breaker" name="pattern" value="circuit-breaker">
-                <label for="circuit-breaker">서킷 브레이커 패턴</label>
-            </div>
-            <div class="pattern">
-                <input type="checkbox" id="backpressure" name="pattern" value="backpressure">
-                <label for="backpressure">백프레셔 패턴</label>
+            
+            <div class="patterns">
+                <div class="pattern">
+                    <input type="checkbox" id="deadline" name="pattern" value="deadline">
+                    <label for="deadline">데드라인 패턴</label>
+                </div>
+                <div class="pattern">
+                    <input type="checkbox" id="circuit-breaker" name="pattern" value="circuit-breaker">
+                    <label for="circuit-breaker">서킷 브레이커 패턴</label>
+                </div>
+                <div class="pattern">
+                    <input type="checkbox" id="backpressure" name="pattern" value="backpressure">
+                    <label for="backpressure">백프레셔 패턴</label>
+                </div>
             </div>
         </div>
         
-        <div class="btn-group">
-            <button id="test-btn">슬로우 쿼리 테스트</button>
+        <div class="panel">
+            <h3>테스트 실행</h3>
+            <div class="btn-group">
+                <button id="test-normal-btn" class="success">정상 요청 테스트</button>
+                <button id="test-slow-btn" class="danger">슬로우 쿼리 테스트</button>
+                <button id="multi-test-btn">백프레셔 테스트 (10개 요청)</button>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h3>패턴 관리</h3>
+            <div class="btn-group">
+                <button id="reset-circuit-breaker-btn">서킷브레이커 리셋</button>
+                <button id="reset-backpressure-btn">백프레셔 리셋</button>
+                <button id="reset-all-btn">모든 패턴 리셋</button>
+                <button id="get-status-btn">패턴 상태 조회</button>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h3>결과</h3>
+            <div id="result">결과가 여기에 표시됩니다.</div>
+        </div>
+        
+        <div class="panel" id="status-display" style="display: none;">
+            <h3>패턴 상태</h3>
+            <div id="status-content" class="status-panel">
+                <!-- 패턴 상태가 여기에 표시됩니다 -->
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h3>로그</h3>
             <button id="clear-logs">로그 지우기</button>
-            <button id="multi-test-btn">백프레셔 테스트 (10개 요청)</button>
+            <div id="logs" class="logs">로그가 여기에 표시됩니다.</div>
         </div>
-        
-        <div id="result">결과가 여기에 표시됩니다.</div>
-        
-        <h2>로그</h2>
-        <div id="logs" class="logs">로그가 여기에 표시됩니다.</div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 백프레셔 테스트 버튼 추가
-const multiTestBtn = document.getElementById('multi-test-btn');
-
-multiTestBtn.addEventListener('click', async function() {
-    multiTestBtn.disabled = true;
-    resultDiv.textContent = '다중 요청 처리 중...';
-    
-    // 패턴 설정 확인
-    const useDeadline = document.getElementById('deadline').checked;
-    const useCircuitBreaker = document.getElementById('circuit-breaker').checked;
-    const useBackpressure = document.getElementById('backpressure').checked;
-    
-    // 성공 및 실패 카운터
-    let successCount = 0;
-    let failCount = 0;
-    
-    // 10개의 요청을 동시에 보냄
-    const numRequests = 10;
-    const requests = [];
-    
-    logsDiv.innerHTML += `<br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
-    logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
-    
-    for (let i = 0; i < numRequests; i++) {
-        logsDiv.innerHTML += `요청 #${i+1} 시작...<br>`;
+        // 전역 변수로 DOM 요소 선언
+        let testNormalBtn, testSlowBtn, multiTestBtn;
+        let resetCircuitBreakerBtn, resetBackpressureBtn, resetAllBtn, getStatusBtn, clearLogsBtn;
+        let resultDiv, logsDiv, backendTypeSelect;
+        let statusDisplayPanel, statusContentDiv;
+        let deadlineCheckbox, circuitBreakerCheckbox, backpressureCheckbox;
         
-        requests.push(
-            fetch('/api/test', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    request_type: 'slow',
-                    use_deadline: useDeadline,
-                    use_circuit_breaker: useCircuitBreaker,
-                    use_backpressure: useBackpressure
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM 요소 초기화
+            testNormalBtn = document.getElementById('test-normal-btn');
+            testSlowBtn = document.getElementById('test-slow-btn');
+            multiTestBtn = document.getElementById('multi-test-btn');
+            resetCircuitBreakerBtn = document.getElementById('reset-circuit-breaker-btn');
+            resetBackpressureBtn = document.getElementById('reset-backpressure-btn');
+            resetAllBtn = document.getElementById('reset-all-btn');
+            getStatusBtn = document.getElementById('get-status-btn');
+            clearLogsBtn = document.getElementById('clear-logs');
+            resultDiv = document.getElementById('result');
+            logsDiv = document.getElementById('logs');
+            backendTypeSelect = document.getElementById('backend-type');
+            statusDisplayPanel = document.getElementById('status-display');
+            statusContentDiv = document.getElementById('status-content');
+            
+            // 패턴 체크박스
+            deadlineCheckbox = document.getElementById('deadline');
+            circuitBreakerCheckbox = document.getElementById('circuit-breaker');
+            backpressureCheckbox = document.getElementById('backpressure');
+            
+            // 이벤트 리스너 등록
+            testNormalBtn.addEventListener('click', () => runTest('normal'));
+            testSlowBtn.addEventListener('click', () => runTest('slow'));
+            resetCircuitBreakerBtn.addEventListener('click', () => resetPattern('circuit_breaker'));
+            resetBackpressureBtn.addEventListener('click', () => resetPattern('backpressure'));
+            resetAllBtn.addEventListener('click', () => resetPattern('all'));
+            getStatusBtn.addEventListener('click', getPatternStatus);
+            multiTestBtn.addEventListener('click', runMultiTest);
+            
+            clearLogsBtn.addEventListener('click', function() {
+                logsDiv.innerHTML = '로그가 지워졌습니다.';
+            });
+        });
+        
+        // 테스트 함수
+        async function runTest(requestType) {
+            const useDeadline = deadlineCheckbox.checked;
+            const useCircuitBreaker = circuitBreakerCheckbox.checked;
+            const useBackpressure = backpressureCheckbox.checked;
+            const backendType = backendTypeSelect.value;
+            
+            testNormalBtn.disabled = true;
+            testSlowBtn.disabled = true;
+            resultDiv.textContent = '요청 처리 중...';
+            
+            try {
+                const response = await fetch('/api/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        request_type: requestType,
+                        use_deadline: useDeadline,
+                        use_circuit_breaker: useCircuitBreaker,
+                        use_backpressure: useBackpressure,
+                        backend_type: backendType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // 결과 표시
                 if (data.success) {
-                    successCount++;
-                    logsDiv.innerHTML += `<span class="success">요청 #${i+1} 성공: ${data.result}</span><br>`;
+                    resultDiv.innerHTML = `<span class="success">✅ 성공</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.result}`;
                 } else {
-                    failCount++;
-                    logsDiv.innerHTML += `<span class="error">요청 #${i+1} 실패: ${data.error_message}</span><br>`;
+                    resultDiv.innerHTML = `<span class="error">❌ 실패</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.error_message}`;
                 }
+                
+                // 로그 업데이트
+                logsDiv.innerHTML += `<br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
+                logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
+                logsDiv.innerHTML += `요청 유형: ${requestType}<br>`;
+                logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
+                logsDiv.innerHTML += `요청 시간: ${data.elapsed_time.toFixed(2)}초<br>`;
+                logsDiv.innerHTML += data.success ? 
+                    `<span class="success">성공: ${data.result}</span><br>` : 
+                    `<span class="error">실패: ${data.error_message}</span><br>`;
                 
                 // 로그 스크롤 맨 아래로
                 logsDiv.scrollTop = logsDiv.scrollHeight;
                 
-                return data;
-            })
-            .catch(error => {
-                failCount++;
-                logsDiv.innerHTML += `<span class="error">요청 #${i+1} 오류: ${error.message}</span><br>`;
-                logsDiv.scrollTop = logsDiv.scrollHeight;
-            })
-        );
-    }
-    
-    // 모든 요청이 완료될 때까지 기다림
-    try {
-        await Promise.all(requests);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ 오류</span><br>${error.message}`;
+                logsDiv.innerHTML += `<span class="error">오류: ${error.message}</span><br>`;
+            } finally {
+                testNormalBtn.disabled = false;
+                testSlowBtn.disabled = false;
+            }
+        }
         
-        resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
-            백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
-        
-        logsDiv.innerHTML += `<br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br>`;
-        logsDiv.scrollTop = logsDiv.scrollHeight;
-    } catch (error) {
-        resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
-    } finally {
-        multiTestBtn.disabled = false;
-    }
-});
-            const testBtn = document.getElementById('test-btn');
-            const clearLogsBtn = document.getElementById('clear-logs');
-            const resultDiv = document.getElementById('result');
-            const logsDiv = document.getElementById('logs');
+        // 패턴 리셋 함수
+        async function resetPattern(pattern) {
+            const backendType = backendTypeSelect.value;
             
-            testBtn.addEventListener('click', async function() {
-                testBtn.disabled = true;
-                resultDiv.textContent = '요청 처리 중...';
+            try {
+                const response = await fetch('/api/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pattern: pattern,
+                        backend_type: backendType
+                    })
+                });
                 
-                // 패턴 설정 확인
-                const useDeadline = document.getElementById('deadline').checked;
-                const useCircuitBreaker = document.getElementById('circuit-breaker').checked;
-                const useBackpressure = document.getElementById('backpressure').checked;
+                const data = await response.json();
                 
-                try {
-                    const response = await fetch('/api/test', {
+                if (data.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ 패턴 리셋 성공</span><br>${data.message}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 패턴 리셋 실패</span><br>${data.message}`;
+                }
+                
+                logsDiv.innerHTML += `<br>====== 패턴 리셋 (${new Date().toLocaleTimeString()}) ======<br>`;
+                logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
+                logsDiv.innerHTML += `패턴: ${pattern}<br>`;
+                logsDiv.innerHTML += data.success ? 
+                    `<span class="success">성공: ${data.message}</span><br>` : 
+                    `<span class="error">실패: ${data.message}</span><br>`;
+                
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ 리셋 오류</span><br>${error.message}`;
+                logsDiv.innerHTML += `<span class="error">리셋 오류: ${error.message}</span><br>`;
+            }
+        }
+        
+        // 패턴 상태 조회 함수
+        async function getPatternStatus() {
+            const backendType = backendTypeSelect.value;
+            
+            try {
+                console.log("상태 조회 시작...");
+                const response = await fetch(`/api/status?backend_type=${backendType}`);
+                const data = await response.json();
+                console.log("받은 응답 데이터:", data);
+                
+                if (data.success) {
+                    // 디버깅 로그
+                    console.log("상태 패널:", statusDisplayPanel);
+                    console.log("상태 내용 패널:", statusContentDiv);
+                    
+                    // 상태 패널 표시
+                    statusDisplayPanel.style.display = 'block';
+                    
+                    // 서킷브레이커 상태 카드
+                    const circuitBreakerHtml = `
+                        <div class="status-card">
+                            <h3>서킷브레이커 상태</h3>
+                            <p>상태: <strong class="${data.circuit_breaker.state === 'CLOSED' ? 'success' : 'error'}">${data.circuit_breaker.state}</strong></p>
+                            <p>실패 카운트: ${data.circuit_breaker.failure_count}</p>
+                        </div>
+                    `;
+                    
+                    // 백프레셔 상태 카드
+                    const backpressureHtml = `
+                        <div class="status-card">
+                            <h3>백프레셔 상태</h3>
+                            <p>활성 요청 수: ${data.backpressure.active_requests}</p>
+                            <p>과부하 상태: <strong class="${data.backpressure.is_overloaded ? 'error' : 'success'}">${data.backpressure.is_overloaded ? '예' : '아니오'}</strong></p>
+                        </div>
+                    `;
+                    
+                    statusContentDiv.innerHTML = circuitBreakerHtml + backpressureHtml;
+                    
+                    logsDiv.innerHTML += `<br>====== 패턴 상태 조회 (${new Date().toLocaleTimeString()}) ======<br>`;
+                    logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
+                    logsDiv.innerHTML += `서킷브레이커: ${data.circuit_breaker.state} (${data.circuit_breaker.failure_count})<br>`;
+                    logsDiv.innerHTML += `백프레셔: 활성 요청 ${data.backpressure.active_requests}개, 과부하=${data.backpressure.is_overloaded}<br>`;
+                    
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 상태 조회 실패</span><br>${data.message}`;
+                    logsDiv.innerHTML += `<span class="error">상태 조회 실패: ${data.message}</span><br>`;
+                }
+                
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+                
+            } catch (error) {
+                console.error("상태 조회 중 오류:", error);
+                resultDiv.innerHTML = `<span class="error">❌ 상태 조회 오류</span><br>${error.message}`;
+                logsDiv.innerHTML += `<span class="error">상태 조회 오류: ${error.message}</span><br>`;
+            }
+        }
+        
+        // 다중 요청 테스트 함수
+        async function runMultiTest() {
+            const useDeadline = deadlineCheckbox.checked;
+            const useCircuitBreaker = circuitBreakerCheckbox.checked;
+            const useBackpressure = backpressureCheckbox.checked;
+            const backendType = backendTypeSelect.value;
+            
+            multiTestBtn.disabled = true;
+            resultDiv.textContent = '다중 요청 처리 중...';
+            
+            // 10개의 요청을 동시에 보냄
+            const numRequests = 10;
+            const requests = [];
+            let successCount = 0;
+            let failCount = 0;
+            
+            logsDiv.innerHTML += `<br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
+            logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
+            logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
+            
+            for (let i = 0; i < numRequests; i++) {
+                logsDiv.innerHTML += `요청 #${i+1} 시작...<br>`;
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+                
+                requests.push(
+                    fetch('/api/test', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -224,43 +430,48 @@ multiTestBtn.addEventListener('click', async function() {
                             request_type: 'slow',
                             use_deadline: useDeadline,
                             use_circuit_breaker: useCircuitBreaker,
-                            use_backpressure: useBackpressure
+                            use_backpressure: useBackpressure,
+                            backend_type: backendType
                         })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    // 결과 표시
-                    if (data.success) {
-                        resultDiv.innerHTML = `<span class="success">✅ 성공</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.result}`;
-                    } else {
-                        resultDiv.innerHTML = `<span class="error">❌ 실패</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.error_message}`;
-                    }
-                    
-                    // 로그 업데이트 (실제로는 WebSocket이나 SSE로 구현해야 함)
-                    logsDiv.innerHTML += `<br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
-                    logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
-                    logsDiv.innerHTML += `요청 시간: ${data.elapsed_time.toFixed(2)}초<br>`;
-                    logsDiv.innerHTML += data.success ? 
-                        `<span class="success">성공: ${data.result}</span><br>` : 
-                        `<span class="error">실패: ${data.error_message}</span><br>`;
-                    
-                    // 로그 스크롤 맨 아래로
-                    logsDiv.scrollTop = logsDiv.scrollHeight;
-                    
-                } catch (error) {
-                    resultDiv.innerHTML = `<span class="error">❌ 오류</span><br>${error.message}`;
-                    logsDiv.innerHTML += `<span class="error">오류: ${error.message}</span><br>`;
-                } finally {
-                    testBtn.disabled = false;
-                }
-            });
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            successCount++;
+                            logsDiv.innerHTML += `<span class="success">요청 #${i+1} 성공: ${data.result}</span><br>`;
+                        } else {
+                            failCount++;
+                            logsDiv.innerHTML += `<span class="error">요청 #${i+1} 실패: ${data.error_message}</span><br>`;
+                        }
+                        
+                        // 로그 스크롤 맨 아래로
+                        logsDiv.scrollTop = logsDiv.scrollHeight;
+                        
+                        return data;
+                    })
+                    .catch(error => {
+                        failCount++;
+                        logsDiv.innerHTML += `<span class="error">요청 #${i+1} 오류: ${error.message}</span><br>`;
+                        logsDiv.scrollTop = logsDiv.scrollHeight;
+                    })
+                );
+            }
             
-            clearLogsBtn.addEventListener('click', function() {
-                logsDiv.innerHTML = '로그가 지워졌습니다.';
-            });
-        });
-
+            // 모든 요청이 완료될 때까지 기다림
+            try {
+                await Promise.all(requests);
+                
+                resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
+                    백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
+                
+                logsDiv.innerHTML += `<br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br>`;
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
+            } finally {
+                multiTestBtn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>

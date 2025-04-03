@@ -1,0 +1,113 @@
+2025-04-03 14:35:30,328 - backend_deadline - INFO - [backend_service_base.py:47] - [backend_deadline] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=True, 백프레셔=False
+2025-04-03 14:36:05,199 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:05,200 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:05,211 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:05,221 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:06,075 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:06,078 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:06,079 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:06,083 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:06,885 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:06,886 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:06,887 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:06,890 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:07,489 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:07,490 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:07,491 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:07,499 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:12,205 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:12,206 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:12,207 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:12,213 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:12,704 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:12,705 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:12,705 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:12,708 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:13,145 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:13,145 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,146 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,154 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:13,564 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:13,564 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,567 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,576 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:13,972 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: normal
+2025-04-03 14:36:13,974 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:13,974 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:13,977 - backend_deadline - INFO - [backend_service_base.py:115] - [backend_deadline] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:36:19,143 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:36:19,144 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:19,145 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:19,676 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:36:20,498 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:36:20,498 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:20,499 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:21,037 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:36:21,512 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:36:21,513 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:21,514 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:22,051 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:36:22,599 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:36:22,599 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:22,600 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:23,126 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:36:23,615 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:36:23,616 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:36:23,617 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:36:24,193 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:19,420 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,421 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,423 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,427 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,428 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,429 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,433 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,434 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,434 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,441 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,442 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,447 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,450 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,451 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,451 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,454 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:19,454 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:19,455 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:19,943 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:19,956 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:19,985 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,015 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,047 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,053 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,114 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:20,115 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:20,115 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:20,184 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:20,185 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:20,186 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:20,186 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:20,187 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:20,187 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:20,188 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:20,188 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:20,189 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:20,636 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,723 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,743 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:20,767 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:24,437 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:24,438 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:24,439 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:24,965 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:26,561 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:26,562 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:26,563 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:27,087 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:27,570 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:27,571 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:27,572 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:28,108 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:38:28,659 - backend_deadline - INFO - [backend_service_base.py:56] - [backend_deadline] 요청 받음: slow
+2025-04-03 14:38:28,659 - backend_deadline - INFO - [backend_service_base.py:57] - [backend_deadline] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 14:38:28,659 - backend_deadline - INFO - [backend_service_base.py:97] - [backend_deadline] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:38:29,187 - backend_deadline - ERROR - [backend_service_base.py:133] - [backend_deadline] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded

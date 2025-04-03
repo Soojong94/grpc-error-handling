@@ -1,0 +1,53 @@
+2025-04-03 14:55:19,565 - backend_circuit_breaker - INFO - [backend_service_base.py:47] - [backend_circuit_breaker] 초기화 - 패턴 설정: 서킷브레이커=True, 데드라인=False, 백프레셔=False
+2025-04-03 14:55:39,760 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:55:39,762 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 14:55:39,773 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:39,774 - backend_circuit_breaker - INFO - [backend_service_base.py:108] - [backend_circuit_breaker] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:55:41,800 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:55:46,398 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:55:46,398 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:46,399 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:46,399 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:55:46,926 - backend_circuit_breaker - ERROR - [backend_service_base.py:133] - [backend_circuit_breaker] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:55:47,300 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:55:47,300 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:47,301 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:47,301 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:55:47,827 - backend_circuit_breaker - ERROR - [backend_service_base.py:133] - [backend_circuit_breaker] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:55:48,217 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:55:48,218 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:48,218 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:48,219 - backend_circuit_breaker - WARNING - [backend_service_base.py:81] - [backend_circuit_breaker] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 14:55:54,943 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:55:54,943 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:54,944 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:54,946 - backend_circuit_breaker - WARNING - [backend_service_base.py:81] - [backend_circuit_breaker] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 14:55:56,067 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:55:56,068 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:56,068 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:56,068 - backend_circuit_breaker - WARNING - [backend_service_base.py:81] - [backend_circuit_breaker] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 14:55:58,094 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:55:58,094 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,094 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:58,094 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:55:58,101 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:55:58,289 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:55:58,290 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,290 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:58,290 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:55:58,293 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:55:58,473 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:55:58,473 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:55:58,473 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:55:58,475 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:55:58,477 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:56:00,532 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: slow
+2025-04-03 14:56:00,533 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:00,535 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:56:00,535 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:56:01,054 - backend_circuit_breaker - ERROR - [backend_service_base.py:133] - [backend_circuit_breaker] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 14:56:02,382 - backend_circuit_breaker - INFO - [backend_service_base.py:56] - [backend_circuit_breaker] 요청 받음: normal
+2025-04-03 14:56:02,382 - backend_circuit_breaker - INFO - [backend_service_base.py:57] - [backend_circuit_breaker] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 14:56:02,382 - backend_circuit_breaker - INFO - [backend_service_base.py:79] - [backend_circuit_breaker] 서킷브레이커 상태 확인 중...
+2025-04-03 14:56:02,383 - backend_circuit_breaker - INFO - [backend_service_base.py:97] - [backend_circuit_breaker] 데드라인 패턴 사용 (0.5초)
+2025-04-03 14:56:02,389 - backend_circuit_breaker - INFO - [backend_service_base.py:115] - [backend_circuit_breaker] DB 응답 수신: 쿼리 결과 데이터

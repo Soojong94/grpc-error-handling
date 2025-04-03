@@ -1,0 +1,75 @@
+2025-04-03 14:42:27,084 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: normal, 백엔드: no_pattern
+2025-04-03 14:42:27,085 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:27,085 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:27,085 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:27,178 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 0.09초)
+2025-04-03 14:42:27,179 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:31,631 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:31,631 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:31,631 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:31,631 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:33,665 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:42:33,665 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:37,444 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,445 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,445 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,445 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,447 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,447 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,450 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,453 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,456 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,457 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,457 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,459 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:37,459 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,459 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,459 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,460 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,460 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,460 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,461 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,462 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,462 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:37,467 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,463 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:37,463 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,482 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:42:39,482 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,487 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:39,489 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,490 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:39,490 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,502 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:42:39,503 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,513 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:39,514 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,514 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.05초)
+2025-04-03 14:42:39,514 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:39,515 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,515 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,522 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:39,524 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,525 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:39,526 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,530 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:42:39,530 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,530 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:42:39,531 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,531 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.06초)
+2025-04-03 14:42:39,533 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:39,543 - front_service - INFO - [front_service.py:104] - [Front] 테스트 API 호출 - 요청 유형: slow, 백엔드: no_pattern
+2025-04-03 14:42:39,544 - front_service - INFO - [front_service.py:105] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:39,545 - front_service - INFO - [front_service.py:24] - [Front] BFF 서비스 호출 시작 (백엔드: no_pattern)
+2025-04-03 14:42:39,545 - front_service - INFO - [front_service.py:25] - [Front] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 14:42:41,516 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.02초)
+2025-04-03 14:42:41,516 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,546 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:42:41,546 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,563 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.04초)
+2025-04-03 14:42:41,563 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:41,578 - front_service - INFO - [front_service.py:45] - [Front] BFF 응답 수신 (소요 시간: 2.03초)
+2025-04-03 14:42:41,578 - front_service - INFO - [front_service.py:46] - [Front] 응답 결과: 성공=True, 메시지=처리 완료: backend_no_pattern 처리 결과: 쿼리 결과 데이터
+2025-04-03 14:42:46,403 - front_service - INFO - [front_service.py:120] - [Front] 패턴 리셋 API 호출 - 패턴: all, 백엔드: no_pattern
+2025-04-03 14:42:46,933 - front_service - INFO - [front_service.py:120] - [Front] 패턴 리셋 API 호출 - 패턴: backpressure, 백엔드: no_pattern
+2025-04-03 14:42:47,428 - front_service - INFO - [front_service.py:120] - [Front] 패턴 리셋 API 호출 - 패턴: circuit_breaker, 백엔드: no_pattern

@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rbackend.proto\x12\x07\x62\x61\x63kend\"s\n\x0e\x42\x61\x63kendRequest\x12\x14\n\x0crequest_type\x18\x01 \x01(\t\x12\x14\n\x0cuse_deadline\x18\x02 \x01(\x08\x12\x1b\n\x13use_circuit_breaker\x18\x03 \x01(\x08\x12\x18\n\x10use_backpressure\x18\x04 \x01(\x08\"I\n\x0f\x42\x61\x63kendResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t2N\n\x0e\x42\x61\x63kendService\x12<\n\x07Process\x12\x17.backend.BackendRequest\x1a\x18.backend.BackendResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rbackend.proto\x12\x07\x62\x61\x63kend\"s\n\x0e\x42\x61\x63kendRequest\x12\x14\n\x0crequest_type\x18\x01 \x01(\t\x12\x14\n\x0cuse_deadline\x18\x02 \x01(\x08\x12\x1b\n\x13use_circuit_breaker\x18\x03 \x01(\x08\x12\x18\n\x10use_backpressure\x18\x04 \x01(\x08\"I\n\x0f\x42\x61\x63kendResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\"\x1f\n\x0cResetRequest\x12\x0f\n\x07pattern\x18\x01 \x01(\t\"1\n\rResetResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x0f\n\rStatusRequest\"\x98\x01\n\x0eStatusResponse\x12\x1d\n\x15\x63ircuit_breaker_state\x18\x01 \x01(\t\x12 \n\x18\x63ircuit_breaker_failures\x18\x02 \x01(\x05\x12$\n\x1c\x62\x61\x63kpressure_active_requests\x18\x03 \x01(\x05\x12\x1f\n\x17\x62\x61\x63kpressure_overloaded\x18\x04 \x01(\x08\x32\xcb\x01\n\x0e\x42\x61\x63kendService\x12<\n\x07Process\x12\x17.backend.BackendRequest\x1a\x18.backend.BackendResponse\x12=\n\x0cResetPattern\x12\x15.backend.ResetRequest\x1a\x16.backend.ResetResponse\x12<\n\tGetStatus\x12\x16.backend.StatusRequest\x1a\x17.backend.StatusResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -25,6 +25,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_BACKENDREQUEST']._serialized_end=141
   _globals['_BACKENDRESPONSE']._serialized_start=143
   _globals['_BACKENDRESPONSE']._serialized_end=216
-  _globals['_BACKENDSERVICE']._serialized_start=218
-  _globals['_BACKENDSERVICE']._serialized_end=296
+  _globals['_RESETREQUEST']._serialized_start=218
+  _globals['_RESETREQUEST']._serialized_end=249
+  _globals['_RESETRESPONSE']._serialized_start=251
+  _globals['_RESETRESPONSE']._serialized_end=300
+  _globals['_STATUSREQUEST']._serialized_start=302
+  _globals['_STATUSREQUEST']._serialized_end=317
+  _globals['_STATUSRESPONSE']._serialized_start=320
+  _globals['_STATUSRESPONSE']._serialized_end=472
+  _globals['_BACKENDSERVICE']._serialized_start=475
+  _globals['_BACKENDSERVICE']._serialized_end=678
 # @@protoc_insertion_point(module_scope)

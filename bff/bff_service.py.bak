@@ -1,0 +1,75 @@
+import time
+import grpc
+from concurrent import futures
+import sys
+import os
+# 프로젝트 루트 디렉토리를 sys.path에 추가
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from generated import bff_pb2, bff_pb2_grpc, backend_pb2, backend_pb2_grpc
+from common.logging_config import setup_logging
+from common.circuit_breaker import CircuitBreaker
+from common.backpressure import BackpressureController
+from common.deadline import DeadlineHandler
+
+class BffServicer(bff_pb2_grpc.BffServiceServicer):
+    def __init__(self):
+        self.logger = setup_logging("bff_service")
+        
+        # 환경 변수에서 설정 가져오기
+        fail_threshold = int(os.environ.get('CIRCUIT_BREAKER_FAIL_THRESHOLD', '3'))
+        reset_timeout = int(os.environ.get('CIRCUIT_BREAKER_RESET_TIMEOUT', '10'))
+        backpressure_window = int(os.environ.get('BACKPRESSURE_WINDOW', '5'))
+        backpressure_max_requests = int(os.environ.get('BACKPRESSURE_MAX_REQUESTS', '30'))
+        backpressure_max_concurrency = int(os.environ.get('BACKPRESSURE_MAX_CONCURRENCY', '8'))
+        deadline_timeout = float(os.environ.get('DEADLINE_TIMEOUT', '0.5'))
+        
+        # 에러 처리 패턴 초기화
+        self.circuit_breaker = CircuitBreaker(
+            fail_threshold=fail_threshold,
+            reset_timeout=reset_timeout,
+            name="bff_to_backend"
+        )
+        self.backpressure = BackpressureController(
+            window_size=backpressure_window,
+            max_requests=backpressure_max_requests,
+            max_concurrency=backpressure_max_concurrency,
+            name="bff"
+        )
+        self.deadline_handler = DeadlineHandler(
+            timeout_seconds=deadline_timeout,
+            name="bff_to_backend"
+        )
+        
+        # Backend 서비스 주소 매핑 (환경 변수에서 읽기)
+        self.backend_addresses = {
+            'no_pattern': os.environ.get('BACKEND_NO_PATTERN_ADDRESS', 'localhost:50052'),
+            'circuit_breaker': os.environ.get('BACKEND_CIRCUIT_BREAKER_ADDRESS', 'localhost:50053'),
+            'deadline': os.environ.get('BACKEND_DEADLINE_ADDRESS', 'localhost:50054'),
+            'backpressure': os.environ.get('BACKEND_BACKPRESSURE_ADDRESS', 'localhost:50055'),
+            'all': os.environ.get('BACKEND_ALL_PATTERNS_ADDRESS', 'localhost:50056')
+        }
+        
+        self.logger.info(f"BFF 서비스 초기화 - 백엔드 주소: {self.backend_addresses}")
+    
+    # 나머지 코드는 그대로...
+    # 나머지 메서드들은 그대로 유지...
+
+def serve():
+    logger = setup_logging("bff_server")
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    bff_pb2_grpc.add_BffServiceServicer_to_server(BffServicer(), server)
+    
+    port = int(os.environ.get('PORT', '50051'))  # 환경 변수에서 포트 읽기
+    server.add_insecure_port(f'[::]:{port}')
+    server.start()
+    logger.info(f"BFF 서비스 시작됨: 포트 {port}")
+    
+    try:
+        server.wait_for_termination()
+    except KeyboardInterrupt:
+        logger.info("BFF 서비스 종료 중...")
+        server.stop(0)
+
+if __name__ == '__main__':
+    serve()

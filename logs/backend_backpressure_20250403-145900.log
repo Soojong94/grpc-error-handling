@@ -1,0 +1,65 @@
+2025-04-03 14:59:00,556 - backend_backpressure - INFO - [backend_service_base.py:47] - [backend_backpressure] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=True
+2025-04-03 14:59:08,004 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,006 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,007 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,007 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,008 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,009 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,010 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,010 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,010 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,011 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,011 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,012 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,013 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,013 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,014 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,015 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,021 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:08,024 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:08,234 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,236 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,244 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,245 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,245 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:08,246 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,246 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,246 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,246 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:08,247 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,247 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:08,248 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:10,051 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:10,052 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:17,343 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,344 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,347 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,351 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:17,352 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,355 - backend_backpressure - INFO - [backend_service_base.py:108] - [backend_backpressure] DB 서비스 호출 (데드라인 없음)
+2025-04-03 14:59:17,366 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,368 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,369 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,370 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,371 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,372 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,372 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,372 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,372 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,373 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,374 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,375 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,506 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,506 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,507 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,543 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,543 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,545 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,545 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,545 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,547 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:17,598 - backend_backpressure - INFO - [backend_service_base.py:56] - [backend_backpressure] 요청 받음: slow
+2025-04-03 14:59:17,599 - backend_backpressure - INFO - [backend_service_base.py:57] - [backend_backpressure] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 14:59:17,600 - backend_backpressure - WARNING - [backend_service_base.py:64] - [backend_backpressure] 백프레셔 패턴 발동 - 과부하 상태
+2025-04-03 14:59:19,410 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 14:59:19,410 - backend_backpressure - INFO - [backend_service_base.py:115] - [backend_backpressure] DB 응답 수신: 쿼리 결과 데이터

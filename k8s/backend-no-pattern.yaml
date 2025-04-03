@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-no-pattern
+  namespace: grpc-error-handling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-no-pattern
+  template:
+    metadata:
+      labels:
+        app: backend-no-pattern
+    spec:
+      containers:
+      - name: backend-service
+        image: grpc-error-handling-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50052
+        env:
+        - name: PORT
+          value: "50052"
+        - name: BACKEND_TYPE
+          value: "no_pattern"
+        - name: DB_SERVICE_ADDRESS
+          value: "db-service:50057"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-no-pattern
+  namespace: grpc-error-handling
+spec:
+  selector:
+    app: backend-no-pattern
+  ports:
+  - port: 50052
+    targetPort: 50052
+  type: ClusterIP

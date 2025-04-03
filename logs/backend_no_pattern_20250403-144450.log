@@ -1,0 +1,55 @@
+2025-04-03 14:44:50,562 - backend_no_pattern - INFO - [backend_service_base.py:47] - [backend_no_pattern] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=False
+2025-04-03 14:44:58,736 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:45:01,680 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:45:01,681 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:45:01,681 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:45:02,234 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:45:02,235 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:45:02,700 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: circuit_breaker
+2025-04-03 14:45:02,701 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:45:03,176 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:45:05,104 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:45:18,723 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:45:18,724 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:45:18,724 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:45:19,119 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:45:19,119 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:45:20,055 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: circuit_breaker
+2025-04-03 14:45:20,055 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:45:20,504 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:46:12,757 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:46:13,842 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:46:14,063 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:46:14,469 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:46:14,470 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:46:14,471 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:46:15,116 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:46:15,117 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:46:16,180 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:50:16,348 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:50:19,737 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:50:19,738 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:50:19,738 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:50:20,689 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:50:20,689 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:50:21,348 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: circuit_breaker
+2025-04-03 14:50:21,348 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:50:21,947 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:52:21,901 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:52:23,094 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:52:24,462 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:52:24,463 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:52:24,463 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:52:25,043 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:52:25,043 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:52:25,441 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: circuit_breaker
+2025-04-03 14:52:25,441 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:52:25,897 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청
+2025-04-03 14:52:29,034 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: all
+2025-04-03 14:52:29,034 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:52:29,035 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:52:29,404 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: backpressure
+2025-04-03 14:52:29,405 - backend_no_pattern - INFO - [backend_service_base.py:174] - [backend_no_pattern] 백프레셔 리셋 완료
+2025-04-03 14:52:29,984 - backend_no_pattern - INFO - [backend_service_base.py:165] - [backend_no_pattern] 패턴 리셋 요청: circuit_breaker
+2025-04-03 14:52:29,984 - backend_no_pattern - INFO - [backend_service_base.py:170] - [backend_no_pattern] 서킷브레이커 리셋 완료
+2025-04-03 14:52:30,641 - backend_no_pattern - INFO - [backend_service_base.py:190] - [backend_no_pattern] 상태 확인 요청

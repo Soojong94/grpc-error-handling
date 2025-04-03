@@ -52,3 +52,10 @@ class BackpressureController:
             if self.active_requests > 0:
                 self.active_requests -= 1
                 self.logger.debug(f"[백프레셔-{self.name}] 요청 완료: 활성 요청 {self.active_requests}개")
+                
+    def reset(self):
+        """백프레셔 상태 강제 초기화"""
+        with self.lock:
+            self.request_times = []
+            self.active_requests = 0
+            self.logger.info(f"[백프레셔-{self.name}] 상태 수동 초기화")

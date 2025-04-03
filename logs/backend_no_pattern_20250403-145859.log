@@ -1,0 +1,1 @@
+2025-04-03 14:58:59,045 - backend_no_pattern - INFO - [backend_service_base.py:47] - [backend_no_pattern] 초기화 - 패턴 설정: 서킷브레이커=False, 데드라인=False, 백프레셔=False

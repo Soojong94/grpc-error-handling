@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-service
+  namespace: grpc-error-handling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-service
+  template:
+    metadata:
+      labels:
+        app: db-service
+    spec:
+      containers:
+      - name: db-service
+        image: grpc-error-handling-db:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50057
+        env:
+        - name: PORT
+          value: "50057"
+        - name: SLOW_QUERY_DELAY
+          value: "2.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: grpc-error-handling
+spec:
+  selector:
+    app: db-service
+  ports:
+  - port: 50057
+    targetPort: 50057
+  type: ClusterIP

@@ -19,12 +19,34 @@ class BffServiceStub(object):
                 request_serializer=bff__pb2.BffRequest.SerializeToString,
                 response_deserializer=bff__pb2.BffResponse.FromString,
                 )
+        self.ResetPattern = channel.unary_unary(
+                '/bff.BffService/ResetPattern',
+                request_serializer=bff__pb2.ResetRequest.SerializeToString,
+                response_deserializer=bff__pb2.ResetResponse.FromString,
+                )
+        self.GetStatus = channel.unary_unary(
+                '/bff.BffService/GetStatus',
+                request_serializer=bff__pb2.StatusRequest.SerializeToString,
+                response_deserializer=bff__pb2.StatusResponse.FromString,
+                )
 
 
 class BffServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Process(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResetPattern(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetStatus(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +59,16 @@ def add_BffServiceServicer_to_server(servicer, server):
                     servicer.Process,
                     request_deserializer=bff__pb2.BffRequest.FromString,
                     response_serializer=bff__pb2.BffResponse.SerializeToString,
+            ),
+            'ResetPattern': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResetPattern,
+                    request_deserializer=bff__pb2.ResetRequest.FromString,
+                    response_serializer=bff__pb2.ResetResponse.SerializeToString,
+            ),
+            'GetStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetStatus,
+                    request_deserializer=bff__pb2.StatusRequest.FromString,
+                    response_serializer=bff__pb2.StatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +94,39 @@ class BffService(object):
         return grpc.experimental.unary_unary(request, target, '/bff.BffService/Process',
             bff__pb2.BffRequest.SerializeToString,
             bff__pb2.BffResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ResetPattern(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/bff.BffService/ResetPattern',
+            bff__pb2.ResetRequest.SerializeToString,
+            bff__pb2.ResetResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/bff.BffService/GetStatus',
+            bff__pb2.StatusRequest.SerializeToString,
+            bff__pb2.StatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

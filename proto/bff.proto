@@ -4,6 +4,8 @@ package bff;
 
 service BffService {
   rpc Process (BffRequest) returns (BffResponse);
+  rpc ResetPattern (ResetRequest) returns (ResetResponse);
+  rpc GetStatus (StatusRequest) returns (StatusResponse);
 }
 
 message BffRequest {
@@ -11,10 +13,34 @@ message BffRequest {
   bool use_deadline = 2;
   bool use_circuit_breaker = 3;
   bool use_backpressure = 4;
+  string backend_type = 5;
 }
 
 message BffResponse {
   string result = 1;
   bool success = 2;
   string error_message = 3;
+}
+
+message ResetRequest {
+  string pattern = 1;  // "circuit_breaker", "backpressure", "all"
+  string backend_type = 2;
+}
+
+message ResetResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message StatusRequest {
+  string backend_type = 1;
+}
+
+message StatusResponse {
+  string circuit_breaker_state = 1;
+  int32 circuit_breaker_failures = 2;
+  int32 backpressure_active_requests = 3;
+  bool backpressure_overloaded = 4;
+  bool success = 5;
+  string error_message = 6;
 }
