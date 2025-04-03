@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package backend;
+
+service BackendService {
+  rpc Process (BackendRequest) returns (BackendResponse);
+}
+
+message BackendRequest {
+  string request_type = 1;
+  bool use_deadline = 2;
+  bool use_circuit_breaker = 3;
+  bool use_backpressure = 4;
+}
+
+message BackendResponse {
+  string result = 1;
+  bool success = 2;
+  string error_message = 3;
+}

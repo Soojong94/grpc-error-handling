@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package db;
+
+service DbService {
+  rpc Query (DbRequest) returns (DbResponse);
+}
+
+message DbRequest {
+  string query_type = 1;
+}
+
+message DbResponse {
+  string result = 1;
+  bool success = 2;
+  string error_message = 3;
+}

@@ -1,0 +1,270 @@
+2025-04-03 11:30:48,924 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:48,925 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:49,936 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:51,653 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:51,654 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:52,669 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:54,088 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:54,088 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:55,094 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:55,363 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:55,364 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:56,370 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:56,915 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:56,915 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:57,849 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:57,850 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:57,921 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:58,811 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:30:58,812 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:30:58,863 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:30:59,821 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:01,248 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:01,248 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:02,262 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:03,031 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:03,032 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:04,039 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:10,929 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:10,929 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:11,931 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:12,706 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:12,707 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:13,717 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:16,283 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:16,284 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:17,300 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:23,680 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:23,681 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:24,687 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:26,563 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:26,563 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:27,568 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:28,797 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:28,797 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:29,759 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:29,760 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:29,809 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:30,765 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:31:50,959 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:31:50,959 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:31:51,964 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:58,132 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,133 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:58,217 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,217 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:58,219 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,219 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:58,222 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,223 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:58,224 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,224 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:58,224 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:58,224 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:59,149 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,173 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:59,173 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:59,227 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,227 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,227 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,227 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,227 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:34:59,272 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:59,272 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:59,274 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:59,274 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:34:59,274 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:34:59,275 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:35:00,184 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:00,278 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:00,278 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:00,278 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:02,391 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:35:02,392 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:35:02,396 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:35:02,396 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:35:02,400 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:35:02,401 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:35:02,403 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:35:02,403 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:35:03,407 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:03,407 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:03,407 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:35:03,408 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:37:55,716 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:37:55,717 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:37:56,724 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:01,613 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:01,613 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:02,625 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:05,095 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:05,095 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:06,097 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:07,802 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:07,803 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:08,808 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:18,874 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:18,875 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:19,878 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:21,491 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:21,492 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:22,496 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:24,658 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:24,659 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:25,560 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:25,561 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:25,674 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:26,397 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:26,397 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:26,576 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:27,181 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:27,181 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:27,402 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:28,075 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:28,075 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:28,188 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:29,085 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:29,647 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:29,648 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:30,652 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:32,128 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:32,129 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:33,007 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:33,007 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:33,136 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:34,020 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:39,912 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,913 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:39,913 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,913 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:39,918 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,921 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:39,923 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,925 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:39,926 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,926 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:39,971 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:39,971 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:40,553 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:40,553 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:40,553 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:40,554 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:40,555 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:40,555 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:40,555 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:40,555 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:40,919 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:40,919 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:40,935 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:40,935 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:40,936 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:40,980 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:41,570 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:41,570 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:41,570 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:41,570 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:43,243 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:43,243 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:43,249 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:43,249 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:43,254 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:43,254 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:43,369 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:43,370 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:44,253 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:44,253 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:44,269 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:44,376 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:47,161 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:47,163 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:47,165 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:47,166 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:47,170 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:47,174 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:47,176 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:47,177 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:48,176 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:48,176 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:48,191 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:48,191 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:49,147 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:49,147 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:49,150 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:49,151 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:49,156 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:49,157 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:49,161 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:49,161 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:50,160 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:50,160 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:50,161 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:50,176 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:38:59,787 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:59,788 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:59,790 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:59,791 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:59,794 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:59,795 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:38:59,802 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:38:59,803 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:00,790 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:00,806 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:00,806 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:00,806 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:21,990 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:21,991 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:23,007 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:36,549 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:36,549 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:37,563 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:38,969 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:38,969 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:39,983 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:42,770 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:42,770 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:43,756 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:43,756 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:43,780 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:44,757 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:55,118 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:55,118 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:56,122 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:57,400 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:57,400 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:58,410 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:39:58,773 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:39:58,773 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:39:59,776 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:00,400 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:00,401 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:01,415 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:02,988 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:02,989 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:02,993 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:02,994 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:02,998 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:02,999 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:03,002 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:03,003 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:03,003 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:03,003 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:03,050 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:03,050 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:03,992 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,008 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,009 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,009 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,009 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,012 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:04,013 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:04,053 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:04,053 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:04,054 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:04,054 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:04,055 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:04,055 - db_service - INFO - [db_service.py:20] - [DB] 쿼리 요청 받음: slow
+2025-04-03 11:40:04,055 - db_service - INFO - [db_service.py:23] - [DB] 슬로우 쿼리 실행 중... (1초 지연)
+2025-04-03 11:40:05,015 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:05,063 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:05,063 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료
+2025-04-03 11:40:05,063 - db_service - INFO - [db_service.py:25] - [DB] 슬로우 쿼리 완료

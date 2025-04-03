@@ -1,0 +1,89 @@
+2025-04-03 11:18:52,564 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:18:52,564 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:18:52,572 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:18:55,608 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:19:20,818 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:19:20,818 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:19:20,819 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:19:23,842 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:19:27,597 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:19:27,598 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:19:27,600 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:19:27,601 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:19:32,622 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:19:43,124 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:19:43,124 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 11:19:43,125 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:19:48,130 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:20:54,153 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:20:54,154 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:20:54,154 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:20:57,180 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:21:36,941 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:21:36,941 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:36,942 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:21:39,969 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:21:40,588 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:21:40,588 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:40,589 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:21:43,619 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:21:45,749 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:21:45,750 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:45,812 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:21:48,826 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:21:49,393 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:21:49,393 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:49,394 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:21:52,427 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:21:55,250 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:21:55,250 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:21:55,252 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:21:55,252 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:22:00,261 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:22:34,996 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:22:34,997 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 11:22:34,997 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:22:40,011 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:23:24,684 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:23:24,685 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:24,686 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:24,686 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:23:27,718 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:23:28,293 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:23:28,293 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:28,293 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:28,294 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:23:31,326 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:24:22,860 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:24:22,861 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:24:22,861 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:24:22,861 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:24:27,870 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:24:30,411 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:24:30,411 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:24:30,412 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:24:30,412 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:24:33,434 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:29:19,967 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:29:19,967 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:19,968 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:19,968 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:29:22,999 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:29:33,989 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:29:33,990 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:33,991 - backend_service - INFO - [backend_service.py:80] - [Backend] 데드라인 패턴 사용 (3초)
+2025-04-03 11:29:37,017 - backend_service - ERROR - [backend_service.py:114] - [Backend] DB 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - Deadline Exceeded
+2025-04-03 11:29:41,883 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:29:41,883 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 11:29:41,884 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:29:46,898 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:29:49,936 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:29:49,937 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:29:49,938 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:49,938 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:29:54,949 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터
+2025-04-03 11:30:26,233 - backend_service - INFO - [backend_service.py:41] - [Backend] 요청 받음: slow
+2025-04-03 11:30:26,233 - backend_service - INFO - [backend_service.py:42] - [Backend] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:30:26,234 - backend_service - INFO - [backend_service.py:64] - [Backend] 서킷브레이커 상태 확인 중...
+2025-04-03 11:30:26,234 - backend_service - INFO - [backend_service.py:91] - [Backend] DB 서비스 호출 (데드라인 없음)
+2025-04-03 11:30:31,250 - backend_service - INFO - [backend_service.py:98] - [Backend] DB 응답 수신: 쿼리 결과 데이터

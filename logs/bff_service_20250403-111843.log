@@ -1,0 +1,105 @@
+2025-04-03 11:18:52,546 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:18:52,547 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:18:52,553 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:18:55,636 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:19:20,815 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:19:20,815 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:19:20,816 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:19:23,866 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:19:27,594 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:19:27,594 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:19:27,595 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:19:27,595 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:19:32,623 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:19:43,120 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:19:43,120 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: True
+2025-04-03 11:19:43,121 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:19:48,131 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:20:54,149 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:20:54,149 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:20:54,150 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:20:57,204 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:21:36,938 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:21:36,938 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:36,939 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:21:39,992 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:21:40,586 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:21:40,586 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:40,586 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:21:43,643 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:21:45,746 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:21:45,747 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:45,747 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:21:48,853 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:21:49,388 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:21:49,389 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:21:49,390 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:21:52,449 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:21:55,245 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:21:55,246 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:21:55,247 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:21:55,247 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:22:00,262 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:22:34,994 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:22:34,995 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 11:22:34,995 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:22:40,012 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:23:24,681 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:23:24,681 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:24,682 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:24,682 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:23:27,754 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:23:28,290 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:23:28,290 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:28,290 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:28,291 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:23:31,347 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:23:32,346 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:23:32,347 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:32,347 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:32,347 - bff_service - WARNING - [bff_service.py:65] - [BFF] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 11:23:35,135 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:23:35,135 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:23:35,136 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:23:35,136 - bff_service - WARNING - [bff_service.py:65] - [BFF] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 11:24:22,856 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:24:22,856 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:24:22,857 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:24:22,857 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:24:27,871 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:24:30,408 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:24:30,408 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:24:30,409 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:24:30,409 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:24:33,458 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:29:19,964 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:19,964 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:19,965 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:19,965 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:29:23,022 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:29:23,962 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:23,963 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:23,963 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:23,964 - bff_service - WARNING - [bff_service.py:65] - [BFF] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 11:29:24,882 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:24,882 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:24,883 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:24,883 - bff_service - WARNING - [bff_service.py:65] - [BFF] 서킷브레이커 오픈 상태 - 요청 차단됨
+2025-04-03 11:29:33,985 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:33,986 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: True, 백프레셔: False
+2025-04-03 11:29:33,986 - bff_service - INFO - [bff_service.py:79] - [BFF] 데드라인 패턴 사용 (4초)
+2025-04-03 11:29:37,040 - bff_service - ERROR - [bff_service.py:126] - [BFF] Backend 호출 중 오류: StatusCode.DEADLINE_EXCEEDED - DB 서비스 응답 시간 초과
+2025-04-03 11:29:41,787 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:41,787 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: False, 데드라인: False, 백프레셔: False
+2025-04-03 11:29:41,787 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:29:46,899 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:29:49,932 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:29:49,932 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:29:49,932 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:29:49,933 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:29:54,950 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터
+2025-04-03 11:30:26,228 - bff_service - INFO - [bff_service.py:40] - [BFF] 요청 받음: slow
+2025-04-03 11:30:26,229 - bff_service - INFO - [bff_service.py:41] - [BFF] 패턴 설정 - 서킷브레이커: True, 데드라인: False, 백프레셔: False
+2025-04-03 11:30:26,230 - bff_service - INFO - [bff_service.py:63] - [BFF] 서킷브레이커 상태 확인 중...
+2025-04-03 11:30:26,230 - bff_service - INFO - [bff_service.py:95] - [BFF] Backend 서비스 호출 (데드라인 없음)
+2025-04-03 11:30:31,251 - bff_service - INFO - [bff_service.py:109] - [BFF] Backend 응답 수신: 처리 완료: 쿼리 결과 데이터

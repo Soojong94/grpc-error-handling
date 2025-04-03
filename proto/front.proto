@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package front;
+
+service FrontService {
+  rpc SubmitRequest (FrontRequest) returns (FrontResponse);
+}
+
+message FrontRequest {
+  string request_type = 1;
+  bool use_deadline = 2;
+  bool use_circuit_breaker = 3;
+  bool use_backpressure = 4;
+}
+
+message FrontResponse {
+  string result = 1;
+  bool success = 2;
+  string error_message = 3;
+}
