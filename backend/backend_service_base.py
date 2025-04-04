@@ -63,16 +63,15 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
         
         self.logger.info(f"[{self.service_name}] 요청 받음: {request.request_type}")
         self.logger.info(f"[{self.service_name}] 패턴 설정 - 서킷브레이커: {use_circuit_breaker}, " +
-                         f"데드라인: {use_deadline}, 백프레셔: {use_backpressure}")
+                        f"데드라인: {use_deadline}, 백프레셔: {use_backpressure}")
         
         # 백프레셔 패턴 적용
         if use_backpressure:
-            self.backpressure.register_request()
-            if self.backpressure.is_overloaded():
+            if not self.backpressure.register_request():
+                # 과부하 상태로 요청 거부
                 self.logger.warning(f"[{self.service_name}] 백프레셔 패턴 발동 - 과부하 상태")
                 context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
                 context.set_details("서버 과부하 상태입니다. 잠시 후 다시 시도해주세요.")
-                self.backpressure.complete_request()
                 return backend_pb2.BackendResponse(
                     success=False,
                     error_message="서버 과부하 상태"
@@ -167,7 +166,7 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
                 success=False,
                 error_message=f"내부 서버 오류: {str(e)}"
             )
-    
+        
     def ResetPattern(self, request, context):
         pattern = request.pattern
         self.logger.info(f"[{self.service_name}] 패턴 리셋 요청: {pattern}")

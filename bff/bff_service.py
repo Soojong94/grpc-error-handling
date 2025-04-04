@@ -57,16 +57,15 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
         
         self.logger.info(f"[BFF] 요청 받음: {request.request_type}, 백엔드 타입: {backend_type}")
         self.logger.info(f"[BFF] 패턴 설정 - 서킷브레이커: {request.use_circuit_breaker}, " +
-                         f"데드라인: {request.use_deadline}, 백프레셔: {request.use_backpressure}")
+                        f"데드라인: {request.use_deadline}, 백프레셔: {request.use_backpressure}")
         
         # 백프레셔 패턴 적용
         if request.use_backpressure:
-            self.backpressure.register_request()
-            if self.backpressure.is_overloaded():
-                self.logger.warning("[BFF] 백프레셔 패턴 발동 - 과부하 상태")
+            if not self.backpressure.register_request():
+                # 과부하 상태로 요청 거부
+                self.logger.warning(f"[BFF] 백프레셔 패턴 발동 - 과부하 상태")
                 context.set_code(grpc.StatusCode.RESOURCE_EXHAUSTED)
                 context.set_details("서버 과부하 상태입니다. 잠시 후 다시 시도해주세요.")
-                self.backpressure.complete_request()
                 return bff_pb2.BffResponse(
                     success=False,
                     error_message="서버 과부하 상태"
