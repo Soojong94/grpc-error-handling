@@ -6,16 +6,148 @@ from flask import Flask, render_template, request, jsonify
 import grpc
 import threading
 import time
+import json
+import logging
+from flask_socketio import SocketIO, emit
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import glob
+import re
 
 from generated import bff_pb2, bff_pb2_grpc
 from common.logging_config import setup_logging
 
+# gRPC 디버그 로깅 활성화
+os.environ['GRPC_VERBOSITY'] = 'DEBUG'
+os.environ['GRPC_TRACE'] = 'all'
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'grpc-error-handling-secret-key'
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 logger = setup_logging("front_service")
 
 # BFF 서비스 주소 (환경 변수에서 읽기)
 BFF_ADDRESS = os.environ.get("BFF_SERVICE_ADDRESS", "localhost:50051")
 logger.info(f"BFF 서비스 주소: {BFF_ADDRESS}")
+
+# 로그 패턴 상수
+LOG_PATTERN_HTTP = re.compile(r'(http|HTTP)', re.IGNORECASE)
+LOG_PATTERN_GRPC = re.compile(r'(grpc|GRPC|RPC|rpc|transport)', re.IGNORECASE)
+LOG_PATTERN_ALL = re.compile(r'(DEBUG|INFO|WARNING|ERROR|CRITICAL|grpc|GRPC|http|HTTP|RPC|rpc|Request|Response|transport)', re.IGNORECASE)
+
+# 로그 파일 모니터링 클래스
+class LogWatcher(FileSystemEventHandler):
+    def __init__(self, log_dir, socketio):
+        self.log_dir = log_dir
+        self.socketio = socketio
+        self.file_positions = {}
+        self.log_pattern = LOG_PATTERN_ALL
+
+    def scan_for_logs(self):
+        """초기 로그 파일 스캔"""
+        log_files = glob.glob(os.path.join(self.log_dir, "*.log"))
+        for log_file in log_files:
+            self.file_positions[log_file] = os.path.getsize(log_file)
+
+    def on_modified(self, event):
+        """파일 변경 이벤트 핸들러"""
+        if not event.is_directory and event.src_path.endswith('.log'):
+            self.process_log_file(event.src_path)
+
+    def process_log_file(self, file_path):
+        """로그 파일 처리"""
+        if file_path not in self.file_positions:
+            self.file_positions[file_path] = 0
+
+        file_size = os.path.getsize(file_path)
+        if file_size > self.file_positions[file_path]:
+            try:
+                # UTF-8로 시도
+                with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
+                    f.seek(self.file_positions[file_path])
+                    new_lines = f.read()
+                    self.file_positions[file_path] = file_size
+
+                    if new_lines:
+                        service_name = os.path.basename(file_path).split('_')[0]
+                        
+                        # 모든 로그 라인 처리
+                        all_lines = []
+                        grpc_lines = []
+                        http_lines = []
+                        
+                        for line in new_lines.splitlines():
+                            # 모든 패턴 로그
+                            if LOG_PATTERN_ALL.search(line):
+                                all_lines.append({
+                                    'service': service_name,
+                                    'content': line,
+                                    'type': 'all'
+                                })
+                            
+                            # gRPC 패턴 로그
+                            if LOG_PATTERN_GRPC.search(line):
+                                grpc_lines.append({
+                                    'service': service_name,
+                                    'content': line,
+                                    'type': 'grpc'
+                                })
+                            
+                            # HTTP 패턴 로그
+                            if LOG_PATTERN_HTTP.search(line):
+                                http_lines.append({
+                                    'service': service_name,
+                                    'content': line,
+                                    'type': 'http'
+                                })
+                        
+                        # 모든 로그 타입 전송
+                        if all_lines:
+                            self.socketio.emit('raw_log', {'logs': all_lines, 'type': 'all'})
+                        if grpc_lines:
+                            self.socketio.emit('raw_log', {'logs': grpc_lines, 'type': 'grpc'})
+                        if http_lines:
+                            self.socketio.emit('raw_log', {'logs': http_lines, 'type': 'http'})
+                        
+            except Exception as e:
+                logger.error(f"로그 파일 처리 중 오류: {str(e)}")
+
+def start_log_watcher():
+    """로그 모니터링 시작"""
+    log_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'logs'))
+    log_watcher = LogWatcher(log_dir, socketio)
+    log_watcher.scan_for_logs()
+    
+    observer = Observer()
+    observer.schedule(log_watcher, log_dir, recursive=False)
+    observer.start()
+    
+    logger.info(f"로그 모니터링 시작: {log_dir}")
+    return observer
+
+# gRPC 인터셉터 - 요청과 응답을 로깅하기 위한
+class GrpcLoggingInterceptor(grpc.UnaryUnaryClientInterceptor):
+    def __init__(self, logger):
+        self.logger = logger
+
+    def intercept_unary_unary(self, continuation, client_call_details, request):
+        self.logger.info(f"[GRPC 요청] 메서드: {client_call_details.method}, 요청: {request}")
+        response = continuation(client_call_details, request)
+        response.add_done_callback(lambda r: self.log_response(r, client_call_details.method))
+        return response
+    
+    def log_response(self, future, method):
+        try:
+            response = future.result()
+            self.logger.info(f"[GRPC 응답] 메서드: {method}, 응답: {response}")
+        except grpc.RpcError as e:
+            self.logger.error(f"[GRPC 에러] 메서드: {method}, 코드: {e.code()}, 상세: {e.details()}")
+
+def create_channel(address):
+    """gRPC 채널 생성 - 로깅 인터셉터 추가"""
+    interceptor = GrpcLoggingInterceptor(logger)
+    return grpc.intercept_channel(grpc.insecure_channel(address), interceptor)
 
 def call_bff(request_type, use_deadline, use_circuit_breaker, use_backpressure, backend_type):
     """BFF 서비스 호출"""
@@ -23,10 +155,11 @@ def call_bff(request_type, use_deadline, use_circuit_breaker, use_backpressure, 
     logger.info(f"[Front] 패턴 설정 - 서킷브레이커: {use_circuit_breaker}, " +
                 f"데드라인: {use_deadline}, 백프레셔: {use_backpressure}")
     
-    start_time = time.time()  # 여기로 이동: 함수 시작 부분에 선언하여 항상 정의되도록 함
+    start_time = time.time()
     
     try:
-        channel = grpc.insecure_channel(BFF_ADDRESS)
+        # 로깅 인터셉터가 포함된 채널 사용
+        channel = create_channel(BFF_ADDRESS)
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
         request = bff_pb2.BffRequest(
@@ -106,7 +239,8 @@ def reset_api():
     logger.info(f"[Front] 패턴 리셋 API 호출 - 패턴: {pattern}, 백엔드: {backend_type}")
     
     try:
-        channel = grpc.insecure_channel(BFF_ADDRESS)
+        # 로깅 인터셉터가 포함된 채널 사용
+        channel = create_channel(BFF_ADDRESS)
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
         reset_request = bff_pb2.ResetRequest(
@@ -135,11 +269,11 @@ def status_api():
     logger.info(f"[Front] 패턴 상태 조회 API 호출 - 백엔드: {backend_type}")
     
     try:
-        channel = grpc.insecure_channel(BFF_ADDRESS)
+        # 로깅 인터셉터가 포함된 채널 사용
+        channel = create_channel(BFF_ADDRESS)
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
-        # 변수명 변경
-        status_request = bff_pb2.StatusRequest(  # 'request'에서 'status_request'로 변경
+        status_request = bff_pb2.StatusRequest(
             backend_type=backend_type
         )
         
@@ -169,9 +303,25 @@ def status_api():
             "message": f"상태 조회 실패: {str(e)}"
         })
 
+@socketio.on('connect')
+def handle_connect():
+    """클라이언트 연결 이벤트"""
+    logger.info('클라이언트 연결됨')
+    
+@socketio.on('disconnect')
+def handle_disconnect():
+    """클라이언트 연결 해제 이벤트"""
+    logger.info('클라이언트 연결 해제됨')
+
 def run_flask(host="0.0.0.0", port=5000):
     port = int(os.environ.get("PORT", port))  # 환경 변수에서 포트 읽기
-    app.run(host=host, port=port, debug=True, use_reloader=False)
+    observer = start_log_watcher()
+    
+    try:
+        socketio.run(app, host=host, port=port, debug=True, use_reloader=False, allow_unsafe_werkzeug=True)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
 
 if __name__ == "__main__":
     run_flask()
