@@ -7,9 +7,9 @@ class BackpressureController:
     
     def __init__(self, window_size=2, max_requests=3, max_concurrency=3, name="default"):
         self.name = name
-        self.window_size = window_size      # 측정 시간 창 (초) - 더 작게 설정
-        self.max_requests = max_requests    # 최대 요청 수 - 더 작게 설정
-        self.max_concurrency = max_concurrency  # 최대 동시 처리 요청 수 - 더 작게 설정
+        self.window_size = 2  # 설정 고정
+        self.max_requests = 3  # 설정 고정
+        self.max_concurrency = 2  # 설정 고정
         
         self.request_times = []  # 요청 시간 기록
         self.active_requests = 0 # 현재 활성 요청 수
@@ -58,13 +58,19 @@ class BackpressureController:
             is_concurrency_exceeded = self.active_requests >= self.max_concurrency
             is_overloaded = is_rate_exceeded or is_concurrency_exceeded
             
-            # 과부하 상태 로깅
+            # 상태 로깅 추가 - 더 자세한 정보
             self.logger.warning(f"[백프레셔-{self.name}] 요청 등록 전 상태: 요청수={len(self.request_times)}/{self.max_requests}, " +
                             f"동시처리={self.active_requests}/{self.max_concurrency}, 과부하={is_overloaded}")
             
             if is_overloaded:
                 # 과부하 상태이면 요청 거부
-                self.logger.error(f"[백프레셔-{self.name}] 요청 거부! 과부하 상태!")
+                reject_reason = []
+                if is_rate_exceeded:
+                    reject_reason.append(f"시간당 요청 초과({len(self.request_times)}/{self.max_requests})")
+                if is_concurrency_exceeded:
+                    reject_reason.append(f"동시 요청 초과({self.active_requests}/{self.max_concurrency})")
+                    
+                self.logger.error(f"[백프레셔-{self.name}] 요청 거부! 과부하 상태! 이유: {', '.join(reject_reason)}")
                 return False
             
             # 과부하 상태가 아니면 요청 등록

@@ -779,7 +779,8 @@
             }
         }
         
-        // 다중 요청 테스트 함수
+        
+        // 다중 요청 테스트 함수 개선
         async function runMultiTest() {
             const useDeadline = deadlineCheckbox.checked;
             const useCircuitBreaker = circuitBreakerCheckbox.checked;
@@ -794,7 +795,9 @@
             const requests = [];
             let failCount = 0;
             let successCount = 0;
+            let detailedResults = [];
             
+            // 모든 요청을 거의 동시에 보내기
             for (let i = 0; i < numRequests; i++) {
                 requests.push(
                     fetch('/api/test', {
@@ -814,14 +817,16 @@
                     .then(data => {
                         if (data.success) {
                             successCount++;
+                            detailedResults.push(`요청 #${i+1}: 성공 (${data.elapsed_time.toFixed(2)}초)`);
                         } else {
                             failCount++;
+                            detailedResults.push(`요청 #${i+1}: 실패 - ${data.error_message} (${data.elapsed_time.toFixed(2)}초)`);
                         }
-                        
                         return data;
                     })
                     .catch(error => {
                         failCount++;
+                        detailedResults.push(`요청 #${i+1}: 오류 - ${error.message}`);
                         console.error('요청 오류:', error);
                     })
                 );
@@ -831,8 +836,17 @@
             try {
                 await Promise.all(requests);
                 
-                resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
-                    백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
+                // 상세 결과 표시
+                let resultHtml = `<span class="${successCount > 0 ? 'success' : 'error'}">
+                    백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span><br><br>`;
+                
+                // 상세 결과 추가
+                resultHtml += `<strong>상세 결과:</strong><br>`;
+                detailedResults.forEach(result => {
+                    resultHtml += `${result}<br>`;
+                });
+                
+                resultDiv.innerHTML = resultHtml;
                 
             } catch (error) {
                 resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
