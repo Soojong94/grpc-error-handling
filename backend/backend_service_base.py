@@ -12,7 +12,7 @@ from generated import backend_pb2, backend_pb2_grpc, db_pb2, db_pb2_grpc
 from common.logging_config import setup_logging
 from common.circuit_breaker import CircuitBreaker
 from common.backpressure import BackpressureController
-from common.deadline import DeadlineHandler
+from common.deadline import DeadlineHandler, AdaptiveDeadlineHandler
 
 class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
     def __init__(self, service_name, port=50052, use_circuit_breaker=False, use_deadline=False, use_backpressure=False):
@@ -45,8 +45,8 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
             max_concurrency=backpressure_max_concurrency,
             name=service_name
         )
-        self.deadline_handler = DeadlineHandler(
-            timeout_seconds=deadline_timeout,
+        self.deadline_handler = AdaptiveDeadlineHandler(
+            initial_timeout=float(os.environ.get("DEADLINE_TIMEOUT", "0.5")),
             name=f"{service_name}_to_db"
         )
         
