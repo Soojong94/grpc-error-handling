@@ -1,1 +1,0 @@
-2025-04-03 14:30:11,518 - backend_circuit_breaker - INFO - [backend_service_base.py:47] - [backend_circuit_breaker] 초기화 - 패턴 설정: 서킷브레이커=True, 데드라인=False, 백프레셔=False

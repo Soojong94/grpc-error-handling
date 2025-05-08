@@ -9,8 +9,6 @@ import time
 import json
 import logging
 from flask_socketio import SocketIO, emit
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 import glob
 import re
 import queue
@@ -22,7 +20,7 @@ from common.logging_config import setup_logging
 
 # gRPC 디버그 로깅 활성화
 os.environ['GRPC_VERBOSITY'] = 'DEBUG'
-os.environ['GRPC_TRACE'] = 'all'
+os.environ['GRPC_TRACE'] = 'all,channel,connectivity_state'
 
 # 기본 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -40,16 +38,137 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 
 logger = setup_logging("front_service")
 
+# Werkzeug 로거 설정 (HTTP 로그용)
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.setLevel(logging.INFO)
+werkzeug_handler = logging.FileHandler(os.path.join(LOG_DIR, f"werkzeug_{timestamp}.log"))
+werkzeug_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
+werkzeug_logger.addHandler(werkzeug_handler)
+
 # BFF 서비스 주소 (환경 변수에서 읽기)
 BFF_ADDRESS = os.environ.get("BFF_SERVICE_ADDRESS", "localhost:50051")
 logger.info(f"BFF 서비스 주소: {BFF_ADDRESS}")
 
 # 로그 패턴 상수
-LOG_PATTERN_HTTP = re.compile(r'(http|HTTP|127\.0\.0\.1.*HTTP|POST|GET|PUT|DELETE|werkzeug)', re.IGNORECASE)
-LOG_PATTERN_GRPC = re.compile(r'(grpc|GRPC|RPC|rpc|transport|chttp2|tcp|core/ext|EXECUTOR|completion_queue|executor|surface)', re.IGNORECASE)
+LOG_PATTERN_HTTP = re.compile(r'(http|HTTP|127\.0\.0\.1.*HTTP|POST|GET|PUT|DELETE|werkzeug|\[HTTP)', re.IGNORECASE)
+LOG_PATTERN_GRPC = re.compile(r'(grpc|GRPC|RPC|rpc|transport|chttp2|tcp|core/ext|EXECUTOR|completion_queue|executor|surface|channel|DEADLINE|UNAVAILABLE|subchannel|\[gRPC)', re.IGNORECASE)
 
 # 로그 메시지 큐
 log_queue = queue.Queue()
+
+# gRPC 인터셉터를 위한 클래스
+class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
+    def __init__(self, log_queue, service_name="grpc_client"):
+        self.service_name = service_name
+        self.logger = logging.getLogger(f"grpc_interceptor.{service_name}")
+        self.log_queue = log_queue
+        
+    def _log_to_queue(self, log_type, content):
+        """로그 큐에 로그 추가"""
+        self.log_queue.put({
+            'type': log_type,
+            'logs': [{
+                'service': self.service_name,
+                'content': content
+            }]
+        })
+        
+    def _extract_metadata(self, metadata):
+        """메타데이터 추출 및 문자열 변환"""
+        if metadata is None:
+            return "없음"
+        return ", ".join([f"{k}={v}" for k, v in dict(metadata).items()])
+    
+    def _format_message(self, message):
+        """메시지 내용 포맷팅"""
+        if hasattr(message, "__dict__"):
+            try:
+                # protobuf 메시지를 dict로 변환 시도
+                return str(message)
+            except:
+                pass
+        return str(message)
+    
+    def intercept_unary_unary(self, continuation, client_call_details, request):
+        # 요청 정보 추출
+        method = client_call_details.method.decode('utf-8') if isinstance(client_call_details.method, bytes) else client_call_details.method
+        method_name = method.split('/')[-1] if '/' in method else method
+        service_name = method.split('/')[-2].split('.')[-1] if '/' in method else "unknown"
+        
+        # 타임아웃 정보 추출
+        timeout = client_call_details.timeout
+        timeout_str = f"{timeout}초" if timeout is not None else "무제한"
+        
+        # 메타데이터 추출
+        metadata_str = self._extract_metadata(client_call_details.metadata)
+        
+        # 요청 메시지 포맷팅
+        request_str = self._format_message(request)
+        
+        # 요청 로그
+        request_log = f"[gRPC 요청] 서비스: {service_name}, 메서드: {method_name}, 메시지: {request_str}, 타임아웃: {timeout_str}, 메타데이터: {metadata_str}"
+        self.logger.info(request_log)
+        
+        # 로그 큐에 추가 - 전체 로그와 gRPC 로그에 모두 추가
+        self._log_to_queue('all', request_log)
+        self._log_to_queue('grpc', request_log)
+        
+        # 저수준 gRPC 로그 캡처 시작 - 이 시간 이후의 로그를 모니터링
+        start_time = time.time()
+        request_timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+        
+        try:
+            # 실제 gRPC 호출
+            start_call_time = time.time()
+            response_future = continuation(client_call_details, request)
+            
+            # 응답 대기 및 로깅
+            response = response_future
+            
+            elapsed = time.time() - start_call_time
+            
+            # 응답 메시지 포맷팅
+            try:
+                response_str = self._format_message(response)
+            except:
+                response_str = "<응답 포맷팅 실패>"
+            
+            # 응답 로그
+            response_log = f"[gRPC 응답] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 상태: 성공, 응답: {response_str}"
+            self.logger.info(response_log)
+            
+            # 로그 큐에 추가
+            self._log_to_queue('all', response_log)
+            self._log_to_queue('grpc', response_log)
+            
+            return response
+            
+        except grpc.RpcError as e:
+            # 응답 시간 측정
+            elapsed = time.time() - start_call_time
+            
+            # 오류 로그
+            error_log = f"[gRPC 오류] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 코드: {e.code()}, 상세: {e.details()}"
+            self.logger.error(error_log)
+            
+            # 로그 큐에 추가
+            self._log_to_queue('all', error_log)
+            self._log_to_queue('grpc', error_log)
+            
+            raise
+        except Exception as e:
+            # 응답 시간 측정
+            elapsed = time.time() - start_call_time
+            
+            # 오류 로그
+            error_log = f"[gRPC 예외] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 예외: {str(e)}"
+            self.logger.error(error_log)
+            
+            # 로그 큐에 추가
+            self._log_to_queue('all', error_log)
+            self._log_to_queue('grpc', error_log)
+            
+            raise
 
 # 터미널 출력을 캡처하기 위한 설정
 class TerminalCapture:
@@ -82,30 +201,89 @@ class TerminalCapture:
         sys.stderr = self.original_stderr
         self.file.close()
 
-# 로그 파일 모니터링 클래스
-class LogWatcher(FileSystemEventHandler):
-    def __init__(self, log_dir):
+# 실제 gRPC 로그 파서 - 로그 파일을 모니터링하고 gRPC 통신 관련 로그만 필터링
+class GrpcLogParser:
+    def __init__(self, log_queue):
+        self.log_queue = log_queue
+        # gRPC 로그 패턴 - 더 정확한 패턴으로 수정
+        self.grpc_patterns = [
+            re.compile(r'(SEND_INITIAL_METADATA|SEND_MESSAGE|SEND_TRAILING_METADATA|RECV_INITIAL_METADATA|RECV_MESSAGE|RECV_TRAILING_METADATA)'),
+            re.compile(r'(completion_queue|channel|transport|chttp2|surface|DEADLINE|UNAVAILABLE|subchannel)'),
+            re.compile(r'(HTTP:[0-9]:HDR|HTTP:[0-9]:TRL)'),
+            re.compile(r'(grpc_[a-z_]+)'),
+            re.compile(r'(\[gRPC)'),
+        ]
+        # HTTP 로그 패턴
+        self.http_patterns = [
+            re.compile(r'(HTTP/[0-9.]+)'),
+            re.compile(r'(GET|POST|PUT|DELETE|HEAD|OPTIONS|PATCH) /[^ ]*'),
+            re.compile(r'(127\.0\.0\.1:[0-9]+ - -.*HTTP)'),
+            re.compile(r'(\[HTTP)'),
+        ]
+    
+    def parse_line(self, line, source="unknown"):
+        """로그 라인 파싱 및 분류"""
+        # 기본적으로 모든 로그는 all 카테고리에 추가
+        self.log_queue.put({
+            'type': 'all',
+            'logs': [{
+                'service': source,
+                'content': line
+            }]
+        })
+        
+        # gRPC 로그 필터링
+        for pattern in self.grpc_patterns:
+            if pattern.search(line):
+                self.log_queue.put({
+                    'type': 'grpc',
+                    'logs': [{
+                        'service': source,
+                        'content': line
+                    }]
+                })
+                break
+        
+        # HTTP 로그 필터링
+        for pattern in self.http_patterns:
+            if pattern.search(line):
+                self.log_queue.put({
+                    'type': 'http',
+                    'logs': [{
+                        'service': source,
+                        'content': line
+                    }]
+                })
+                break
+
+# 향상된 로그 파일 모니터링 클래스
+class EnhancedLogWatcher:
+    def __init__(self, log_dir, log_queue):
         self.log_dir = log_dir
+        self.log_queue = log_queue
         self.file_positions = {}
+        self.grpc_log_parser = GrpcLogParser(log_queue)
         
     def scan_for_logs(self):
         """초기 로그 파일 스캔"""
-        log_files = glob.glob(os.path.join(self.log_dir, "*.log"))
+        log_files = [f for f in os.listdir(self.log_dir) if f.endswith('.log')]
         for log_file in log_files:
-            self.file_positions[log_file] = os.path.getsize(log_file)
-            logger.info(f"로그 파일 발견: {os.path.basename(log_file)}")
-
-    def on_modified(self, event):
-        """파일 변경 이벤트 핸들러"""
-        if not event.is_directory and event.src_path.endswith('.log'):
-            self.process_log_file(event.src_path)
-
+            file_path = os.path.join(self.log_dir, log_file)
+            self.file_positions[file_path] = os.path.getsize(file_path)
+            logging.info(f"로그 파일 발견: {log_file}")
+    
+    def check_files(self):
+        """모든 로그 파일 확인"""
+        log_files = [f for f in os.listdir(self.log_dir) if f.endswith('.log')]
+        for log_file in log_files:
+            file_path = os.path.join(self.log_dir, log_file)
+            if file_path not in self.file_positions:
+                self.file_positions[file_path] = 0
+            self.process_log_file(file_path)
+    
     def process_log_file(self, file_path):
         """로그 파일 처리"""
         try:
-            if file_path not in self.file_positions:
-                self.file_positions[file_path] = 0
-                
             current_size = os.path.getsize(file_path)
             if current_size <= self.file_positions[file_path]:
                 return  # 파일 크기가 변하지 않았거나 줄어들었다면 처리하지 않음
@@ -117,7 +295,7 @@ class LogWatcher(FileSystemEventHandler):
                 
                 if not new_content.strip():
                     return
-                    
+                
                 # 서비스 이름 확인 - 파일 이름에서 추출
                 service_name = os.path.basename(file_path).split('_')[0]
                 
@@ -125,38 +303,12 @@ class LogWatcher(FileSystemEventHandler):
                 for line in new_content.strip().split('\n'):
                     if not line.strip():
                         continue
-                        
-                    # 원시 로그 항상 추가
-                    log_queue.put({
-                        'type': 'all',
-                        'logs': [{
-                            'service': service_name,
-                            'content': line.strip()
-                        }]
-                    })
                     
-                    # gRPC 관련 로그 필터링
-                    if LOG_PATTERN_GRPC.search(line):
-                        log_queue.put({
-                            'type': 'grpc',
-                            'logs': [{
-                                'service': service_name,
-                                'content': line.strip()
-                            }]
-                        })
+                    # gRPC 로그 파서를 통해 로그 분류
+                    self.grpc_log_parser.parse_line(line.strip(), service_name)
                     
-                    # HTTP 관련 로그 필터링
-                    elif LOG_PATTERN_HTTP.search(line):
-                        log_queue.put({
-                            'type': 'http',
-                            'logs': [{
-                                'service': service_name,
-                                'content': line.strip()
-                            }]
-                        })
-                        
         except Exception as e:
-            logger.error(f"로그 파일 처리 중 오류: {str(e)}")
+            logging.error(f"로그 파일 처리 중 오류: {str(e)}")
 
 # 로그 처리 및 전송 스레드
 def log_processor_thread():
@@ -173,90 +325,77 @@ def log_processor_thread():
             logger.error(f"로그 처리 중 오류: {str(e)}")
             time.sleep(1)
 
-# 외부 프로세스의 gRPC 로그 캡처
-def capture_grpc_logs():
-    """외부 프로세스에서 gRPC 로그 캡처"""
-    try:
-        # gRPC 내부 로그를 생성하는 테스트 명령
-        if os.name == 'nt':  # Windows
-            cmd = 'grpc_cli ls localhost:50051'
-        else:  # Linux/Mac
-            cmd = 'grpc_cli ls localhost:50051 2>&1'
-            
-        # 10초마다 명령 실행
-        while True:
-            try:
-                # 명령 실행 및 출력 캡처
-                output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
-                
-                # 캡처된 출력을 로그 큐에 추가
-                lines = output.strip().split('\n')
-                for line in lines:
-                    if not line.strip():
-                        continue
-                        
-                    # gRPC 로그로 추가
-                    log_queue.put({
-                        'type': 'grpc',
-                        'logs': [{
-                            'service': 'grpc_cli',
-                            'content': line.strip()
-                        }]
-                    })
-                    
-                    # 원시 로그에도 추가
-                    log_queue.put({
-                        'type': 'all',
-                        'logs': [{
-                            'service': 'grpc_cli',
-                            'content': line.strip()
-                        }]
-                    })
-            except subprocess.CalledProcessError:
-                # 명령 실행 실패 - 무시하고 계속 진행
-                pass
-                
-            # 지연
-            time.sleep(10)
-    except Exception as e:
-        logger.error(f"gRPC 로그 캡처 오류: {str(e)}")
-
-# 주기적으로 더미 gRPC 로그 생성
-def generate_dummy_grpc_logs():
-    """더미 gRPC 로그 생성"""
+# 로그 파일 모니터링 스레드 함수
+def log_monitor_thread(log_watcher):
+    """로그 파일 모니터링 스레드"""
     while True:
         try:
-            # 예제 gRPC 로그 형식
-            current_time = time.strftime("%H:%M:%S", time.localtime())
-            dummy_logs = [
-                f"I0508 {current_time}.000000000 12345 src/core/lib/surface/completion_queue.cc:1405] grpc_completion_queue_shutdown(cq=00000DEADBEEF000)",
-                f"I0508 {current_time}.000000000 12345 src/core/lib/surface/completion_queue.cc:1410] grpc_completion_queue_destroy(cq=00000DEADBEEF000)",
-                f"I0508 {current_time}.000000000 12345 src/core/lib/surface/channel.cc:428] grpc_channel_destroy(channel=00000BEEFCAFE000)",
-                f"127.0.0.1 - - [{current_time}] \"POST /api/test HTTP/1.1\" 200 -"
-            ]
-            
-            # 로그 추가
-            for log in dummy_logs:
-                # 터미널 로그 파일에 직접 쓰기
-                with open(TERMINAL_LOG_FILE, 'a', encoding='utf-8') as f:
-                    f.write(log + '\n')
-            
-            # 지연
-            time.sleep(5)
+            log_watcher.check_files()
+            time.sleep(0.1)  # 짧은 간격으로 확인
         except Exception as e:
-            logger.error(f"더미 로그 생성 오류: {str(e)}")
+            logger.error(f"로그 모니터링 중 오류: {str(e)}")
             time.sleep(1)
 
-# gRPC 인터셉터 - 최소화된 버전
-class GrpcLoggingInterceptor(grpc.UnaryUnaryClientInterceptor):
-    def intercept_unary_unary(self, continuation, client_call_details, request):
-        return continuation(client_call_details, request)
+# HTTP 요청/응답 로깅을 위한 Flask 미들웨어
+def setup_http_logging(app, log_queue):
+    """Flask 앱에 HTTP 로깅 미들웨어 적용"""
+    @app.before_request
+    def log_request_info():
+        """각 HTTP 요청 전에 로그 기록"""
+        content_length = request.content_length or 0
+        
+        # 요청 로그
+        request_log = f"[HTTP 요청] {request.method} {request.path} ({request.remote_addr}), 크기: {content_length} bytes, 헤더: {dict(request.headers)}"
+        
+        # 로그 큐에 추가
+        log_queue.put({
+            'type': 'all',
+            'logs': [{
+                'service': 'flask',
+                'content': request_log
+            }]
+        })
+        log_queue.put({
+            'type': 'http',
+            'logs': [{
+                'service': 'flask',
+                'content': request_log
+            }]
+        })
 
-def create_channel(address):
-    """gRPC 채널 생성"""
-    interceptor = GrpcLoggingInterceptor()
-    return grpc.intercept_channel(grpc.insecure_channel(address), interceptor)
+    @app.after_request
+    def log_response_info(response):
+        """각 HTTP 응답 후에 로그 기록"""
+        # 응답 로그
+        response_log = f"[HTTP 응답] {request.method} {request.path} - 상태: {response.status_code}, 크기: {response.content_length or 0} bytes, 헤더: {dict(response.headers)}"
+        
+        # 로그 큐에 추가
+        log_queue.put({
+            'type': 'all',
+            'logs': [{
+                'service': 'flask',
+                'content': response_log
+            }]
+        })
+        log_queue.put({
+            'type': 'http',
+            'logs': [{
+                'service': 'flask',
+                'content': response_log
+            }]
+        })
+        return response
 
+# gRPC 채널 생성 함수
+def create_channel(address, log_queue=None, service_name="bff_client"):
+    """인터셉터가 포함된 gRPC 채널 생성"""
+    if log_queue:
+        interceptor = DetailedGrpcInterceptor(log_queue, service_name=service_name)
+        return grpc.intercept_channel(grpc.insecure_channel(address), interceptor)
+    else:
+        return grpc.insecure_channel(address)
+
+# BFF 서비스 호출 함수
 def call_bff(request_type, use_deadline, use_circuit_breaker, use_backpressure, backend_type):
     """BFF 서비스 호출"""
     logger.info(f"[Front] BFF 서비스 호출 시작 (백엔드: {backend_type})")
@@ -264,8 +403,8 @@ def call_bff(request_type, use_deadline, use_circuit_breaker, use_backpressure, 
     start_time = time.time()
     
     try:
-        # 채널 생성
-        channel = create_channel(BFF_ADDRESS)
+        # 인터셉터가 포함된 채널 생성
+        channel = create_channel(BFF_ADDRESS, log_queue, "bff_client")
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
         request = bff_pb2.BffRequest(
@@ -345,7 +484,7 @@ def reset_api():
     
     try:
         # 채널 생성
-        channel = create_channel(BFF_ADDRESS)
+        channel = create_channel(BFF_ADDRESS, log_queue, "bff_client")
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
         reset_request = bff_pb2.ResetRequest(
@@ -376,7 +515,7 @@ def status_api():
     
     try:
         # 채널 생성
-        channel = create_channel(BFF_ADDRESS)
+        channel = create_channel(BFF_ADDRESS, log_queue, "bff_client")
         stub = bff_pb2_grpc.BffServiceStub(channel)
         
         status_request = bff_pb2.StatusRequest(
@@ -429,23 +568,22 @@ def run_flask(host="0.0.0.0", port=5000):
     # 로그 디렉토리가 존재하는지 확인
     os.makedirs(LOG_DIR, exist_ok=True)
     
-    # 로그 모니터링 설정
-    log_watcher = LogWatcher(LOG_DIR)
+    # 향상된 로그 모니터링 설정
+    log_watcher = EnhancedLogWatcher(LOG_DIR, log_queue)
     log_watcher.scan_for_logs()
-    
-    observer = Observer()
-    observer.schedule(log_watcher, LOG_DIR, recursive=False)
-    observer.start()
     
     # 로그 처리 스레드 시작
     log_processor = threading.Thread(target=log_processor_thread)
     log_processor.daemon = True
     log_processor.start()
     
-    # 더미 gRPC 로그 생성 스레드 시작
-    dummy_grpc = threading.Thread(target=generate_dummy_grpc_logs)
-    dummy_grpc.daemon = True
-    dummy_grpc.start()
+    # 로그 파일 모니터링 스레드 시작
+    monitor_thread = threading.Thread(target=log_monitor_thread, args=(log_watcher,))
+    monitor_thread.daemon = True
+    monitor_thread.start()
+    
+    # Flask 앱에 HTTP 로깅 설정
+    setup_http_logging(app, log_queue)
     
     logger.info(f"Flask 서버 시작: {host}:{port}")
     
@@ -454,8 +592,6 @@ def run_flask(host="0.0.0.0", port=5000):
     except KeyboardInterrupt:
         logger.info("서버 종료 중...")
     finally:
-        observer.stop()
-        observer.join()
         terminal_capture.close()
 
 if __name__ == "__main__":
