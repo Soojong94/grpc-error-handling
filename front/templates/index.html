@@ -109,9 +109,6 @@
         .warning {
             color: #f39c12;
         }
-        .debug {
-            color: #9b59b6;  /* 디버그 로그 스타일 추가 */
-        }
         select {
             padding: 8px;
             border-radius: 4px;
@@ -254,9 +251,6 @@
         .log-entry:last-child {
             border-bottom: none;
         }
-        .log-entry.debug {
-            background-color: rgba(155, 89, 182, 0.1);
-        }
         .log-timestamp {
             color: #95a5a6;
             margin-right: 5px;
@@ -346,7 +340,6 @@
                 <h3>로그</h3>
                 <div class="log-controls">
                     <button id="clear-logs">로그 지우기</button>
-                    <button id="filter-debug" class="active">디버그 로그 표시</button>
                     <button id="auto-scroll-toggle" class="active">자동 스크롤</button>
                 </div>
             </div>
@@ -377,10 +370,9 @@
         let resultDiv, tabItems, tabContents;
         let statusDisplayPanel, statusContentDiv;
         let deadlineCheckbox, circuitBreakerCheckbox, backpressureCheckbox;
-        let autoScrollToggle, filterDebugBtn;
+        let autoScrollToggle;
         let socket;
         let autoScroll = true;
-        let showDebugLogs = true; // 디버그 로그 표시 여부
         let currentTab = 'processed-logs';
         
         // 중복 로그 방지를 위한 세트
@@ -404,7 +396,6 @@
             statusDisplayPanel = document.getElementById('status-display');
             statusContentDiv = document.getElementById('status-content');
             autoScrollToggle = document.getElementById('auto-scroll-toggle');
-            filterDebugBtn = document.getElementById('filter-debug');
             
             // 탭 관련 요소
             tabItems = document.querySelectorAll('.tab-item');
@@ -437,15 +428,6 @@
                 this.textContent = autoScroll ? '자동 스크롤' : '자동 스크롤 끄기';
             });
             
-            filterDebugBtn.addEventListener('click', function() {
-                showDebugLogs = !showDebugLogs;
-                this.classList.toggle('active');
-                this.textContent = showDebugLogs ? '디버그 로그 표시' : '디버그 로그 숨김';
-                
-                // 디버그 로그 표시/숨김 처리
-                toggleDebugLogs();
-            });
-            
             // 탭 클릭 이벤트 설정
             tabItems.forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -457,14 +439,6 @@
             // 웹소켓 연결 설정
             setupWebSocket();
         });
-        
-        // 디버그 로그 표시/숨김 토글 함수
-        function toggleDebugLogs() {
-            const debugEntries = document.querySelectorAll('.log-entry.debug');
-            debugEntries.forEach(entry => {
-                entry.style.display = showDebugLogs ? 'block' : 'none';
-            });
-        }
         
         // 현재 탭을 변경하는 함수
         function switchTab(tabId) {
@@ -488,9 +462,6 @@
                 const activeContent = document.getElementById(tabId);
                 activeContent.scrollTop = activeContent.scrollHeight;
             }
-            
-            // 디버그 로그 표시/숨김 처리
-            toggleDebugLogs();
         }
         
         // 로그 지우기 함수
@@ -536,13 +507,13 @@
             socket.on('raw_log', function(data) {
                 const logType = data.type || 'processed';
                 data.logs.forEach(function(log) {
-                    addLog(logType, log.service, log.content, log.timestamp, log.is_debug);
+                    addLog(logType, log.service, log.content, log.timestamp);
                 });
             });
         }
         
-        // 로그 추가 함수 - 타임스탬프와 디버그 여부 매개변수 추가
-        function addLog(logType, service, content, timestamp, isDebug) {
+        // 로그 추가 함수 - 타임스탬프 매개변수 추가
+        function addLog(logType, service, content, timestamp) {
             // 타임스탬프가 없으면 현재 시간 사용
             const currentTime = timestamp || new Date().toLocaleTimeString();
             let serviceClass = '';
@@ -579,10 +550,9 @@
                 processedLogIds.clear();
             }
             
-            // 로그 HTML 생성 - 디버그 클래스 추가
-            const logEntryClass = isDebug ? 'log-entry debug' : 'log-entry';
+            // 로그 HTML 생성
             const logLine = `
-                <div class="${logEntryClass}" style="${isDebug && !showDebugLogs ? 'display:none;' : ''}">
+                <div class="log-entry">
                     <span class="log-timestamp">[${currentTime}]</span>
                     <span class="${serviceClass}">[${service}]</span>
                     <div class="log-content">${formattedContent}</div>

@@ -88,7 +88,7 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
         self.logger = logging.getLogger(f"grpc_interceptor.{service_name}")
         self.log_queue = log_queue
         
-    def _log_to_queue(self, log_type, content, is_debug=False):
+    def _log_to_queue(self, log_type, content):
         """로그 큐에 로그 추가"""
         # 로그 중복 방지를 위한 ID 생성
         log_id = hash(f"{log_type}:{content}")
@@ -106,8 +106,7 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
             'type': log_type,
             'logs': [{
                 'service': self.service_name,
-                'content': content,
-                'is_debug': is_debug
+                'content': content
             }]
         })
         
@@ -267,16 +266,12 @@ class TerminalCapture:
                     
                 processed_log_ids.add(log_id)
                 
-                # 디버그 정보 분석
-                is_debug = "D" in message[:10]  # D로 시작하는 것은 디버그 로그
-                
                 # 로그 큐에 추가
                 self.log_queue.put({
                     'type': 'grpc',
                     'logs': [{
                         'service': 'gRPC 코어',
-                        'content': message.rstrip(),
-                        'is_debug': is_debug
+                        'content': message.rstrip()
                     }]
                 })
         
@@ -318,7 +313,7 @@ class EnhancedLogWatcher:
             self.process_log_file(file_path)
     
     def process_log_file(self, file_path):
-        """로그 파일 처리"""
+        """로그 파일 처리 - 오직 gRPC 관련 로그만 추출"""
         try:
             current_size = os.path.getsize(file_path)
             if current_size <= self.file_positions[file_path]:
@@ -335,9 +330,9 @@ class EnhancedLogWatcher:
                 # 서비스 이름 확인 - 파일 이름에서 추출
                 service_name = os.path.basename(file_path).split('_')[0]
                 
-                # 라인별로 처리하여 중복 방지
+                # 오직 gRPC 관련 로그만 처리 - 가공된 로그 탭은 test_api, reset_api, status_api 함수에서 직접 생성
                 for line in new_content.splitlines():
-                    if line.strip():
+                    if line.strip() and ('grpc' in line.lower() or 'rpc' in line.lower()):
                         # 중복 확인
                         line_hash = hash(line)
                         if line_hash in self.processed_lines:
@@ -349,14 +344,9 @@ class EnhancedLogWatcher:
                         if len(self.processed_lines) > self.max_processed_lines:
                             self.processed_lines.clear()
                         
-                        # 로그 타입 결정
-                        log_type = 'processed'
-                        if 'grpc' in line.lower() or 'rpc' in line.lower():
-                            log_type = 'grpc'
-                        
-                        # 로그 큐에 추가
+                        # 로그 큐에 추가 - 오직 gRPC 로그 탭에만 추가
                         self.log_queue.put({
-                            'type': log_type,
+                            'type': 'grpc',
                             'logs': [{
                                 'service': service_name,
                                 'content': line.strip(),
@@ -719,3 +709,95 @@ def status_api():
             "success": False,
             "message": f"상태 조회 실패: {str(e)}"
         })
+
+@app.route('/api/clear-logs', methods=['POST'])
+def clear_logs():
+    """로그 지우기 API 엔드포인트"""
+    # 로그 메시지 추가 (로그를 지웠다는 메시지)
+    log_queue.put({
+        'type': 'processed',
+        'logs': [{
+            'service': '시스템',
+            'content': "로그가 지워졌습니다.",
+            'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+        }]
+    })
+    
+    log_queue.put({
+        'type': 'grpc',
+        'logs': [{
+            'service': '시스템',
+            'content': "gRPC 로그가 지워졌습니다.",
+            'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+        }]
+    })
+    
+    # 중복 방지 ID 세트 초기화
+    processed_log_ids.clear()
+    
+    return jsonify({"success": True})
+
+@socketio.on('connect')
+def handle_connect():
+    """클라이언트 연결 이벤트"""
+    logger.info('클라이언트 연결됨')
+    
+@socketio.on('disconnect')
+def handle_disconnect():
+    """클라이언트 연결 해제 이벤트"""
+    logger.info('클라이언트 연결 해제됨')
+
+def run_flask(host="0.0.0.0", port=5000):
+    """Flask 애플리케이션 실행"""
+    port = int(os.environ.get("PORT", port))  # 환경 변수에서 포트 읽기
+    
+    # 로그 디렉토리가 존재하는지 확인
+    os.makedirs(LOG_DIR, exist_ok=True)
+    
+    # 터미널 출력 캡처 설정 - 로그 큐 전달
+    terminal_capture = TerminalCapture(log_queue, TERMINAL_LOG_FILE)
+    
+    # 향상된 로그 모니터링 설정
+    log_watcher = EnhancedLogWatcher(LOG_DIR, log_queue)
+    log_watcher.scan_for_logs()
+    
+    # 로그 처리 스레드 시작
+    log_processor = threading.Thread(target=log_processor_thread)
+    log_processor.daemon = True
+    log_processor.start()
+    
+    # 로그 파일 모니터링 스레드 시작
+    monitor_thread = threading.Thread(target=log_monitor_thread, args=(log_watcher,))
+    monitor_thread.daemon = True
+    monitor_thread.start()
+    
+    # 초기 로그 메시지 추가
+    log_queue.put({
+        'type': 'processed',
+        'logs': [{
+            'service': '시스템',
+            'content': "시스템이 시작되었습니다. 테스트를 진행해주세요.",
+            'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+        }]
+    })
+    
+    log_queue.put({
+        'type': 'grpc',
+        'logs': [{
+            'service': '시스템',
+            'content': "gRPC 로그가 여기에 표시됩니다.",
+            'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+        }]
+    })
+    
+    logger.info(f"Flask 서버 시작: {host}:{port}")
+    
+    try:
+        socketio.run(app, host=host, port=port, debug=False, use_reloader=False)
+    except KeyboardInterrupt:
+        logger.info("서버 종료 중...")
+    finally:
+        terminal_capture.close()
+
+if __name__ == "__main__":
+    run_flask()
