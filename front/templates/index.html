@@ -320,23 +320,15 @@
             <div class="tab-container">
                 <ul class="tab-menu">
                     <li class="tab-item active" data-tab="processed-logs">가공된 로그</li>
-                    <li class="tab-item" data-tab="raw-logs">원시 로그</li>
                     <li class="tab-item" data-tab="grpc-logs">gRPC 로그</li>
-                    <li class="tab-item" data-tab="http-logs">HTTP 로그</li>
                 </ul>
                 
                 <!-- 탭 콘텐츠 -->
                 <div id="processed-logs" class="tab-content logs active">
                     테스트 결과 로그가 여기에 표시됩니다.
                 </div>
-                <div id="raw-logs" class="tab-content logs">
-                    원시 로그가 여기에 표시됩니다.
-                </div>
                 <div id="grpc-logs" class="tab-content logs">
                     gRPC 로그가 여기에 표시됩니다.
-                </div>
-                <div id="http-logs" class="tab-content logs">
-                    HTTP 로그가 여기에 표시됩니다.
                 </div>
             </div>
         </div>
@@ -380,9 +372,7 @@
             
             // 로그 컨테이너 매핑
             logContainers['processed-logs'] = document.getElementById('processed-logs');
-            logContainers['raw-logs'] = document.getElementById('raw-logs');
             logContainers['grpc-logs'] = document.getElementById('grpc-logs');
-            logContainers['http-logs'] = document.getElementById('http-logs');
             
             // 패턴 체크박스
             deadlineCheckbox = document.getElementById('deadline');
@@ -455,9 +445,7 @@
         function getTabTitle(tabId) {
             switch(tabId) {
                 case 'processed-logs': return '테스트 결과 로그';
-                case 'raw-logs': return '원시 로그';
                 case 'grpc-logs': return 'gRPC 로그';
-                case 'http-logs': return 'HTTP 로그';
                 default: return '로그';
             }
         }
@@ -469,16 +457,16 @@
             
             socket.on('connect', function() {
                 console.log('Socket.IO 연결됨');
-                addLog('all', '시스템', '로그 모니터링 연결됨');
+                addProcessedLog('시스템', '로그 모니터링 연결됨');
             });
             
             socket.on('disconnect', function() {
                 console.log('Socket.IO 연결 끊김');
-                addLog('all', '시스템', '로그 모니터링 연결 끊김');
+                addProcessedLog('시스템', '로그 모니터링 연결 끊김');
             });
             
             socket.on('raw_log', function(data) {
-                const logType = data.type || 'all';
+                const logType = data.type || 'processed';
                 data.logs.forEach(function(log) {
                     addLog(logType, log.service, log.content);
                 });
@@ -504,15 +492,12 @@
             const logLine = `<div><span class="${serviceClass}">[${service}]</span> ${content}</div>`;
             
             // 로그 타입에 따라 적절한 컨테이너에 추가
-            // 원시 로그는 항상 추가
-            logContainers['raw-logs'].innerHTML += logLine;
+            if (logType === 'processed') {
+                logContainers['processed-logs'].innerHTML += logLine;
+            }
             
-            // 로그 타입에 따라 추가
             if (logType === 'grpc') {
                 logContainers['grpc-logs'].innerHTML += logLine;
-            } 
-            else if (logType === 'http') {
-                logContainers['http-logs'].innerHTML += logLine;
             }
             
             // 자동 스크롤 처리
@@ -526,8 +511,22 @@
         }
         
         // 가공된 로그에 추가 (테스트 결과, 패턴 리셋 등)
-        function addProcessedLog(content) {
-            logContainers['processed-logs'].innerHTML += content;
+        function addProcessedLog(service, content) {
+            let serviceClass = '';
+            
+            // 서비스별 색상 지정
+            if (service.includes('db')) {
+                serviceClass = 'service-db';
+            } else if (service.includes('backend')) {
+                serviceClass = 'service-backend';
+            } else if (service.includes('bff')) {
+                serviceClass = 'service-bff';
+            } else if (service.includes('front')) {
+                serviceClass = 'service-front';
+            }
+            
+            const logLine = `<div><span class="${serviceClass}">[${service}]</span> ${content}</div>`;
+            logContainers['processed-logs'].innerHTML += logLine;
             
             if (autoScroll && currentTab === 'processed-logs') {
                 logContainers['processed-logs'].scrollTop = logContainers['processed-logs'].scrollHeight;
@@ -570,20 +569,20 @@
                 }
                 
                 // 로그 업데이트
-                let logContent = `<div><br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
+                let logContent = `<br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
                 logContent += `백엔드: ${backendType}<br>`;
                 logContent += `요청 유형: ${requestType}<br>`;
                 logContent += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
                 logContent += `요청 시간: ${data.elapsed_time.toFixed(2)}초<br>`;
                 logContent += data.success ? 
-                    `<span class="success">성공: ${data.result}</span><br></div>` : 
-                    `<span class="error">실패: ${data.error_message}</span><br></div>`;
+                    `<span class="success">성공: ${data.result}</span><br>` : 
+                    `<span class="error">실패: ${data.error_message}</span><br>`;
                 
-                addProcessedLog(logContent);
+                addProcessedLog('시스템', logContent);
                 
             } catch (error) {
                 resultDiv.innerHTML = `<span class="error">❌ 오류</span><br>${error.message}`;
-                addProcessedLog(`<div><span class="error">오류: ${error.message}</span><br></div>`);
+                addProcessedLog('시스템', `<span class="error">오류: ${error.message}</span><br>`);
             } finally {
                 testNormalBtn.disabled = false;
                 testSlowBtn.disabled = false;
@@ -614,18 +613,18 @@
                     resultDiv.innerHTML = `<span class="error">❌ 패턴 리셋 실패</span><br>${data.message}`;
                 }
                 
-                let logContent = `<div><br>====== 패턴 리셋 (${new Date().toLocaleTimeString()}) ======<br>`;
+                let logContent = `<br>====== 패턴 리셋 (${new Date().toLocaleTimeString()}) ======<br>`;
                 logContent += `백엔드: ${backendType}<br>`;
                 logContent += `패턴: ${pattern}<br>`;
                 logContent += data.success ? 
-                    `<span class="success">성공: ${data.message}</span><br></div>` : 
-                    `<span class="error">실패: ${data.message}</span><br></div>`;
+                    `<span class="success">성공: ${data.message}</span><br>` : 
+                    `<span class="error">실패: ${data.message}</span><br>`;
                 
-                addProcessedLog(logContent);
+                addProcessedLog('시스템', logContent);
                 
             } catch (error) {
                 resultDiv.innerHTML = `<span class="error">❌ 리셋 오류</span><br>${error.message}`;
-                addProcessedLog(`<div><span class="error">리셋 오류: ${error.message}</span><br></div>`);
+                addProcessedLog('시스템', `<span class="error">리셋 오류: ${error.message}</span><br>`);
             }
         }
         
@@ -667,22 +666,22 @@
                     
                     statusContentDiv.innerHTML = circuitBreakerHtml + backpressureHtml;
                     
-                    let logContent = `<div><br>====== 패턴 상태 조회 (${new Date().toLocaleTimeString()}) ======<br>`;
+                    let logContent = `<br>====== 패턴 상태 조회 (${new Date().toLocaleTimeString()}) ======<br>`;
                     logContent += `백엔드: ${backendType}<br>`;
                     logContent += `서킷브레이커: ${data.circuit_breaker.state} (${data.circuit_breaker.failure_count})<br>`;
-                    logContent += `백프레셔: 활성 요청 ${data.backpressure.active_requests}개, 과부하=${data.backpressure.is_overloaded}<br></div>`;
+                    logContent += `백프레셔: 활성 요청 ${data.backpressure.active_requests}개, 과부하=${data.backpressure.is_overloaded}<br>`;
                     
-                    addProcessedLog(logContent);
+                    addProcessedLog('시스템', logContent);
                     
                 } else {
                     resultDiv.innerHTML = `<span class="error">❌ 상태 조회 실패</span><br>${data.message}`;
-                    addProcessedLog(`<div><span class="error">상태 조회 실패: ${data.message}</span><br></div>`);
+                    addProcessedLog('시스템', `<span class="error">상태 조회 실패: ${data.message}</span><br>`);
                 }
                 
             } catch (error) {
                 console.error("상태 조회 중 오류:", error);
                 resultDiv.innerHTML = `<span class="error">❌ 상태 조회 오류</span><br>${error.message}`;
-                addProcessedLog(`<div><span class="error">상태 조회 오류: ${error.message}</span><br></div>`);
+                addProcessedLog('시스템', `<span class="error">상태 조회 오류: ${error.message}</span><br>`);
             }
         }
         
@@ -702,15 +701,15 @@
             let failCount = 0;
             let successCount = 0;
             
-            let logContent = `<div><br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
+            let logContent = `<br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
             logContent += `백엔드: ${backendType}<br>`;
-            logContent += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br></div>`;
+            logContent += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
             
-            addProcessedLog(logContent);
+            addProcessedLog('시스템', logContent);
             
             for (let i = 0; i < numRequests; i++) {
-                let requestLogContent = `<div>요청 #${i+1} 시작...<br></div>`;
-                addProcessedLog(requestLogContent);
+                let requestLogContent = `요청 #${i+1} 시작...`;
+                addProcessedLog('시스템', requestLogContent);
                 
                 requests.push(
                     fetch('/api/test', {
@@ -730,17 +729,17 @@
                     .then(data => {
                         if (data.success) {
                             successCount++;
-                            addProcessedLog(`<div><span class="success">요청 #${i+1} 성공: ${data.result}</span><br></div>`);
+                            addProcessedLog('시스템', `<span class="success">요청 #${i+1} 성공: ${data.result}</span>`);
                         } else {
                             failCount++;
-                            addProcessedLog(`<div><span class="error">요청 #${i+1} 실패: ${data.error_message}</span><br></div>`);
+                            addProcessedLog('시스템', `<span class="error">요청 #${i+1} 실패: ${data.error_message}</span>`);
                         }
                         
                         return data;
                     })
                     .catch(error => {
                         failCount++;
-                        addProcessedLog(`<div><span class="error">요청 #${i+1} 오류: ${error.message}</span><br></div>`);
+                        addProcessedLog('시스템', `<span class="error">요청 #${i+1} 오류: ${error.message}</span>`);
                     })
                 );
             }
@@ -752,14 +751,15 @@
                 resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
                     백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
                 
-                addProcessedLog(`<div><br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br></div>`);
+                addProcessedLog('시스템', `<br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br>`);
             } catch (error) {
                 resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
-                addProcessedLog(`<div><span class="error">테스트 중 오류 발생: ${error.message}</span><br></div>`);
+                addProcessedLog('시스템', `<span class="error">테스트 중 오류 발생: ${error.message}</span><br>`);
             } finally {
                 multiTestBtn.disabled = false;
             }
         }
+    
     </script>
 </body>
 </html>
