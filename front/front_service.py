@@ -18,9 +18,12 @@ import datetime
 from generated import bff_pb2, bff_pb2_grpc
 from common.logging_config import setup_logging
 
-# gRPC 환경 변수 설정 추가
+# gRPC 환경 변수 설정 추가 - 디버그 로그 세부화
 os.environ['GRPC_VERBOSITY'] = 'DEBUG'
-os.environ['GRPC_TRACE'] = 'all,api,channel,client_channel,connectivity_state,http,timer,timer_check,transport_security,security_connector,subchannel,resolver,avl,chttp2,handshaker,call_combiner,pick_first,executor,compression,transport_flow_control'
+os.environ['GRPC_TRACE'] = 'connectivity_state,channel,client_channel,transport_flow_control,http,call_error,subchannel,api'
+# 핵심 서브시스템 로깅으로 집중
+os.environ['GRPC_GO_LOG_SEVERITY_LEVEL'] = 'INFO'
+os.environ['GRPC_GO_LOG_VERBOSITY_LEVEL'] = '2'
 
 # 기본 로깅 설정
 logging.basicConfig(level=logging.DEBUG)
@@ -57,20 +60,54 @@ WERKZEUG_PATTERN = re.compile(r'^\[werkzeug\]', re.IGNORECASE)
 GRPC_CORE_PATTERN = re.compile(r'(src/core/|I\d{4}|D\d{4}|completion_queue|channel|client_channel|connectivity)', re.IGNORECASE)
 SYSTEM_LOG_PATTERN = re.compile(r'^\[시스템\]', re.IGNORECASE)
 
-# gRPC 인터셉터를 위한 클래스
+# 로그 메시지 ID를 추적하여 중복 방지
+processed_log_ids = set()
+
+# Protobuf 메시지를 포맷팅하는 함수 개선
+def format_protobuf_message(message):
+    """Protobuf 메시지를 가독성 있는 형식으로 변환"""
+    if not message:
+        return "빈 메시지"
+    
+    try:
+        # Protobuf 메시지를 사전으로 변환
+        message_dict = {}
+        for field, value in message.ListFields():
+            message_dict[field.name] = value
+        
+        # 사전을 JSON 형식의 문자열로 변환
+        formatted_json = json.dumps(message_dict, ensure_ascii=False, indent=2)
+        return formatted_json
+    except Exception as e:
+        return f"{str(message)} (포맷 오류: {str(e)})"
+
+# gRPC 인터셉터를 위한 클래스 개선
 class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
     def __init__(self, log_queue, service_name="grpc_client"):
         self.service_name = service_name
         self.logger = logging.getLogger(f"grpc_interceptor.{service_name}")
         self.log_queue = log_queue
         
-    def _log_to_queue(self, log_type, content):
+    def _log_to_queue(self, log_type, content, is_debug=False):
         """로그 큐에 로그 추가"""
+        # 로그 중복 방지를 위한 ID 생성
+        log_id = hash(f"{log_type}:{content}")
+        
+        if log_id in processed_log_ids:
+            return  # 이미 처리된 로그는 무시
+            
+        processed_log_ids.add(log_id)
+        
+        # 최대 1000개 ID만 유지 (메모리 누수 방지)
+        if len(processed_log_ids) > 1000:
+            processed_log_ids.clear()
+        
         self.log_queue.put({
             'type': log_type,
             'logs': [{
                 'service': self.service_name,
-                'content': content
+                'content': content,
+                'is_debug': is_debug
             }]
         })
         
@@ -81,13 +118,10 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
         return ", ".join([f"{k}={v}" for k, v in dict(metadata).items()])
     
     def _format_message(self, message):
-        """메시지 내용 포맷팅"""
-        if hasattr(message, "__dict__"):
-            try:
-                # protobuf 메시지를 dict로 변환 시도
-                return str(message)
-            except:
-                pass
+        """메시지 내용 포맷팅 - 개선된 방법"""
+        if hasattr(message, "ListFields"):
+            # Protobuf 메시지 객체인 경우 향상된 포맷팅
+            return format_protobuf_message(message)
         return str(message)
     
     def intercept_unary_unary(self, continuation, client_call_details, request):
@@ -107,10 +141,13 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
         request_str = self._format_message(request)
         
         # 요청 로그
-        request_log = f"[gRPC 요청] 서비스: {service_name}, 메서드: {method_name}, 메시지: {request_str}, 타임아웃: {timeout_str}, 메타데이터: {metadata_str}"
-        self.logger.info(request_log)
+        request_log = f"[gRPC 요청] 서비스: {service_name}, 메서드: {method_name}\n" + \
+                      f"타임아웃: {timeout_str}, 메타데이터: {metadata_str}\n" + \
+                      f"메시지: {request_str}"
         
-        # 로그 큐에 추가 - gRPC 로그에 추가 (이건 고수준 로그지만 gRPC 통신 관련이므로)
+        self.logger.info(f"요청 발송: {method_name}")
+        
+        # 로그 큐에 추가 - gRPC 로그에 추가
         self._log_to_queue('grpc', request_log)
         
         try:
@@ -126,12 +163,15 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
             # 응답 메시지 포맷팅
             try:
                 response_str = self._format_message(response)
-            except:
-                response_str = "<응답 포맷팅 실패>"
+            except Exception as e:
+                response_str = f"<응답 포맷팅 실패: {str(e)}>"
             
             # 응답 로그
-            response_log = f"[gRPC 응답] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 상태: 성공, 응답: {response_str}"
-            self.logger.info(response_log)
+            response_log = f"[gRPC 응답] 서비스: {service_name}, 메서드: {method_name}\n" + \
+                           f"소요시간: {elapsed:.3f}초, 상태: 성공\n" + \
+                           f"응답: {response_str}"
+            
+            self.logger.info(f"응답 수신: {method_name} ({elapsed:.3f}초)")
             
             # 로그 큐에 추가 - gRPC 로그에 추가
             self._log_to_queue('grpc', response_log)
@@ -143,8 +183,11 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
             elapsed = time.time() - start_call_time
             
             # 오류 로그
-            error_log = f"[gRPC 오류] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 코드: {e.code()}, 상세: {e.details()}"
-            self.logger.error(error_log)
+            error_log = f"[gRPC 오류] 서비스: {service_name}, 메서드: {method_name}\n" + \
+                        f"소요시간: {elapsed:.3f}초, 코드: {e.code()}\n" + \
+                        f"상세: {e.details()}"
+            
+            self.logger.error(f"오류 발생: {method_name} - {e.code()} ({elapsed:.3f}초)")
             
             # 로그 큐에 추가 - gRPC 로그에 추가
             self._log_to_queue('grpc', error_log)
@@ -155,8 +198,11 @@ class DetailedGrpcInterceptor(grpc.UnaryUnaryClientInterceptor):
             elapsed = time.time() - start_call_time
             
             # 오류 로그
-            error_log = f"[gRPC 예외] 서비스: {service_name}, 메서드: {method_name}, 소요시간: {elapsed:.3f}초, 예외: {str(e)}"
-            self.logger.error(error_log)
+            error_log = f"[gRPC 예외] 서비스: {service_name}, 메서드: {method_name}\n" + \
+                        f"소요시간: {elapsed:.3f}초\n" + \
+                        f"예외: {str(e)}"
+            
+            self.logger.error(f"예외 발생: {method_name} - {str(e)} ({elapsed:.3f}초)")
             
             # 로그 큐에 추가 - gRPC 로그에 추가
             self._log_to_queue('grpc', error_log)
@@ -171,13 +217,17 @@ class TerminalCapture:
         self.file = open(log_file, 'a', encoding='utf-8')
         self.original_stdout = sys.stdout
         self.original_stderr = sys.stderr
+        self.last_log_line = ""
+        self.debug_buffer = []
         self.setup()
         
-        # gRPC 디버그 로그 패턴 - 더 광범위하게 수정
+        # gRPC 디버그 로그 패턴 - 더 넓게 확장
         self.grpc_debug_pattern = re.compile(
-            r'(I\d{4}|D\d{4}|E\d{4}|W\d{4}|src/core/|connectivity_state|' +
+            r'(I\d{5}|D\d{5}|E\d{5}|W\d{5}|src/core/|connectivity_state|' +
             r'chttp2_transport|client_channel|transport_|ConnectivityStateChange|' +
-            r'completion_queue|grpc_|subchannel|resolver|000001[A-F0-9]{8,})',
+            r'completion_queue|grpc_|subchannel|resolver|000001[A-F0-9]{8,}|' +
+            r'handshaker|fd_|call_|ssl_|polling_|dns_|tcp_|client_|timer_|connected_|' +
+            r'api.cc|channel.cc|endpoint.cc|alarm.cc)',
             re.IGNORECASE
         )
         
@@ -195,19 +245,38 @@ class TerminalCapture:
         self.file.write(message)
         self.file.flush()
         
-        # 메시지가 비어있지 않으면 로그 큐에 추가
+        # 디버깅 메시지 수집
         if message.strip():
+            # 중복 로그 방지
+            if message.strip() == self.last_log_line:
+                return
+                
+            self.last_log_line = message.strip()
+            
             # Werkzeug 로그는 무시
             if self.werkzeug_pattern.search(message):
                 return
-                
+            
             # 실제 gRPC 저수준 로그인지 확인
             if self.grpc_debug_pattern.search(message):
+                # 로그 중복 방지를 위한 ID 생성
+                log_id = hash(message.strip())
+                
+                if log_id in processed_log_ids:
+                    return  # 이미 처리된 로그는 무시
+                    
+                processed_log_ids.add(log_id)
+                
+                # 디버그 정보 분석
+                is_debug = "D" in message[:10]  # D로 시작하는 것은 디버그 로그
+                
+                # 로그 큐에 추가
                 self.log_queue.put({
                     'type': 'grpc',
                     'logs': [{
-                        'service': 'gRPC',
-                        'content': message.rstrip()
+                        'service': 'gRPC 코어',
+                        'content': message.rstrip(),
+                        'is_debug': is_debug
                     }]
                 })
         
@@ -228,6 +297,8 @@ class EnhancedLogWatcher:
         self.log_dir = log_dir
         self.log_queue = log_queue
         self.file_positions = {}
+        self.processed_lines = set()  # 중복 방지용
+        self.max_processed_lines = 1000  # 메모리 사용 제한
         
     def scan_for_logs(self):
         """초기 로그 파일 스캔"""
@@ -263,6 +334,35 @@ class EnhancedLogWatcher:
                 
                 # 서비스 이름 확인 - 파일 이름에서 추출
                 service_name = os.path.basename(file_path).split('_')[0]
+                
+                # 라인별로 처리하여 중복 방지
+                for line in new_content.splitlines():
+                    if line.strip():
+                        # 중복 확인
+                        line_hash = hash(line)
+                        if line_hash in self.processed_lines:
+                            continue
+                            
+                        self.processed_lines.add(line_hash)
+                        
+                        # 최대 처리 라인 수 제한
+                        if len(self.processed_lines) > self.max_processed_lines:
+                            self.processed_lines.clear()
+                        
+                        # 로그 타입 결정
+                        log_type = 'processed'
+                        if 'grpc' in line.lower() or 'rpc' in line.lower():
+                            log_type = 'grpc'
+                        
+                        # 로그 큐에 추가
+                        self.log_queue.put({
+                            'type': log_type,
+                            'logs': [{
+                                'service': service_name,
+                                'content': line.strip(),
+                                'is_from_file': True  # 파일에서 읽은 로그 표시
+                            }]
+                        })
                     
         except Exception as e:
             logging.error(f"로그 파일 처리 중 오류: {str(e)}")
@@ -303,11 +403,26 @@ def log_monitor_thread(log_watcher):
 # gRPC 채널 생성 함수
 def create_channel(address, log_queue=None, service_name="bff_client"):
     """인터셉터가 포함된 gRPC 채널 생성"""
+    # 향상된 채널 옵션 설정
+    options = [
+        ('grpc.enable_http_proxy', 0),
+        ('grpc.max_receive_message_length', 1024 * 1024 * 10),  # 10MB
+        ('grpc.enable_retries', 1),
+        ('grpc.keepalive_time_ms', 30000),  # 30 seconds
+        ('grpc.keepalive_timeout_ms', 10000),  # 10 seconds
+        ('grpc.http2.max_pings_without_data', 0),
+        ('grpc.http2.min_time_between_pings_ms', 10000),  # 10 seconds
+        ('grpc.http2.min_ping_interval_without_data_ms', 5000)  # 5 seconds
+    ]
+    
     if log_queue:
         interceptor = DetailedGrpcInterceptor(log_queue, service_name=service_name)
-        return grpc.intercept_channel(grpc.insecure_channel(address), interceptor)
+        return grpc.intercept_channel(
+            grpc.insecure_channel(address, options=options), 
+            interceptor
+        )
     else:
-        return grpc.insecure_channel(address)
+        return grpc.insecure_channel(address, options=options)
 
 # BFF 서비스 호출 함수
 def call_bff(request_type, use_deadline, use_circuit_breaker, use_backpressure, backend_type):
@@ -400,14 +515,22 @@ def test_api():
     else:
         log_content += f"실패: {result['error_message']}"
     
-    # 로그 큐에 직접 추가
-    log_queue.put({
-        'type': 'processed',
-        'logs': [{
-            'service': '시스템',
-            'content': log_content
-        }]
-    })
+    # 로그 중복 체크를 위한 ID 생성
+    log_id = hash(log_content)
+    
+    # 중복되지 않은 경우에만 로그 추가
+    if log_id not in processed_log_ids:
+        processed_log_ids.add(log_id)
+        
+        # 로그 큐에 직접 추가
+        log_queue.put({
+            'type': 'processed',
+            'logs': [{
+                'service': '시스템',
+                'content': log_content,
+                'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+            }]
+        })
     
     return jsonify(result)
 
@@ -441,14 +564,22 @@ def reset_api():
             log_content += f"성공: {response.message}"
         else:
             log_content += f"실패: {response.message}"
+        
+        # 로그 중복 체크를 위한 ID 생성
+        log_id = hash(log_content)
+        
+        # 중복되지 않은 경우에만 로그 추가
+        if log_id not in processed_log_ids:
+            processed_log_ids.add(log_id)
             
-        log_queue.put({
-            'type': 'processed',
-            'logs': [{
-                'service': '시스템',
-                'content': log_content
-            }]
-        })
+            log_queue.put({
+                'type': 'processed',
+                'logs': [{
+                    'service': '시스템',
+                    'content': log_content,
+                    'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+                }]
+            })
         
         return jsonify({
             "success": response.success,
@@ -463,13 +594,21 @@ def reset_api():
         log_content += f"패턴: {pattern}\n"
         log_content += f"오류: {str(e)}"
         
-        log_queue.put({
-            'type': 'processed',
-            'logs': [{
-                'service': '시스템',
-                'content': log_content
-            }]
-        })
+        # 로그 중복 체크를 위한 ID 생성
+        log_id = hash(log_content)
+        
+        # 중복되지 않은 경우에만 로그 추가
+        if log_id not in processed_log_ids:
+            processed_log_ids.add(log_id)
+            
+            log_queue.put({
+                'type': 'processed',
+                'logs': [{
+                    'service': '시스템',
+                    'content': log_content,
+                    'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+                }]
+            })
         
         return jsonify({
             "success": False,
@@ -502,13 +641,21 @@ def status_api():
             log_content += f"서킷브레이커: {response.circuit_breaker_state} ({response.circuit_breaker_failures})\n"
             log_content += f"백프레셔: 활성 요청 {response.backpressure_active_requests}개, 과부하={response.backpressure_overloaded}"
             
-            log_queue.put({
-                'type': 'processed',
-                'logs': [{
-                    'service': '시스템',
-                    'content': log_content
-                }]
-            })
+            # 로그 중복 체크를 위한 ID 생성
+            log_id = hash(log_content)
+            
+            # 중복되지 않은 경우에만 로그 추가
+            if log_id not in processed_log_ids:
+                processed_log_ids.add(log_id)
+                
+                log_queue.put({
+                    'type': 'processed',
+                    'logs': [{
+                        'service': '시스템',
+                        'content': log_content,
+                        'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+                    }]
+                })
             
             return jsonify({
                 "success": True,
@@ -524,13 +671,21 @@ def status_api():
         else:
             log_content += f"상태 조회 실패: {response.error_message}"
             
-            log_queue.put({
-                'type': 'processed',
-                'logs': [{
-                    'service': '시스템',
-                    'content': log_content
-                }]
-            })
+            # 로그 중복 체크를 위한 ID 생성
+            log_id = hash(log_content)
+            
+            # 중복되지 않은 경우에만 로그 추가
+            if log_id not in processed_log_ids:
+                processed_log_ids.add(log_id)
+                
+                log_queue.put({
+                    'type': 'processed',
+                    'logs': [{
+                        'service': '시스템',
+                        'content': log_content,
+                        'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+                    }]
+                })
             
             return jsonify({
                 "success": False,
@@ -544,99 +699,23 @@ def status_api():
         log_content += f"백엔드: {backend_type}\n"
         log_content += f"오류: {str(e)}"
         
-        log_queue.put({
-            'type': 'processed',
-            'logs': [{
-                'service': '시스템',
-                'content': log_content
-            }]
-        })
+        # 로그 중복 체크를 위한 ID 생성
+        log_id = hash(log_content)
+        
+        # 중복되지 않은 경우에만 로그 추가
+        if log_id not in processed_log_ids:
+            processed_log_ids.add(log_id)
+            
+            log_queue.put({
+                'type': 'processed',
+                'logs': [{
+                    'service': '시스템',
+                    'content': log_content,
+                    'timestamp': datetime.datetime.now().strftime('%H:%M:%S')
+                }]
+            })
         
         return jsonify({
             "success": False,
             "message": f"상태 조회 실패: {str(e)}"
         })
-
-@app.route('/api/clear-logs', methods=['POST'])
-def clear_logs():
-    """로그 지우기 API 엔드포인트"""
-    # 로그 메시지 추가 (로그를 지웠다는 메시지)
-    log_queue.put({
-        'type': 'processed',
-        'logs': [{
-            'service': '시스템',
-            'content': "로그가 지워졌습니다."
-        }]
-    })
-    
-    log_queue.put({
-        'type': 'grpc',
-        'logs': [{
-            'service': '시스템',
-            'content': "gRPC 로그가 지워졌습니다."
-        }]
-    })
-    
-    return jsonify({"success": True})
-
-@socketio.on('connect')
-def handle_connect():
-    """클라이언트 연결 이벤트"""
-    logger.info('클라이언트 연결됨')
-    
-@socketio.on('disconnect')
-def handle_disconnect():
-    """클라이언트 연결 해제 이벤트"""
-    logger.info('클라이언트 연결 해제됨')
-
-def run_flask(host="0.0.0.0", port=5000):
-    port = int(os.environ.get("PORT", port))  # 환경 변수에서 포트 읽기
-    
-    # 로그 디렉토리가 존재하는지 확인
-    os.makedirs(LOG_DIR, exist_ok=True)
-    
-    # 터미널 출력 캡처 설정 - 로그 큐 전달
-    terminal_capture = TerminalCapture(log_queue, TERMINAL_LOG_FILE)
-    
-    # 향상된 로그 모니터링 설정
-    log_watcher = EnhancedLogWatcher(LOG_DIR, log_queue)
-    log_watcher.scan_for_logs()
-    
-    # 로그 처리 스레드 시작
-    log_processor = threading.Thread(target=log_processor_thread)
-    log_processor.daemon = True
-    log_processor.start()
-    
-    # 로그 파일 모니터링 스레드 시작
-    monitor_thread = threading.Thread(target=log_monitor_thread, args=(log_watcher,))
-    monitor_thread.daemon = True
-    monitor_thread.start()
-    
-    # 초기 로그 메시지 추가
-    log_queue.put({
-        'type': 'processed',
-        'logs': [{
-            'service': '시스템',
-            'content': "시스템이 시작되었습니다. 테스트를 진행해주세요."
-        }]
-    })
-    
-    log_queue.put({
-        'type': 'grpc',
-        'logs': [{
-            'service': '시스템',
-            'content': "gRPC 로그가 여기에 표시됩니다."
-        }]
-    })
-    
-    logger.info(f"Flask 서버 시작: {host}:{port}")
-    
-    try:
-        socketio.run(app, host=host, port=port, debug=False, use_reloader=False)
-    except KeyboardInterrupt:
-        logger.info("서버 종료 중...")
-    finally:
-        terminal_capture.close()
-
-if __name__ == "__main__":
-    run_flask()
