@@ -100,17 +100,6 @@
             overflow: auto;
             max-height: 400px;
         }
-        .raw-logs {
-            display: none;
-            background-color: #1e272e;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 20px;
-            font-family: monospace;
-            overflow: auto;
-            max-height: 400px;
-        }
         .success {
             color: #2ecc71;
         }
@@ -204,6 +193,52 @@
         .toggle-label {
             margin-right: 10px;
         }
+
+        /* 탭 스타일 추가 */
+        .tab-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .tab-menu {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+        .tab-item {
+            padding: 10px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s;
+        }
+        .tab-item:hover {
+            background-color: #e9ecef;
+        }
+        .tab-item.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .tab-content {
+            display: none;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-family: monospace;
+            overflow: auto;
+            max-height: 400px;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -271,424 +306,459 @@
             </div>
         </div>
         
+        <!-- 로그 패널 - 탭 기반 UI로 변경 -->
         <div class="panel">
             <div class="log-header">
                 <h3>로그</h3>
                 <div class="log-controls">
-                    <div class="log-filter">
-                        <label for="log-type">로그 유형:</label>
-                        <select id="log-type">
-                            <option value="all">모든 로그</option>
-                            <option value="grpc">gRPC 로그만</option>
-                            <option value="http">HTTP 로그만</option>
-                        </select>
-                    </div>
                     <button id="clear-logs">로그 지우기</button>
-                    <button id="auto-scroll-toggle">자동 스크롤</button>
+                    <button id="auto-scroll-toggle" class="active">자동 스크롤</button>
                 </div>
             </div>
             
-            <div id="logs" class="logs">로그가 여기에 표시됩니다.</div>
-            <div id="raw-logs" class="raw-logs">Raw 로그가 여기에 표시됩니다.</div>
-            <div id="grpc-logs" class="raw-logs" style="display: none;">gRPC 로그가 여기에 표시됩니다.</div>
-            <div id="http-logs" class="raw-logs" style="display: none;">HTTP 로그가 여기에 표시됩니다.</div>
+            <!-- 탭 메뉴 -->
+            <div class="tab-container">
+                <ul class="tab-menu">
+                    <li class="tab-item active" data-tab="processed-logs">가공된 로그</li>
+                    <li class="tab-item" data-tab="raw-logs">원시 로그</li>
+                    <li class="tab-item" data-tab="grpc-logs">gRPC 로그</li>
+                    <li class="tab-item" data-tab="http-logs">HTTP 로그</li>
+                </ul>
+                
+                <!-- 탭 콘텐츠 -->
+                <div id="processed-logs" class="tab-content logs active">
+                    테스트 결과 로그가 여기에 표시됩니다.
+                </div>
+                <div id="raw-logs" class="tab-content logs">
+                    원시 로그가 여기에 표시됩니다.
+                </div>
+                <div id="grpc-logs" class="tab-content logs">
+                    gRPC 로그가 여기에 표시됩니다.
+                </div>
+                <div id="http-logs" class="tab-content logs">
+                    HTTP 로그가 여기에 표시됩니다.
+                </div>
+            </div>
         </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
-    // 전역 변수로 DOM 요소 선언
-    let testNormalBtn, testSlowBtn, multiTestBtn;
-    let resetCircuitBreakerBtn, resetBackpressureBtn, resetAllBtn, getStatusBtn, clearLogsBtn;
-    let resultDiv, logsDiv, rawLogsDiv, grpcLogsDiv, httpLogsDiv, backendTypeSelect;
-    let statusDisplayPanel, statusContentDiv;
-    let deadlineCheckbox, circuitBreakerCheckbox, backpressureCheckbox;
-    let logTypeSelect, autoScrollToggle;
-    let socket;
-    let autoScroll = true;
-    let currentLogType = 'all';
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        // DOM 요소 초기화
-        testNormalBtn = document.getElementById('test-normal-btn');
-        testSlowBtn = document.getElementById('test-slow-btn');
-        multiTestBtn = document.getElementById('multi-test-btn');
-        resetCircuitBreakerBtn = document.getElementById('reset-circuit-breaker-btn');
-        resetBackpressureBtn = document.getElementById('reset-backpressure-btn');
-        resetAllBtn = document.getElementById('reset-all-btn');
-        getStatusBtn = document.getElementById('get-status-btn');
-        clearLogsBtn = document.getElementById('clear-logs');
-        resultDiv = document.getElementById('result');
-        logsDiv = document.getElementById('logs');
-        rawLogsDiv = document.getElementById('raw-logs');
-        grpcLogsDiv = document.getElementById('grpc-logs');
-        httpLogsDiv = document.getElementById('http-logs');
-        backendTypeSelect = document.getElementById('backend-type');
-        statusDisplayPanel = document.getElementById('status-display');
-        statusContentDiv = document.getElementById('status-content');
-        logTypeSelect = document.getElementById('log-type');
-        autoScrollToggle = document.getElementById('auto-scroll-toggle');
+    <script>
+        // 전역 변수로 DOM 요소 선언
+        let testNormalBtn, testSlowBtn, multiTestBtn;
+        let resetCircuitBreakerBtn, resetBackpressureBtn, resetAllBtn, getStatusBtn, clearLogsBtn;
+        let resultDiv, tabItems, tabContents;
+        let statusDisplayPanel, statusContentDiv;
+        let deadlineCheckbox, circuitBreakerCheckbox, backpressureCheckbox;
+        let autoScrollToggle;
+        let socket;
+        let autoScroll = true;
+        let currentTab = 'processed-logs';
+
+        // 로그 컨테이너 객체 - 탭별로 쉽게 접근하기 위한 매핑
+        const logContainers = {};
         
-        // 패턴 체크박스
-        deadlineCheckbox = document.getElementById('deadline');
-        circuitBreakerCheckbox = document.getElementById('circuit-breaker');
-        backpressureCheckbox = document.getElementById('backpressure');
-        
-        // 이벤트 리스너 등록
-        testNormalBtn.addEventListener('click', () => runTest('normal'));
-        testSlowBtn.addEventListener('click', () => runTest('slow'));
-        resetCircuitBreakerBtn.addEventListener('click', () => resetPattern('circuit_breaker'));
-        resetBackpressureBtn.addEventListener('click', () => resetPattern('backpressure'));
-        resetAllBtn.addEventListener('click', () => resetPattern('all'));
-        getStatusBtn.addEventListener('click', getPatternStatus);
-        multiTestBtn.addEventListener('click', runMultiTest);
-        
-        clearLogsBtn.addEventListener('click', function() {
-            logsDiv.innerHTML = '로그가 지워졌습니다.';
-            rawLogsDiv.innerHTML = '로그가 지워졌습니다.';
-            grpcLogsDiv.innerHTML = '로그가 지워졌습니다.';
-            httpLogsDiv.innerHTML = '로그가 지워졌습니다.';
-        });
-        
-        // 로그 타입 변경 이벤트 리스너
-        logTypeSelect.addEventListener('change', function() {
-            currentLogType = this.value;
-            showSelectedLogType(currentLogType);
-        });
-        
-        autoScrollToggle.addEventListener('click', function() {
-            autoScroll = !autoScroll;
-            this.classList.toggle('active');
-            this.textContent = autoScroll ? '자동 스크롤 끄기' : '자동 스크롤 켜기';
-        });
-        
-        // 웹소켓 연결 설정
-        setupWebSocket();
-    });
-    
-    function showSelectedLogType(logType) {
-        // 모든 로그 div 숨기기
-        rawLogsDiv.style.display = 'none';
-        grpcLogsDiv.style.display = 'none';
-        httpLogsDiv.style.display = 'none';
-        
-        // 선택된 로그 타입만 표시
-        switch(logType) {
-            case 'all':
-                rawLogsDiv.style.display = 'block';
-                break;
-            case 'grpc':
-                grpcLogsDiv.style.display = 'block';
-                break;
-            case 'http':
-                httpLogsDiv.style.display = 'block';
-                break;
-        }
-    }
-    
-    function setupWebSocket() {
-        // 현재 주소에 자동으로 연결
-        socket = io();
-        
-        socket.on('connect', function() {
-            console.log('Socket.IO 연결됨');
-            addLog('all', '시스템', '로그 모니터링 연결됨');
-        });
-        
-        socket.on('disconnect', function() {
-            console.log('Socket.IO 연결 끊김');
-            addLog('all', '시스템', '로그 모니터링 연결 끊김');
-        });
-        
-        socket.on('raw_log', function(data) {
-            const logType = data.type || 'all';
-            data.logs.forEach(function(log) {
-                addLog(logType, log.service, log.content);
-            });
-        });
-    }
-    
-    function addLog(logType, service, content) {
-        const currentTime = new Date().toLocaleTimeString();
-        let serviceClass = '';
-        
-        // 서비스별 색상 지정
-        if (service.includes('db')) {
-            serviceClass = 'service-db';
-        } else if (service.includes('backend')) {
-            serviceClass = 'service-backend';
-        } else if (service.includes('bff')) {
-            serviceClass = 'service-bff';
-        } else if (service.includes('front')) {
-            serviceClass = 'service-front';
-        }
-        
-        const logLine = `<div><span class="${serviceClass}">[${service}]</span> ${content}</div>`;
-        
-        // 로그 타입에 따라 적절한 로그 div에 추가
-        if (logType === 'all' || !logType) {
-            rawLogsDiv.innerHTML += logLine;
-            if (autoScroll && currentLogType === 'all') {
-                rawLogsDiv.scrollTop = rawLogsDiv.scrollHeight;
-            }
-        }
-        
-        if (logType === 'grpc') {
-            grpcLogsDiv.innerHTML += logLine;
-            if (autoScroll && currentLogType === 'grpc') {
-                grpcLogsDiv.scrollTop = grpcLogsDiv.scrollHeight;
-            }
-        }
-        
-        if (logType === 'http') {
-            httpLogsDiv.innerHTML += logLine;
-            if (autoScroll && currentLogType === 'http') {
-                httpLogsDiv.scrollTop = httpLogsDiv.scrollHeight;
-            }
-        }
-    }
-    
-    // 테스트 함수
-    async function runTest(requestType) {
-        const useDeadline = deadlineCheckbox.checked;
-        const useCircuitBreaker = circuitBreakerCheckbox.checked;
-        const useBackpressure = backpressureCheckbox.checked;
-        const backendType = backendTypeSelect.value;
-        
-        testNormalBtn.disabled = true;
-        testSlowBtn.disabled = true;
-        resultDiv.textContent = '요청 처리 중...';
-        
-        try {
-            const response = await fetch('/api/test', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    request_type: requestType,
-                    use_deadline: useDeadline,
-                    use_circuit_breaker: useCircuitBreaker,
-                    use_backpressure: useBackpressure,
-                    backend_type: backendType
-                })
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM 요소 초기화
+            testNormalBtn = document.getElementById('test-normal-btn');
+            testSlowBtn = document.getElementById('test-slow-btn');
+            multiTestBtn = document.getElementById('multi-test-btn');
+            resetCircuitBreakerBtn = document.getElementById('reset-circuit-breaker-btn');
+            resetBackpressureBtn = document.getElementById('reset-backpressure-btn');
+            resetAllBtn = document.getElementById('reset-all-btn');
+            getStatusBtn = document.getElementById('get-status-btn');
+            clearLogsBtn = document.getElementById('clear-logs');
+            resultDiv = document.getElementById('result');
+            backendTypeSelect = document.getElementById('backend-type');
+            statusDisplayPanel = document.getElementById('status-display');
+            statusContentDiv = document.getElementById('status-content');
+            autoScrollToggle = document.getElementById('auto-scroll-toggle');
+            
+            // 탭 관련 요소
+            tabItems = document.querySelectorAll('.tab-item');
+            tabContents = document.querySelectorAll('.tab-content');
+            
+            // 로그 컨테이너 매핑
+            logContainers['processed-logs'] = document.getElementById('processed-logs');
+            logContainers['raw-logs'] = document.getElementById('raw-logs');
+            logContainers['grpc-logs'] = document.getElementById('grpc-logs');
+            logContainers['http-logs'] = document.getElementById('http-logs');
+            
+            // 패턴 체크박스
+            deadlineCheckbox = document.getElementById('deadline');
+            circuitBreakerCheckbox = document.getElementById('circuit-breaker');
+            backpressureCheckbox = document.getElementById('backpressure');
+            
+            // 이벤트 리스너 등록
+            testNormalBtn.addEventListener('click', () => runTest('normal'));
+            testSlowBtn.addEventListener('click', () => runTest('slow'));
+            resetCircuitBreakerBtn.addEventListener('click', () => resetPattern('circuit_breaker'));
+            resetBackpressureBtn.addEventListener('click', () => resetPattern('backpressure'));
+            resetAllBtn.addEventListener('click', () => resetPattern('all'));
+            getStatusBtn.addEventListener('click', getPatternStatus);
+            multiTestBtn.addEventListener('click', runMultiTest);
+            
+            // 로그 컨트롤 이벤트 리스너
+            clearLogsBtn.addEventListener('click', clearLogs);
+            
+            autoScrollToggle.addEventListener('click', function() {
+                autoScroll = !autoScroll;
+                this.classList.toggle('active');
+                this.textContent = autoScroll ? '자동 스크롤' : '자동 스크롤 끄기';
             });
             
-            const data = await response.json();
+            // 탭 클릭 이벤트 설정
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
             
-            // 결과 표시
-            if (data.success) {
-                resultDiv.innerHTML = `<span class="success">✅ 성공</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.result}`;
-            } else {
-                resultDiv.innerHTML = `<span class="error">❌ 실패</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.error_message}`;
-            }
+            // 웹소켓 연결 설정
+            setupWebSocket();
+        });
+        
+        // 현재 탭을 변경하는 함수
+        function switchTab(tabId) {
+            // 모든 탭 컨텐츠와 탭 메뉴 아이템 비활성화
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            tabItems.forEach(item => {
+                item.classList.remove('active');
+            });
             
-            // 로그 업데이트
-            logsDiv.innerHTML += `<br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
-            logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
-            logsDiv.innerHTML += `요청 유형: ${requestType}<br>`;
-            logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
-            logsDiv.innerHTML += `요청 시간: ${data.elapsed_time.toFixed(2)}초<br>`;
-            logsDiv.innerHTML += data.success ? 
-                `<span class="success">성공: ${data.result}</span><br>` : 
-                `<span class="error">실패: ${data.error_message}</span><br>`;
+            // 선택된 탭과 컨텐츠 활성화
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-item[data-tab="${tabId}"]`).classList.add('active');
             
-            // 로그 스크롤 맨 아래로
+            // 현재 탭 기록
+            currentTab = tabId;
+            
+            // 활성화된 탭이 자동 스크롤 상태라면 스크롤 이동
             if (autoScroll) {
-                logsDiv.scrollTop = logsDiv.scrollHeight;
+                const activeContent = document.getElementById(tabId);
+                activeContent.scrollTop = activeContent.scrollHeight;
             }
-            
-        } catch (error) {
-            resultDiv.innerHTML = `<span class="error">❌ 오류</span><br>${error.message}`;
-            logsDiv.innerHTML += `<span class="error">오류: ${error.message}</span><br>`;
-        } finally {
-            testNormalBtn.disabled = false;
-            testSlowBtn.disabled = false;
         }
-    }
-    
-    // 패턴 리셋 함수
-    async function resetPattern(pattern) {
-        const backendType = backendTypeSelect.value;
         
-        try {
-            const response = await fetch('/api/reset', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pattern: pattern,
-                    backend_type: backendType
-                })
+        // 로그 지우기 함수
+        function clearLogs() {
+            // 모든 로그 컨테이너 초기화
+            for (const [tabId, container] of Object.entries(logContainers)) {
+                container.innerHTML = `${getTabTitle(tabId)}가 지워졌습니다.`;
+            }
+        }
+        
+        // 탭 ID에 따른 탭 제목 반환
+        function getTabTitle(tabId) {
+            switch(tabId) {
+                case 'processed-logs': return '테스트 결과 로그';
+                case 'raw-logs': return '원시 로그';
+                case 'grpc-logs': return 'gRPC 로그';
+                case 'http-logs': return 'HTTP 로그';
+                default: return '로그';
+            }
+        }
+        
+        // 웹소켓 연결 설정 함수
+        function setupWebSocket() {
+            // 현재 주소에 자동으로 연결
+            socket = io();
+            
+            socket.on('connect', function() {
+                console.log('Socket.IO 연결됨');
+                addLog('all', '시스템', '로그 모니터링 연결됨');
             });
             
-            const data = await response.json();
+            socket.on('disconnect', function() {
+                console.log('Socket.IO 연결 끊김');
+                addLog('all', '시스템', '로그 모니터링 연결 끊김');
+            });
             
-            if (data.success) {
-                resultDiv.innerHTML = `<span class="success">✅ 패턴 리셋 성공</span><br>${data.message}`;
-            } else {
-                resultDiv.innerHTML = `<span class="error">❌ 패턴 리셋 실패</span><br>${data.message}`;
-            }
-            
-            logsDiv.innerHTML += `<br>====== 패턴 리셋 (${new Date().toLocaleTimeString()}) ======<br>`;
-            logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
-            logsDiv.innerHTML += `패턴: ${pattern}<br>`;
-            logsDiv.innerHTML += data.success ? 
-                `<span class="success">성공: ${data.message}</span><br>` : 
-                `<span class="error">실패: ${data.message}</span><br>`;
-            
-            if (autoScroll) {
-                logsDiv.scrollTop = logsDiv.scrollHeight;
-            }
-            
-        } catch (error) {
-            resultDiv.innerHTML = `<span class="error">❌ 리셋 오류</span><br>${error.message}`;
-            logsDiv.innerHTML += `<span class="error">리셋 오류: ${error.message}</span><br>`;
+            socket.on('raw_log', function(data) {
+                const logType = data.type || 'all';
+                data.logs.forEach(function(log) {
+                    addLog(logType, log.service, log.content);
+                });
+            });
         }
-    }
-    
-    // 패턴 상태 조회 함수
-    async function getPatternStatus() {
-        const backendType = backendTypeSelect.value;
         
-        try {
-            console.log("상태 조회 시작...");
-            const response = await fetch(`/api/status?backend_type=${backendType}`);
-            const data = await response.json();
-            console.log("받은 응답 데이터:", data);
+        // 로그 추가 함수
+        function addLog(logType, service, content) {
+            const currentTime = new Date().toLocaleTimeString();
+            let serviceClass = '';
             
-            if (data.success) {
-                // 디버깅 로그
-                console.log("상태 패널:", statusDisplayPanel);
-                console.log("상태 내용 패널:", statusContentDiv);
-                
-                // 상태 패널 표시
-                statusDisplayPanel.style.display = 'block';
-                
-                // 서킷브레이커 상태 카드
-                const circuitBreakerHtml = `
-                    <div class="status-card">
-                        <h3>서킷브레이커 상태</h3>
-                        <p>상태: <strong class="${data.circuit_breaker.state === 'CLOSED' ? 'success' : 'error'}">${data.circuit_breaker.state}</strong></p>
-                        <p>실패 카운트: ${data.circuit_breaker.failure_count}</p>
-                    </div>
-                `;
-                
-                // 백프레셔 상태 카드
-                const backpressureHtml = `
-                    <div class="status-card">
-                        <h3>백프레셔 상태</h3>
-                        <p>활성 요청 수: ${data.backpressure.active_requests}</p>
-                        <p>과부하 상태: <strong class="${data.backpressure.is_overloaded ? 'error' : 'success'}">${data.backpressure.is_overloaded ? '예' : '아니오'}</strong></p>
-                    </div>
-                `;
-                
-                statusContentDiv.innerHTML = circuitBreakerHtml + backpressureHtml;
-                
-                logsDiv.innerHTML += `<br>====== 패턴 상태 조회 (${new Date().toLocaleTimeString()}) ======<br>`;
-                logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
-                logsDiv.innerHTML += `서킷브레이커: ${data.circuit_breaker.state} (${data.circuit_breaker.failure_count})<br>`;
-                logsDiv.innerHTML += `백프레셔: 활성 요청 ${data.backpressure.active_requests}개, 과부하=${data.backpressure.is_overloaded}<br>`;
-                
-                if (autoScroll) {
-                    logsDiv.scrollTop = logsDiv.scrollHeight;
+            // 서비스별 색상 지정
+            if (service.includes('db')) {
+                serviceClass = 'service-db';
+            } else if (service.includes('backend')) {
+                serviceClass = 'service-backend';
+            } else if (service.includes('bff')) {
+                serviceClass = 'service-bff';
+            } else if (service.includes('front')) {
+                serviceClass = 'service-front';
+            }
+            
+            const logLine = `<div><span class="${serviceClass}">[${service}]</span> ${content}</div>`;
+            
+            // 로그 타입에 따라 적절한 컨테이너에 추가
+            // 원시 로그는 항상 추가
+            logContainers['raw-logs'].innerHTML += logLine;
+            
+            // 로그 타입에 따라 추가
+            if (logType === 'grpc') {
+                logContainers['grpc-logs'].innerHTML += logLine;
+            } 
+            else if (logType === 'http') {
+                logContainers['http-logs'].innerHTML += logLine;
+            }
+            
+            // 자동 스크롤 처리
+            if (autoScroll) {
+                // 현재 활성화된 탭이 스크롤 대상이라면 스크롤
+                const activeTab = document.querySelector('.tab-content.active');
+                if (activeTab) {
+                    activeTab.scrollTop = activeTab.scrollHeight;
                 }
-                
-            } else {
-                resultDiv.innerHTML = `<span class="error">❌ 상태 조회 실패</span><br>${data.message}`;
-                logsDiv.innerHTML += `<span class="error">상태 조회 실패: ${data.message}</span><br>`;
             }
-            
-        } catch (error) {
-            console.error("상태 조회 중 오류:", error);
-            resultDiv.innerHTML = `<span class="error">❌ 상태 조회 오류</span><br>${error.message}`;
-            logsDiv.innerHTML += `<span class="error">상태 조회 오류: ${error.message}</span><br>`;
         }
-    }
-    
-    // 다중 요청 테스트 함수
-    async function runMultiTest() {
-        const useDeadline = deadlineCheckbox.checked;
-        const useCircuitBreaker = circuitBreakerCheckbox.checked;
-        const useBackpressure = backpressureCheckbox.checked;
-        const backendType = backendTypeSelect.value;
         
-        multiTestBtn.disabled = true;
-        resultDiv.textContent = '다중 요청 처리 중...';
-        
-        // 10개의 요청을 동시에 보냄
-        const numRequests = 10;
-        const requests = [];
-        let successCount = 0;
-        let failCount = 0;
-        
-        logsDiv.innerHTML += `<br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
-        logsDiv.innerHTML += `백엔드: ${backendType}<br>`;
-        logsDiv.innerHTML += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
-        
-        for (let i = 0; i < numRequests; i++) {
-            logsDiv.innerHTML += `요청 #${i+1} 시작...<br>`;
-            if (autoScroll) {
-                logsDiv.scrollTop = logsDiv.scrollHeight;
-            }
+        // 가공된 로그에 추가 (테스트 결과, 패턴 리셋 등)
+        function addProcessedLog(content) {
+            logContainers['processed-logs'].innerHTML += content;
             
-            requests.push(
-                fetch('/api/test', {
+            if (autoScroll && currentTab === 'processed-logs') {
+                logContainers['processed-logs'].scrollTop = logContainers['processed-logs'].scrollHeight;
+            }
+        }
+        
+        // 테스트 함수
+        async function runTest(requestType) {
+            const useDeadline = deadlineCheckbox.checked;
+            const useCircuitBreaker = circuitBreakerCheckbox.checked;
+            const useBackpressure = backpressureCheckbox.checked;
+            const backendType = backendTypeSelect.value;
+            
+            testNormalBtn.disabled = true;
+            testSlowBtn.disabled = true;
+            resultDiv.textContent = '요청 처리 중...';
+            
+            try {
+                const response = await fetch('/api/test', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        request_type: 'slow',
+                        request_type: requestType,
                         use_deadline: useDeadline,
                         use_circuit_breaker: useCircuitBreaker,
                         use_backpressure: useBackpressure,
                         backend_type: backendType
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        successCount++;
-                        logsDiv.innerHTML += `<span class="success">요청 #${i+1} 성공: ${data.result}</span><br>`;
-                    } else {
-                        failCount++;
-                        logsDiv.innerHTML += `<span class="error">요청 #${i+1} 실패: ${data.error_message}</span><br>`;
-                    }
-                    
-                    // 로그 스크롤 맨 아래로
-                    if (autoScroll) {
-                        logsDiv.scrollTop = logsDiv.scrollHeight;
-                    }
-                    
-                    return data;
-                })
-                .catch(error => {
-                    failCount++;
-                    logsDiv.innerHTML += `<span class="error">요청 #${i+1} 오류: ${error.message}</span><br>`;
-                    if (autoScroll) {
-                        logsDiv.scrollTop = logsDiv.scrollHeight;
-                    }
-                })
-            );
+                });
+                
+                const data = await response.json();
+                
+                // 결과 표시
+                if (data.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ 성공</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.result}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 실패</span> (${data.elapsed_time.toFixed(2)}초)<br>${data.error_message}`;
+                }
+                
+                // 로그 업데이트
+                let logContent = `<div><br>====== 테스트 실행 (${new Date().toLocaleTimeString()}) ======<br>`;
+                logContent += `백엔드: ${backendType}<br>`;
+                logContent += `요청 유형: ${requestType}<br>`;
+                logContent += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br>`;
+                logContent += `요청 시간: ${data.elapsed_time.toFixed(2)}초<br>`;
+                logContent += data.success ? 
+                    `<span class="success">성공: ${data.result}</span><br></div>` : 
+                    `<span class="error">실패: ${data.error_message}</span><br></div>`;
+                
+                addProcessedLog(logContent);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ 오류</span><br>${error.message}`;
+                addProcessedLog(`<div><span class="error">오류: ${error.message}</span><br></div>`);
+            } finally {
+                testNormalBtn.disabled = false;
+                testSlowBtn.disabled = false;
+            }
         }
         
-        // 모든 요청이 완료될 때까지 기다림
-        try {
-            await Promise.all(requests);
+        // 패턴 리셋 함수
+        async function resetPattern(pattern) {
+            const backendType = backendTypeSelect.value;
             
-            resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
-                백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
-            
-            logsDiv.innerHTML += `<br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br>`;
-            if (autoScroll) {
-                logsDiv.scrollTop = logsDiv.scrollHeight;
+            try {
+                const response = await fetch('/api/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        pattern: pattern,
+                        backend_type: backendType
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ 패턴 리셋 성공</span><br>${data.message}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 패턴 리셋 실패</span><br>${data.message}`;
+                }
+                
+                let logContent = `<div><br>====== 패턴 리셋 (${new Date().toLocaleTimeString()}) ======<br>`;
+                logContent += `백엔드: ${backendType}<br>`;
+                logContent += `패턴: ${pattern}<br>`;
+                logContent += data.success ? 
+                    `<span class="success">성공: ${data.message}</span><br></div>` : 
+                    `<span class="error">실패: ${data.message}</span><br></div>`;
+                
+                addProcessedLog(logContent);
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ 리셋 오류</span><br>${error.message}`;
+                addProcessedLog(`<div><span class="error">리셋 오류: ${error.message}</span><br></div>`);
             }
-        } catch (error) {
-            resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
-        } finally {
-            multiTestBtn.disabled = false;
         }
-    }
+        
+        // 패턴 상태 조회 함수
+        async function getPatternStatus() {
+            const backendType = backendTypeSelect.value;
+            
+            try {
+                console.log("상태 조회 시작...");
+                const response = await fetch(`/api/status?backend_type=${backendType}`);
+                const data = await response.json();
+                console.log("받은 응답 데이터:", data);
+                
+                if (data.success) {
+                    // 디버깅 로그
+                    console.log("상태 패널:", statusDisplayPanel);
+                    console.log("상태 내용 패널:", statusContentDiv);
+                    
+                    // 상태 패널 표시
+                    statusDisplayPanel.style.display = 'block';
+                    
+                    // 서킷브레이커 상태 카드
+                    const circuitBreakerHtml = `
+                        <div class="status-card">
+                            <h3>서킷브레이커 상태</h3>
+                            <p>상태: <strong class="${data.circuit_breaker.state === 'CLOSED' ? 'success' : 'error'}">${data.circuit_breaker.state}</strong></p>
+                            <p>실패 카운트: ${data.circuit_breaker.failure_count}</p>
+                        </div>
+                    `;
+                    
+                    // 백프레셔 상태 카드
+                    const backpressureHtml = `
+                        <div class="status-card">
+                            <h3>백프레셔 상태</h3>
+                            <p>활성 요청 수: ${data.backpressure.active_requests}</p>
+                            <p>과부하 상태: <strong class="${data.backpressure.is_overloaded ? 'error' : 'success'}">${data.backpressure.is_overloaded ? '예' : '아니오'}</strong></p>
+                        </div>
+                    `;
+                    
+                    statusContentDiv.innerHTML = circuitBreakerHtml + backpressureHtml;
+                    
+                    let logContent = `<div><br>====== 패턴 상태 조회 (${new Date().toLocaleTimeString()}) ======<br>`;
+                    logContent += `백엔드: ${backendType}<br>`;
+                    logContent += `서킷브레이커: ${data.circuit_breaker.state} (${data.circuit_breaker.failure_count})<br>`;
+                    logContent += `백프레셔: 활성 요청 ${data.backpressure.active_requests}개, 과부하=${data.backpressure.is_overloaded}<br></div>`;
+                    
+                    addProcessedLog(logContent);
+                    
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ 상태 조회 실패</span><br>${data.message}`;
+                    addProcessedLog(`<div><span class="error">상태 조회 실패: ${data.message}</span><br></div>`);
+                }
+                
+            } catch (error) {
+                console.error("상태 조회 중 오류:", error);
+                resultDiv.innerHTML = `<span class="error">❌ 상태 조회 오류</span><br>${error.message}`;
+                addProcessedLog(`<div><span class="error">상태 조회 오류: ${error.message}</span><br></div>`);
+            }
+        }
+        
+        // 다중 요청 테스트 함수
+        async function runMultiTest() {
+            const useDeadline = deadlineCheckbox.checked;
+            const useCircuitBreaker = circuitBreakerCheckbox.checked;
+            const useBackpressure = backpressureCheckbox.checked;
+            const backendType = backendTypeSelect.value;
+            
+            multiTestBtn.disabled = true;
+            resultDiv.textContent = '다중 요청 처리 중...';
+            
+            // 10개의 요청을 동시에 보냄
+            const numRequests = 10;
+            const requests = [];
+            let failCount = 0;
+            
+            let logContent = `<div><br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
+            logContent += `백엔드: ${backendType}<br>`;
+            logContent += `패턴 설정: 데드라인=${useDeadline}, 서킷브레이커=${useCircuitBreaker}, 백프레셔=${useBackpressure}<br></div>`;
+            
+            addProcessedLog(logContent);
+            
+            for (let i = 0; i < numRequests; i++) {
+                let requestLogContent = `<div>요청 #${i+1} 시작...<br></div>`;
+                addProcessedLog(requestLogContent);
+                
+                requests.push(
+                    fetch('/api/test', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            request_type: 'slow',
+                            use_deadline: useDeadline,
+                            use_circuit_breaker: useCircuitBreaker,
+                            use_backpressure: useBackpressure,
+                            backend_type: backendType
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            successCount++;
+                            addProcessedLog(`<div><span class="success">요청 #${i+1} 성공: ${data.result}</span><br></div>`);
+                        } else {
+                            failCount++;
+                            addProcessedLog(`<div><span class="error">요청 #${i+1} 실패: ${data.error_message}</span><br></div>`);
+                        }
+                        
+                        return data;
+                    })
+                    .catch(error => {
+                        failCount++;
+                        addProcessedLog(`<div><span class="error">요청 #${i+1} 오류: ${error.message}</span><br></div>`);
+                    })
+                );
+            }
+            
+            // 모든 요청이 완료될 때까지 기다림
+            try {
+                await Promise.all(requests);
+                
+                resultDiv.innerHTML = `<span class="${successCount > 0 ? 'success' : 'error'}">
+                    백프레셔 테스트 완료: ${successCount}개 성공, ${failCount}개 실패</span>`;
+                
+                addProcessedLog(`<div><br>====== 백프레셔 테스트 완료 - ${successCount}개 성공, ${failCount}개 실패 ======<br></div>`);
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">테스트 중 오류 발생: ${error.message}</span>`;
+                addProcessedLog(`<div><span class="error">테스트 중 오류 발생: ${error.message}</span><br></div>`);
+            } finally {
+                multiTestBtn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
