@@ -700,6 +700,7 @@
             const numRequests = 10;
             const requests = [];
             let failCount = 0;
+            let successCount = 0;
             
             let logContent = `<div><br>====== 백프레셔 테스트 시작 - ${numRequests}개 요청 (${new Date().toLocaleTimeString()}) ======<br>`;
             logContent += `백엔드: ${backendType}<br>`;
