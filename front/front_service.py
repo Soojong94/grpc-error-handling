@@ -792,8 +792,15 @@ def run_flask(host="0.0.0.0", port=5000):
     
     logger.info(f"Flask 서버 시작: {host}:{port}")
     
+    # 환경 변수 확인하여 allow_unsafe_werkzeug 설정
+    allow_unsafe = os.environ.get("FLASK_RUN_OPTION", "").strip() == "allow_unsafe_werkzeug=True"
+    
     try:
-        socketio.run(app, host=host, port=port, debug=False, use_reloader=False)
+        if allow_unsafe:
+            logger.info("안전하지 않은 Werkzeug 실행 모드 활성화")
+            socketio.run(app, host=host, port=port, debug=False, use_reloader=False, allow_unsafe_werkzeug=True)
+        else:
+            socketio.run(app, host=host, port=port, debug=False, use_reloader=False)
     except KeyboardInterrupt:
         logger.info("서버 종료 중...")
     finally:
