@@ -1,7 +1,7 @@
 import logging
 import sys
-import os
-from datetime import datetime
+import os  # 추가 필요
+from datetime import datetime  # 추가 필요
 
 def setup_logging(service_name):
     """각 서비스의 로깅 설정"""
@@ -18,10 +18,11 @@ def setup_logging(service_name):
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     
-    # 파일 핸들러
+    # 파일 핸들러 - 인코딩 설정 추가
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     file_handler = logging.FileHandler(
-        os.path.join(log_dir, f"{service_name}_{timestamp}.log")
+        os.path.join(log_dir, f"{service_name}_{timestamp}.log"),
+        encoding='utf-8'  # 인코딩 설정 추가
     )
     file_handler.setLevel(logging.DEBUG)
     

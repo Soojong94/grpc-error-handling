@@ -58,10 +58,10 @@ class AdaptiveDeadlineHandler(DeadlineHandler):
         super().__init__(timeout_seconds=initial_timeout, name=name)
         self.execution_times = deque(maxlen=window_size)  # 최근 실행 시간 기록
         self.window_size = window_size  # 분석할 최근 쿼리 수
-        self.update_interval = 10  # 몇 개의 쿼리마다 타임아웃을 업데이트할지
+        self.update_interval = 5  # 몇 개의 쿼리마다 타임아웃을 업데이트할지 (10에서 5로 줄임)
         self.query_counter = 0
         self.percentile = 95  # p95 사용
-        self.margin = 1.5  # 50% 여유
+        self.margin = 5.0  # 마진을 1.5에서 5.0으로 크게 증가
         self.min_timeout = 0.1  # 최소 타임아웃 값 (초)
         self.max_timeout = 10.0  # 최대 타임아웃 값 (초)
         
@@ -105,11 +105,12 @@ class AdaptiveDeadlineHandler(DeadlineHandler):
         # 타임아웃 값 범위 제한
         new_timeout = max(self.min_timeout, min(new_timeout, self.max_timeout))
         
-        # 타임아웃 값이 크게 변했을 경우만 업데이트 (안정성 위해)
-        if abs(new_timeout - self.timeout_seconds) / self.timeout_seconds > 0.1:  # 10% 이상 차이
+        # 타임아웃 값이 변했을 경우만 업데이트 (조건 완화: 10%에서 1%로)
+        if abs(new_timeout - self.timeout_seconds) / self.timeout_seconds > 0.01:  # 1% 이상 차이
             old_timeout = self.timeout_seconds
             self.timeout_seconds = new_timeout
-            self.logger.info(f"[데드라인-{self.name}] 타임아웃 값 업데이트: {old_timeout:.2f}초 -> {self.timeout_seconds:.2f}초")
+            # ERROR 레벨로 로깅하여 확실히 보이게 함
+            self.logger.error(f"[데드라인-{self.name}] !!! 타임아웃 값 동적 업데이트: {old_timeout:.3f}초 -> {self.timeout_seconds:.3f}초 !!!")
     
     def circuit_breaker_triggered_callback(self, circuit_breaker, old_state, new_state):
         """서킷브레이커 상태 변화 콜백 함수"""
@@ -132,7 +133,7 @@ class AdaptiveDeadlineHandler(DeadlineHandler):
         p99_value = sorted_times[p99_index]
         
         # 여유를 더한 새 타임아웃 계산 (더 큰 마진)
-        new_timeout = p99_value * 2.0  # 100% 여유 (더 보수적)
+        new_timeout = p99_value * 8.0  # 2.0에서 8.0으로 마진 증가
         
         # 타임아웃 값 범위 제한
         new_timeout = max(self.min_timeout, min(new_timeout, self.max_timeout))
@@ -143,7 +144,7 @@ class AdaptiveDeadlineHandler(DeadlineHandler):
             self.timeout_seconds = new_timeout
             self.circuit_breaker_triggered = True
             self.trigger_time = time.time()
-            self.logger.warning(f"[데드라인-{self.name}] 서킷브레이커 기반 타임아웃 조정: {old_timeout:.2f}초 -> {self.timeout_seconds:.2f}초")
+            self.logger.error(f"[데드라인-{self.name}] !!! 서킷브레이커 기반 타임아웃 대폭 조정: {old_timeout:.3f}초 -> {self.timeout_seconds:.3f}초 !!!")
 
     def set_circuit_breaker(self, circuit_breaker):
         """서킷브레이커 설정 및 콜백 등록"""
@@ -153,6 +154,9 @@ class AdaptiveDeadlineHandler(DeadlineHandler):
 
     def call_with_deadline_and_record(self, stub_method, request, context=None):
         """데드라인을 설정하고 실행 시간 기록"""
+        # 매 요청마다 현재 타임아웃 값 로깅
+        self.logger.info(f"[데드라인-{self.name}] 현재 적용 타임아웃: {self.timeout_seconds:.3f}초")
+        
         start_time = time.time()
         
         try:
