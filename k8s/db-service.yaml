@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-service
+  namespace: grpc-error-handling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-service
+  template:
+    metadata:
+      labels:
+        app: db-service
+    spec:
+      containers:
+      - name: db-service
+        image: grpc-error-handling-db:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 50057
+        env:
+        - name: PORT
+          value: "50057"
+        - name: SLOW_QUERY_DELAY
+          value: "2.0"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        readinessProbe:
+          exec:
+            command: ["python", "-c", "import grpc; channel = grpc.insecure_channel('localhost:50057'); stub = grpc.health.v1.health_pb2_grpc.HealthStub(channel); stub.Check(grpc.health.v1.health_pb2.HealthCheckRequest())"]
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command: ["python", "-c", "import grpc; channel = grpc.insecure_channel('localhost:50057'); stub = grpc.health.v1.health_pb2_grpc.HealthStub(channel); stub.Check(grpc.health.v1.health_pb2.HealthCheckRequest())"]
+          initialDelaySeconds: 20
+          periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+  namespace: grpc-error-handling
+spec:
+  selector:
+    app: db-service
+  ports:
+  - port: 50057
+    targetPort: 50057
+  type: ClusterIP

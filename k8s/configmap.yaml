@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grpc-error-handling-config
+  namespace: grpc-error-handling
+data:
+  # 서킷 브레이커 설정
+  CIRCUIT_BREAKER_FAIL_THRESHOLD: "3" 
+  CIRCUIT_BREAKER_RESET_TIMEOUT: "10"
+  
+  # 데드라인 설정
+  DEADLINE_TIMEOUT: "1.0"
+  
+  # 백프레셔 설정
+  BACKPRESSURE_WINDOW: "5"
+  BACKPRESSURE_MAX_REQUESTS: "30"
+  BACKPRESSURE_MAX_CONCURRENCY: "8"
+  
+  # DB 설정
+  SLOW_QUERY_DELAY: "2.0"
