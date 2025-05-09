@@ -5,11 +5,11 @@ import logging
 class BackpressureController:
     """백프레셔 패턴 구현"""
     
-    def __init__(self, window_size=2, max_requests=3, max_concurrency=3, name="default"):
+    def __init__(self, window_size=5, max_requests=30, max_concurrency=8, name="default"):
         self.name = name
-        self.window_size = 2  # 설정 고정
-        self.max_requests = 3  # 설정 고정
-        self.max_concurrency = 2  # 설정 고정
+        self.window_size = window_size
+        self.max_requests = max_requests
+        self.max_concurrency = max_concurrency
         
         self.request_times = []  # 요청 시간 기록
         self.active_requests = 0 # 현재 활성 요청 수

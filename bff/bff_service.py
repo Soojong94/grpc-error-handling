@@ -10,7 +10,7 @@ from generated import bff_pb2, bff_pb2_grpc, backend_pb2, backend_pb2_grpc
 from common.logging_config import setup_logging
 from common.circuit_breaker import CircuitBreaker
 from common.backpressure import BackpressureController
-from common.deadline import DeadlineHandler
+from common.deadline import DeadlineHandler, AdaptiveDeadlineHandler
 
 class BffServicer(bff_pb2_grpc.BffServiceServicer):
     def __init__(self):
@@ -36,10 +36,13 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
             max_concurrency=backpressure_max_concurrency,
             name="bff"
         )
-        self.deadline_handler = DeadlineHandler(
-            timeout_seconds=deadline_timeout,
+        self.deadline_handler = AdaptiveDeadlineHandler(
+            initial_timeout=deadline_timeout,
             name="bff_to_backend"
         )
+        
+        # 서킷브레이커와 데드라인 핸들러 연동
+        self.deadline_handler.set_circuit_breaker(self.circuit_breaker)
         
         # Backend 서비스 주소 매핑 (환경 변수에서 읽기)
         self.backend_addresses = {
@@ -51,6 +54,9 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
         }
         
         self.logger.info(f"BFF 서비스 초기화 - 백엔드 주소: {self.backend_addresses}")
+        self.logger.info(f"BFF 서비스 초기화 - 백프레셔 설정: 창={backpressure_window}초, 최대요청={backpressure_max_requests}개, 최대동시={backpressure_max_concurrency}개")
+        self.logger.info(f"BFF 서비스 초기화 - 서킷브레이커 설정: 실패임계값={fail_threshold}, 초기화시간={reset_timeout}초")
+        self.logger.info(f"BFF 서비스 초기화 - 데드라인 설정: 초기타임아웃={deadline_timeout}초")
     
     def Process(self, request, context):
         backend_type = request.backend_type if request.backend_type else 'no_pattern'
@@ -98,7 +104,8 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
                 # 데드라인 패턴 적용
                 if request.use_deadline:
                     self.logger.info(f"[BFF] 데드라인 패턴 사용 ({self.deadline_handler.get_timeout()}초)")
-                    response, error = self.deadline_handler.call_with_deadline(
+                    # call_with_deadline_and_record 메소드 사용으로 변경
+                    response, error = self.deadline_handler.call_with_deadline_and_record(
                         backend_stub.Process,
                         backend_pb2.BackendRequest(
                             request_type=request.request_type,
@@ -114,6 +121,8 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
                         raise error
                 else:
                     self.logger.info("[BFF] Backend 서비스 호출 (데드라인 없음)")
+                    # 실행 시간 측정
+                    start_time = time.time()
                     response = backend_stub.Process(
                         backend_pb2.BackendRequest(
                             request_type=request.request_type,
@@ -122,6 +131,11 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
                             use_backpressure=request.use_backpressure
                         )
                     )
+                    execution_time = time.time() - start_time
+                    
+                    # 실행 시간 기록
+                    if request.use_circuit_breaker:
+                        self.circuit_breaker.record_execution_time(execution_time)
                 
                 # 성공 처리
                 if request.use_circuit_breaker:
@@ -254,6 +268,13 @@ class BffServicer(bff_pb2_grpc.BffServiceServicer):
                     self.logger.info(f"[BFF] 백엔드({backend_type}) 상태 조회 완료")
                 except Exception as e:
                     self.logger.error(f"[BFF] 백엔드 상태 조회 중 오류: {str(e)}")
+            
+            # 추가: 서킷브레이커 최근 실행 시간 통계
+            recent_exec_times = self.circuit_breaker.get_recent_execution_times(3600)  # 최근 1시간
+            avg_exec_time = sum(recent_exec_times) / len(recent_exec_times) if recent_exec_times else 0
+            p95_exec_time = self.circuit_breaker.calculate_percentile_execution_time(95) if recent_exec_times else 0
+            
+            self.logger.info(f"[BFF] 서킷브레이커 실행 시간 통계 - 평균: {avg_exec_time:.3f}초, P95: {p95_exec_time:.3f}초")
             
             return bff_pb2.StatusResponse(
                 circuit_breaker_state=circuit_breaker_state,

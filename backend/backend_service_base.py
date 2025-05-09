@@ -46,20 +46,27 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
             name=service_name
         )
         self.deadline_handler = AdaptiveDeadlineHandler(
-            initial_timeout=float(os.environ.get("DEADLINE_TIMEOUT", "0.5")),
+            initial_timeout=deadline_timeout,
             name=f"{service_name}_to_db"
         )
+        
+        # 서킷브레이커와 데드라인 핸들러 연동
+        self.deadline_handler.set_circuit_breaker(self.circuit_breaker)
         
         # DB 서비스 주소 (환경 변수에서 읽기)
         self.db_address = os.environ.get("DB_SERVICE_ADDRESS", "localhost:50057")
         self.logger.info(f"[{service_name}] 초기화 - DB 주소: {self.db_address}")
         self.logger.info(f"[{service_name}] 초기화 - 패턴 설정: 서킷브레이커={use_circuit_breaker}, 데드라인={use_deadline}, 백프레셔={use_backpressure}")
+        self.logger.info(f"[{service_name}] 백프레셔 설정 - 창={backpressure_window}초, 최대요청={backpressure_max_requests}개, 최대동시={backpressure_max_concurrency}개")
+        self.logger.info(f"[{service_name}] 서킷브레이커 설정 - 실패임계값={fail_threshold}, 초기화시간={reset_timeout}초")
+        self.logger.info(f"[{service_name}] 데드라인 설정 - 초기타임아웃={deadline_timeout}초")
     
+    # 수정 후 (수정된 코드)
     def Process(self, request, context):
         # 요청별 패턴 설정 (요청에서 지정되지 않으면 기본값 사용)
-        use_circuit_breaker = request.use_circuit_breaker if request.use_circuit_breaker else self.default_use_circuit_breaker
-        use_deadline = request.use_deadline if request.use_deadline else self.default_use_deadline
-        use_backpressure = request.use_backpressure if request.use_backpressure else self.default_use_backpressure
+        use_circuit_breaker = request.use_circuit_breaker if hasattr(request, "use_circuit_breaker") and request.use_circuit_breaker else self.default_use_circuit_breaker
+        use_deadline = request.use_deadline if hasattr(request, "use_deadline") and request.use_deadline else self.default_use_deadline
+        use_backpressure = request.use_backpressure if hasattr(request, "use_backpressure") and request.use_backpressure else self.default_use_backpressure
         
         self.logger.info(f"[{self.service_name}] 요청 받음: {request.request_type}")
         self.logger.info(f"[{self.service_name}] 패턴 설정 - 서킷브레이커: {use_circuit_breaker}, " +
@@ -102,7 +109,8 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
                 
                 if use_deadline:
                     self.logger.info(f"[{self.service_name}] 데드라인 패턴 사용 ({self.deadline_handler.get_timeout()}초)")
-                    response, error = self.deadline_handler.call_with_deadline(
+                    # call_with_deadline_and_record 메소드 사용으로 변경
+                    response, error = self.deadline_handler.call_with_deadline_and_record(
                         db_stub.Query,
                         db_pb2.DbRequest(query_type=query_type)
                     )
@@ -113,7 +121,14 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
                         raise error
                 else:
                     self.logger.info(f"[{self.service_name}] DB 서비스 호출 (데드라인 없음)")
+                    # 실행 시간 측정을 위해 시작 시간 기록
+                    start_time = time.time()
                     response = db_stub.Query(db_pb2.DbRequest(query_type=query_type))
+                    execution_time = time.time() - start_time
+                    
+                    # 실행 시간 기록
+                    if use_circuit_breaker:
+                        self.circuit_breaker.record_execution_time(execution_time)
                 
                 # 성공 처리
                 if use_circuit_breaker:
@@ -197,6 +212,10 @@ class BaseBackendServicer(backend_pb2_grpc.BackendServiceServicer):
         self.logger.info(f"[{self.service_name}] 상태 확인 요청")
         
         try:
+            # 서킷브레이커 평균 실행 시간 계산
+            recent_exec_times = self.circuit_breaker.get_recent_execution_times(3600)  # 최근 1시간
+            avg_exec_time = sum(recent_exec_times) / len(recent_exec_times) if recent_exec_times else 0
+            
             return backend_pb2.StatusResponse(
                 circuit_breaker_state=self.circuit_breaker.state,
                 circuit_breaker_failures=self.circuit_breaker.failure_count,
